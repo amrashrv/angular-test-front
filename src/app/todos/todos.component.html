@@ -1,0 +1,11 @@
+<p>{{title}}</p>
+<mat-form-field class="example-full-width" appearance="fill">
+  <mat-label>Add Task</mat-label>
+  <input matInput placeholder="task" value="task" id="task">
+</mat-form-field>
+<mat-selection-list *ngFor="let item of todos">
+  <mat-list-option (click)="changeStatus(item)"><p disabled="true" (click)="onSelect(item)">{{item.todo}}</p></mat-list-option>
+</mat-selection-list>
+<app-task-detail [task]="selectedTask"></app-task-detail>
+
+
