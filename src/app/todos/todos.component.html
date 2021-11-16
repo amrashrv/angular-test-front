@@ -3,9 +3,15 @@
   <mat-label>Add Task</mat-label>
   <input matInput placeholder="task" value="task" id="task">
 </mat-form-field>
-<mat-selection-list *ngFor="let item of todos">
-  <mat-list-option (click)="changeStatus(item)"><p disabled="true" (click)="onSelect(item)">{{item.todo}}</p></mat-list-option>
-</mat-selection-list>
-<app-task-detail [task]="selectedTask"></app-task-detail>
+<div class="list-container">
+  <mat-list *ngFor="let item of todos">
+    <div *ngIf="selectedTask && selectedTask.id === item.id">
+      <app-task-detail [task]="selectedTask"></app-task-detail>
+    </div>
+    <mat-list-item (click)="changeStatus(item)"><p (click)="onSelect(item)">{{item.todo}}</p></mat-list-item>
+  </mat-list>
+ 
+</div>
+
 
 
