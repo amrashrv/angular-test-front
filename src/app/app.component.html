@@ -1,12 +1,16 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title class="header-title">{{title | uppercase}}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="app-container">
-      <router-outlet></router-outlet>
-    </div>
-  </mat-card-content>
+  <div class="app-container">
+      <div class="content-wrapper">
+        <mat-card-title>
+        <h1>Todos</h1>
+        </mat-card-title>
+        <router-outlet></router-outlet>
+        <div class="under-contaier-one"></div>
+        <div class="under-contaier-two"></div>
+      </div>
+  </div>
 </mat-card>
+
+
 
 

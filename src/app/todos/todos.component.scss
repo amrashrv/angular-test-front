@@ -1,8 +1,8 @@
-.content-wrapper{
+.content{
   width: 700px;
-}
-.add_task_input{
-  width: 100%;
+  margin-top: 50px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.43) 0px 0px 10px 0px;
 }
 .title{
   font-size: 24px;
@@ -20,4 +20,28 @@
 }
 .example-full-width{
   margin-left: 20px;
+}
+.mat-checkbox{
+  label{
+    span{
+      width: 100px;
+      border-radius: 50%;
+    }
+  }
+}
+.input-container{
+  width: 99%;
+  input{
+    width: 639px;
+    opacity: 0.7;
+    height: 50px;
+    padding-left: 60px;
+    font-size: 24px;
+    font-style: italic;
+    border: none;
+    border-bottom: solid rgba(0, 0, 0, 0.18);
+  }
+}
+.mat-list-item{
+  border-bottom: solid rgba(0, 0, 0, 0.16);
 }
