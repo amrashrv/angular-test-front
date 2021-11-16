@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TodosComponent } from './todos/todos.component';
 import {MatListModule} from "@angular/material/list";
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -29,7 +28,6 @@ import {TaskService} from "./task.service";
   declarations: [
     AppComponent,
     TodosComponent,
-    DashboardComponent,
     TaskDetailComponent
   ],
   imports: [

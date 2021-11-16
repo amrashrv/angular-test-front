@@ -2,11 +2,15 @@
 
     <div class="content">
       <div class="input-container">
-        <input placeholder="What needs to be done?"/>
+        <form>
+          <input placeholder="What needs to be done?"/>
+        </form>
       </div>
-      <mat-list *ngFor="let item of todos">
-        <mat-list-item><mat-checkbox></mat-checkbox>{{item.text}}</mat-list-item>
-      </mat-list>
+      <div class="list-container">
+        <mat-list *ngFor="let item of todos">
+          <mat-list-item><mat-checkbox></mat-checkbox>{{item.text}}</mat-list-item>
+        </mat-list>
+      </div>
     </div>
 
 
