@@ -1,17 +1,15 @@
-<p>{{title}}</p>
-<mat-form-field class="example-full-width" appearance="fill">
-  <mat-label>Add Task</mat-label>
-  <input matInput placeholder="task" value="task" id="task">
-</mat-form-field>
-<div class="list-container">
-  <mat-list *ngFor="let item of todos">
-    <div *ngIf="selectedTask && selectedTask.id === item.id">
-      <app-task-detail [task]="selectedTask"></app-task-detail>
+
+
+    <div class="content">
+      <div class="input-container">
+        <input placeholder="What needs to be done?"/>
+      </div>
+      <mat-list *ngFor="let item of todos">
+        <mat-list-item><mat-checkbox></mat-checkbox>{{item.text}}</mat-list-item>
+      </mat-list>
     </div>
-    <mat-list-item (click)="changeStatus(item)"><p (click)="onSelect(item)">{{item.todo}}</p></mat-list-item>
-  </mat-list>
- 
-</div>
+
+
 
 
 
