@@ -1,0 +1,23 @@
+.content-wrapper{
+  width: 700px;
+}
+.add_task_input{
+  width: 100%;
+}
+.title{
+  font-size: 24px;
+  text-align: center;
+}
+.mat-expansion-panel-header-description{
+  display: flex;
+  justify-content: flex-end;
+  justify-items: flex-end;
+  align-items: center;
+}
+.mat-icon-rtl-mirror{
+  height: 21px;
+  margin-right: 10px;
+}
+.example-full-width{
+  margin-left: 20px;
+}

@@ -17,6 +17,12 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import { TaskDetailComponent } from './task-detail/task-detail.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatTableModule} from "@angular/material/table";
+import {CommonModule} from "@angular/common";
+import {HttpClientModule} from "@angular/common/http";
+import {TaskService} from "./task.service";
 
 
 @NgModule({
@@ -28,6 +34,7 @@ import { TaskDetailComponent } from './task-detail/task-detail.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatListModule,
@@ -39,9 +46,15 @@ import { TaskDetailComponent } from './task-detail/task-detail.component';
     LayoutModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatTableModule,
+    CommonModule
   ],
-  providers: [],
+  providers: [
+    TaskService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
