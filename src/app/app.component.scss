@@ -1,6 +1,9 @@
-body{
-  margin: 0px;
-  padding: 0px;
+.mat-card{
+  padding: 0;
+  margin: 0;
+}
+.mat-card-title{
+  margin-top: 20px;
 }
 .app-container{
   display: flex;
@@ -19,10 +22,28 @@ body{
     color: indianred;
     opacity: 0.5;
     text-align: center;
+    margin-top: 20px;
   }
-  .content-wrapper{
-    width: 700px;
-    justify-items: center;
-    justify-content: center;
-  }
+
+}
+.content-wrapper{
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+}
+.under-contaier-one, .under-contaier-two{
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.43) 5px 10px 10px 0px;
+  padding-bottom: 7px;
+}
+.under-contaier-one{
+  width: 97%;
+}
+.under-contaier-two{
+  width: 95%;
+  margin-bottom: 20px;
 }
