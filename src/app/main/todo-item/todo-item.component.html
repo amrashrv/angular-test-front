@@ -1,11 +1,18 @@
 <mat-list-item>
-  <div>
+  <div [ngClass]="item === selectedItem? 'selected' : 'default-task-class' ">
     <mat-checkbox [checked]="item.done"
                   (change)="setItemChecked($event.checked, item)">
     </mat-checkbox>
-    <span [ngClass]="[item && item.done !== false? 'task-done' : 'default-task-class']">{{item.text}}</span>
+    <span [ngClass]="[item && item.done !== false? 'task-done' : 'default-task-class']"
+          (dblclick)="onSelect(item)">{{item.text}}</span>
+    <mat-icon (click)="deleteTask(item)">clear</mat-icon>
   </div>
-  <mat-icon (click)="deleteTask(item)">clear</mat-icon>
-  <input />
+  <form [ngClass]="item === selectedItem? 'default-task-class' : 'selected' "
+        (submit)="editTask(item, input.value);
+        input.value = '';
+        selectedItem = ''"
+  >
+    <input #input/>
+  </form>
 </mat-list-item>
 

@@ -1,9 +1,18 @@
 .mat-list-item{
   border-bottom: solid rgba(0, 0, 0, 0.16);
+
+}
+.default-task-class{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  //align-content: center;
+  align-items: center;
 }
 mat-list-item:hover{
   .mat-icon{
     display: block;
+    align-self: flex-end;
   }
 }
 .mat-icon{
@@ -15,4 +24,7 @@ mat-list-item:hover{
 }
 .default-task-class{
   text-decoration: none;
+}
+.selected{
+  display: none;
 }

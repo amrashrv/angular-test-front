@@ -12,7 +12,7 @@ export class TodoItemComponent {
   @Input() item : any;
   @Input() todos: any;
   @Output() newArrayEvent = new EventEmitter<any>();
-
+  selectedItem: any
   constructor(private taskService: TaskService) { }
 
   deleteTask(task: Task) {
@@ -31,5 +31,20 @@ export class TodoItemComponent {
         }
       })
     })
+  }
+  onSelect(item: any) {
+    this.selectedItem = '';
+    this.selectedItem = item;
+  }
+  editTask(item: any, value: string) {
+    let task = {}
+    this.taskService.editTask({...item, text: value}).subscribe(result => {
+      this.todos.map((elem: any) => {
+        if( elem._id === item._id) {
+          item.text = value
+          task = item
+        }
+    })
+  })
   }
 }

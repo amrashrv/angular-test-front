@@ -12,19 +12,23 @@ export class TaskService {
   getTasks(): Observable<any>{
     return this.http.get('http://localhost:5000/tasks')
       .pipe(map((result: any) => {
-        return result.data}))
+        return result.data}));
   }
   addTask(body: Task): Observable<Task>{
     return this.http.post('http://localhost:5000/tasks', body)
-      .pipe(map((result: any) => result.data))
+      .pipe(map((result: any) => result.data));
   }
   deleteTask(task: any): Observable<Task>{
     return this.http.delete(`http://localhost:5000/tasks?_id=${task._id}`,)
-      .pipe(map((result: any) => result.data))
+      .pipe(map((result: any) => result.data));
   }
   checkIsDone(body: any): Observable<Task>{
     return this.http.patch('http://localhost:5000/tasks', body)
-      .pipe(map((result: any) => result.data))
+      .pipe(map((result: any) => result.data));
+  }
+  editTask(body: any): Observable<Task>{
+    return this.http.patch('http://localhost:5000/tasks', body)
+      .pipe(map((result: any) => result.data));
   }
 }
 export class Task {
