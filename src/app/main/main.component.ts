@@ -26,7 +26,7 @@ export class MainComponent implements OnInit {
       this.todos.push(result);
     })
   }
-  onNewItemEvent(item: Task[]): void {
-    this.todos = item
+  onNewArrayEvent(arr: Task[]): void {
+    this.todos = arr
   }
 }

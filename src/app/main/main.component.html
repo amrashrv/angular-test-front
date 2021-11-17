@@ -1,4 +1,6 @@
-
+<mat-card>
+  <div class="app-container">
+      <div class="content-wrapper">
   <mat-card-title>
   <h1>Todos</h1>
   </mat-card-title>
@@ -10,10 +12,15 @@
       </div>
       <div class="list-container">
         <mat-list *ngFor="let item of todos">
-          <app-todo-item [item]="item" [todos]="todos" (newItemEvent)="onNewItemEvent($event)"></app-todo-item>
+          <app-todo-item [item]="item" [todos]="todos"  (newArrayEvent)="onNewArrayEvent($event)"></app-todo-item>
         </mat-list>
       </div>
     </div>
+        <div class="under-contaier-one"></div>
+        <div class="under-contaier-two"></div>
+      </div>
+  </div>
+</mat-card>
 
 
 

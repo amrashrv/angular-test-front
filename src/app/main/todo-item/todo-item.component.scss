@@ -1,0 +1,18 @@
+.mat-list-item{
+  border-bottom: solid rgba(0, 0, 0, 0.16);
+}
+mat-list-item:hover{
+  .mat-icon{
+    display: block;
+  }
+}
+.mat-icon{
+  justify-self: flex-end;
+  display: none;
+}
+.task-done{
+  text-decoration: line-through;
+}
+.default-task-class{
+  text-decoration: none;
+}
