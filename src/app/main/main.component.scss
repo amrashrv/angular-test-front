@@ -14,12 +14,14 @@
     margin-top: 20px;
   }
 }
+.list-container{
+  min-height: 300px;
+  max-height: 400px;
+  overflow-y: scroll;
+}
 .title{
   font-size: 24px;
   text-align: center;
-
-
-
 }
 .mat-expansion-panel-header-description{
   display: flex;
@@ -55,10 +57,4 @@
     border-bottom: solid rgba(0, 0, 0, 0.18);
   }
 }
-.list-container{
-  max-height: 400px;
-  overflow-y: scroll;
-}
-.mat-list-item{
-  border-bottom: solid rgba(0, 0, 0, 0.16);
-}
+

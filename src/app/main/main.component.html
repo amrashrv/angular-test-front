@@ -10,7 +10,7 @@
       </div>
       <div class="list-container">
         <mat-list *ngFor="let item of todos">
-          <mat-list-item><mat-checkbox></mat-checkbox>{{item.text}}</mat-list-item>
+          <app-todo-item [item]="item" [todos]="todos" (newItemEvent)="onNewItemEvent($event)"></app-todo-item>
         </mat-list>
       </div>
     </div>

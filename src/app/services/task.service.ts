@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {map} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
@@ -14,8 +14,12 @@ export class TaskService {
       .pipe(map((result: any) => {
         return result.data}))
   }
-  addTask(body: any): Observable<any>{
+  addTask(body: Task): Observable<Task>{
     return this.http.post('http://localhost:5000/tasks', body)
+      .pipe(map((result: any) => result.data))
+  }
+  deleteTask(task: any): Observable<Task>{
+    return this.http.delete(`http://localhost:5000/tasks?_id=${task._id}`,)
       .pipe(map((result: any) => result.data))
   }
 }
