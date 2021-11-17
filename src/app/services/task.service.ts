@@ -22,6 +22,10 @@ export class TaskService {
     return this.http.delete(`http://localhost:5000/tasks?_id=${task._id}`,)
       .pipe(map((result: any) => result.data))
   }
+  checkIsDone(body: any): Observable<Task>{
+    return this.http.patch('http://localhost:5000/tasks', body)
+      .pipe(map((result: any) => result.data))
+  }
 }
 export class Task {
   constructor(public text: string, public done: boolean) {

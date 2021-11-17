@@ -1,12 +1,11 @@
 <mat-list-item>
-  <div [ngClass]="[activateEditMode === true? 'edit-mode' : 'default-task-class']">
+  <div>
     <mat-checkbox [checked]="item.done"
                   (change)="setItemChecked($event.checked, item)">
     </mat-checkbox>
-    <span [ngClass]="[item && item.done !== false? 'task-done' : 'default-task-class']"
-          (click)="activateEditMode(true)">{{item.text}}</span>
+    <span [ngClass]="[item && item.done !== false? 'task-done' : 'default-task-class']">{{item.text}}</span>
   </div>
   <mat-icon (click)="deleteTask(item)">clear</mat-icon>
-  <input [ngClass]="[activateEditMode === true? 'default-task-class' : 'edit-mode']" />
+  <input />
 </mat-list-item>
 

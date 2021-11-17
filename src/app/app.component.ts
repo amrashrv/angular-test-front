@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {TaskService} from "./services/task.service";
 
 @Component({
@@ -7,11 +7,7 @@ import {TaskService} from "./services/task.service";
   styleUrls: ['./app.component.scss'],
   providers: [TaskService]
 })
-export class AppComponent implements OnInit{
+export class AppComponent {
   title = 'todo-list';
 
-
-  ngOnInit() {
-
-  }
 }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Injectable, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Task, TaskService} from "../../services/task.service";
 
 @Component({
@@ -8,21 +8,17 @@ import {Task, TaskService} from "../../services/task.service";
   providers: [TaskService],
 })
 
-export class TodoItemComponent implements OnInit {
-  @Input('item') item : any;
-  @Input('todos') todos: any;
+export class TodoItemComponent {
+  @Input() item : any;
+  @Input() todos: any;
   @Output() newArrayEvent = new EventEmitter<any>();
-  selectedTask?: Task;
 
   constructor(private taskService: TaskService) { }
 
-  ngOnInit(): void {
-
-  }
   deleteTask(task: Task) {
     this.taskService.deleteTask(task).subscribe((result) => {
       this.todos = result
-      this.newArrayEvent.emit(result)
+      this.newArrayEvent.emit(result);
     })
   }
   setItemChecked(e: boolean, item: any){
@@ -35,9 +31,5 @@ export class TodoItemComponent implements OnInit {
         }
       })
     })
-  }
-  activateEditMode(value: any){
-
-    console.log(value)
   }
 }
