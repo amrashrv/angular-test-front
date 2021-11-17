@@ -1,9 +1,11 @@
 
-
+  <mat-card-title>
+  <h1>Todos</h1>
+  </mat-card-title>
     <div class="content">
       <div class="input-container">
-        <form>
-          <input placeholder="What needs to be done?"/>
+        <form (submit)="addNewData(task.value); task.value = ''">
+          <input id="task" placeholder="What needs to be done?" #task />
         </form>
       </div>
       <div class="list-container">

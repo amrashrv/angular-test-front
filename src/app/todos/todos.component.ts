@@ -10,7 +10,6 @@ const icon = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0
 })
 
 export class TodosComponent implements OnInit {
-  title = "toDo"
   todos: Task[] = []
   constructor(private taskService: TaskService) { }
 
@@ -19,14 +18,15 @@ export class TodosComponent implements OnInit {
       this.todos = result
     })
   }
-  addNewData() {
-    const body = {
-      text: 'asdf',
+  addNewData(task: string) {
+    const body: Task = {
+      text: task,
       done: false
     }
     this.taskService.addTask(body).subscribe(result => {
-      this.todos = result
+      this.todos.push(result);
     })
+
   }
   selectedTask?: Task;
   onSelect(task: Task): void {

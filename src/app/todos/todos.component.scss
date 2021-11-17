@@ -4,9 +4,22 @@
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.43) 0px 0px 10px 0px;
 }
+.mat-card-title{
+  h1{
+    font-size: 100px;
+    font-weight: 100;
+    color: indianred;
+    opacity: 0.5;
+    text-align: center;
+    margin-top: 20px;
+  }
+}
 .title{
   font-size: 24px;
   text-align: center;
+
+
+
 }
 .mat-expansion-panel-header-description{
   display: flex;
