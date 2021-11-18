@@ -1,37 +1,54 @@
 import { Injectable } from '@angular/core';
-import {map, tap} from "rxjs/operators";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import { ApiService, Task } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  constructor(private http: HttpClient) {
+  constructor(private apiService: ApiService) { }
+
+  getTasks(){
+    const res: any = [];
+    this.apiService.getTasks().subscribe((result: any) => {
+        result.forEach((item: any) => {
+          res.push(item);
+        });
+    });
+    return res;
   }
-  getTasks(): Observable<any>{
-    return this.http.get('http://localhost:5000/tasks')
-      .pipe(map((result: any) => {
-        return result.data}));
+  addNewData(task: string, todos: any) {
+    const body: Task = {
+      text: task,
+      done: false
+    };
+    this.apiService.addTask(body).subscribe((result: Task) => {
+      todos.push(result);
+    });
+    return todos;
   }
-  addTask(body: Task): Observable<Task>{
-    return this.http.post('http://localhost:5000/tasks', body)
-      .pipe(map((result: any) => result.data));
+  deleteTask(task: any, todos: Task[]) {
+    this.apiService.deleteTask(task).subscribe((result: any) => {
+        return todos.filter((item: any) => item._id !== task._id);
+    });
   }
-  deleteTask(task: any): Observable<Task>{
-    return this.http.delete(`http://localhost:5000/tasks?_id=${task._id}`,)
-      .pipe(map((result: any) => result.data));
-  }
-  checkIsDone(body: any): Observable<Task>{
-    return this.http.patch('http://localhost:5000/tasks', body)
-      .pipe(map((result: any) => result.data));
-  }
-  editTask(body: any): Observable<Task>{
-    return this.http.patch('http://localhost:5000/tasks', body)
-      .pipe(map((result: any) => result.data));
+  editTask(item: any, value: any, todos: any) {
+    let task = {};
+    let valueKey: string;
+    if (typeof value === 'string') {
+      valueKey = 'text';
+    } else {
+      value = value.target.checked;
+      valueKey = 'done';
+    }
+    this.apiService.editTask({...item, [valueKey]: value}).subscribe(result => {
+      todos.map((elem: any) => {
+        if ( elem._id === item._id) {
+          item[valueKey] = value;
+          task = item;
+        }
+      });
+    });
+    return todos;
   }
 }
-export class Task {
-  constructor(public text: string, public done: boolean) {
-  }
-}
+

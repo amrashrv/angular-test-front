@@ -11,10 +11,9 @@
         </form>
       </div>
       <div class="list-container">
-        <mat-list *ngFor="let item of todos">
-          <app-todo-item [item]="item" [todos]="todos"  (newArrayEvent)="onNewArrayEvent($event)"></app-todo-item>
-        </mat-list>
+          <app-todo-item [todos]="todos"></app-todo-item>
       </div>
+      <div class="count">{{setCount()}} items left</div>
     </div>
         <div class="under-contaier-one"></div>
         <div class="under-contaier-two"></div>

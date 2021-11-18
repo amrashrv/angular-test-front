@@ -1,18 +1,23 @@
+<mat-list *ngFor="let item of todos">
 <mat-list-item>
   <div [ngClass]="item === selectedItem? 'selected' : 'default-task-class' ">
-    <mat-checkbox [checked]="item.done"
-                  (change)="setItemChecked($event.checked, item)">
-    </mat-checkbox>
+    <label>
+      <input class="default-checkbox" type="checkbox" [checked]="item.done" (change)="editTask(item, $event)">
+      <div class="checkbox-icon">
+        <mat-icon class="done">done</mat-icon>
+      </div>
+    </label>
     <span [ngClass]="[item && item.done !== false? 'task-done' : 'default-task-class']"
           (dblclick)="onSelect(item)">{{item.text}}</span>
-    <mat-icon (click)="deleteTask(item)">clear</mat-icon>
+    <mat-icon class='cross' (click)="deleteTask(item)">clear</mat-icon>
   </div>
   <form [ngClass]="item === selectedItem? 'default-task-class' : 'selected' "
         (submit)="editTask(item, input.value);
         input.value = '';
         selectedItem = ''"
   >
-    <input #input/>
+    <input class="task-edit-input" #input/>
   </form>
 </mat-list-item>
+</mat-list>
 

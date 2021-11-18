@@ -1,32 +1,29 @@
-import {Component, OnInit} from '@angular/core';
-import {Task, TaskService} from "../services/task.service";
+import { Component, OnInit } from '@angular/core';
+import { Task, ApiService } from '../services/api.service';
+import { TaskService } from '../services/task.service';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
-  providers: [TaskService]
+  providers: [ApiService, TaskService]
 })
 
-export class MainComponent implements OnInit {
-  todos: Task[] = []
-  constructor(private taskService: TaskService) { }
+export class MainComponent {
+  todos: Task[] = [];
+  constructor(private taskService: ApiService, private testService: TaskService) {
+  }
 
-  ngOnInit(): void {
-    this.taskService.getTasks().subscribe((result) => {
-      this.todos = result
-    })
+  addNewData(task: string){
+    this.todos = this.testService.addNewData(task, this.todos);
   }
-  addNewData(task: string) {
-    const body: Task = {
-      text: task,
-      done: false
-    }
-    this.taskService.addTask(body).subscribe(result => {
-      this.todos.push(result);
-    })
-  }
-  onNewArrayEvent(arr: Task[]): void {
-    this.todos = arr
+  setCount(){
+    const arr = [];
+    this.todos.forEach(item => {
+      if (!item.done){
+        arr.push(item);
+      }
+    });
+    return (arr.length);
   }
 }

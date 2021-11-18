@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Task, TaskService} from "../../services/task.service";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Task, ApiService } from '../../services/api.service';
+import { TaskService } from "../../services/task.service";
 
 @Component({
   selector: 'app-todo-item',
@@ -8,43 +9,26 @@ import {Task, TaskService} from "../../services/task.service";
   providers: [TaskService],
 })
 
-export class TodoItemComponent {
-  @Input() item : any;
+export class TodoItemComponent implements OnInit{
+  // @Input()
   @Input() todos: any;
   @Output() newArrayEvent = new EventEmitter<any>();
-  selectedItem: any
-  constructor(private taskService: TaskService) { }
+  selectedItem: any;
+  constructor(private taskService: ApiService, private testService: TaskService) { }
 
-  deleteTask(task: Task) {
-    this.taskService.deleteTask(task).subscribe((result) => {
-      this.todos = result
-      this.newArrayEvent.emit(result);
-    })
+  ngOnInit(): void {
+    this.todos = this.testService.getTasks();
+    // this.newArrayEvent.emit(this.todos);
   }
-  setItemChecked(e: boolean, item: any){
-    let task = {}
-    this.taskService.checkIsDone({...item, done: e}).subscribe(result => {
-      this.todos.map((elem: any) => {
-        if( elem._id === item._id){
-          item.done = e
-          task = item
-        }
-      })
-    })
+  deleteTask(task: Task): void {
+    this.todos = this.testService.deleteTask(task, this.todos);
+    // this.todos = this.testService.getTasks();
   }
-  onSelect(item: any) {
+  editTask(item: any, value: any){
+    this.todos = this.testService.editTask(item, value, this.todos);
+  }
+  onSelect(item: Task) {
     this.selectedItem = '';
     this.selectedItem = item;
-  }
-  editTask(item: any, value: string) {
-    let task = {}
-    this.taskService.editTask({...item, text: value}).subscribe(result => {
-      this.todos.map((elem: any) => {
-        if( elem._id === item._id) {
-          item.text = value
-          task = item
-        }
-    })
-  })
   }
 }

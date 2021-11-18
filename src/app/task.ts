@@ -1,4 +1,6 @@
 export interface Task {
-  text: string
-  done: boolean
+  _id: string | undefined;
+  text: string;
+  done: boolean;
+  __v: number | undefined;
 }

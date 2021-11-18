@@ -52,6 +52,7 @@
 .content{
   width: 700px;
   margin-top: 50px;
+  padding-bottom: 40px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.43) 0px 0px 10px 0px;
 }
@@ -69,6 +70,10 @@
   min-height: 300px;
   max-height: 400px;
   overflow-y: scroll;
+  border-bottom: solid rgba(12, 12, 12, 0.2);
+}
+.list-container::-webkit-scrollbar {
+  display: none;
 }
 .title{
   font-size: 24px;
@@ -108,5 +113,10 @@
     border-bottom: solid rgba(0, 0, 0, 0.18);
   }
 }
-
+.count{
+  margin-left: 20px;
+  margin-top: 10px;
+  font-size: 18px;
+  opacity: 0.4;
+}
 
