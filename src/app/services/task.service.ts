@@ -10,15 +10,11 @@ export enum EditTaskType {
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService implements OnChanges{
+export class TaskService {
   todos: Task[] = [];
   count: any = 0;
-  filtersOn: boolean = false;
 
   constructor(private apiService: ApiService) {
-  }
-  ngOnChanges(changes: SimpleChanges) {
-    this.setCount();
   }
 
   getTasks(){
@@ -31,13 +27,15 @@ export class TaskService implements OnChanges{
     const body: Task = {text: str, done: false};
     this.apiService.addTask(body).subscribe((result: Task) => {
       this.todos.push(result);
-      this.setCount();
+      this.count++;
     });
   }
   deleteTask(task: Task) {
+    if (!task.done){
+      this.count--;
+    }
     this.apiService.deleteTask(task).subscribe(() => {
       this.todos = this.todos.filter((item: Task) => item._id !== task._id);
-      this.setCount();
     });
   }
   doneAll(){
@@ -49,7 +47,6 @@ export class TaskService implements OnChanges{
     });
   }
   filter(value: string) {
-    this.filtersOn = true;
     this.apiService.getTasks().subscribe((result: Task[]) => {
       if (value && value === 'completed') {
         this.todos = result.filter((item: Task) => item.done);
@@ -66,6 +63,11 @@ export class TaskService implements OnChanges{
       valueKey = 'text';
     } else {
       value = value.target.checked;
+      if (value === true) {
+        this.count--;
+      } else {
+        this.count++;
+      }
       valueKey = 'done';
     }
     this.apiService.editTask({...item, [valueKey]: value}).subscribe(result => {
@@ -73,20 +75,17 @@ export class TaskService implements OnChanges{
         if ( elem._id === item._id) {
           item[valueKey] = value;
           task = item;
-          this.setCount();
         }
       });
     });
   }
   setCount() {
     const arr = [];
-      this.apiService.getTasks().subscribe(result => {
-        result.forEach(item => {
-          if (!item.done) {
-            arr.push(item);
-            this.count = arr.length;
-          }
-        });
-      });
+    this.todos.forEach(item => {
+      if (!item.done){
+        arr.push(item);
+        this.count = arr.length;
+      }
+    });
   }
 }
