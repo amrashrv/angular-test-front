@@ -80,7 +80,6 @@ export class TaskService implements OnChanges{
   }
   setCount() {
     const arr = [];
-    if (this.filtersOn){
       this.apiService.getTasks().subscribe(result => {
         result.forEach(item => {
           if (!item.done) {
@@ -89,13 +88,5 @@ export class TaskService implements OnChanges{
           }
         });
       });
-    } else {
-      this.todos.forEach(item => {
-        if (!item.done){
-          arr.push(item);
-          this.count = arr.length;
-        }
-      });
-    }
   }
 }
