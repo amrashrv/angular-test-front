@@ -1,29 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { Task, ApiService } from '../services/api.service';
 import { TaskService } from '../services/task.service';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
-  providers: [ApiService, TaskService]
 })
 
-export class MainComponent {
-  todos: Task[] = [];
-  constructor(private taskService: ApiService, private testService: TaskService) {
+export class MainComponent implements OnInit {
+
+  constructor(public testService: TaskService) {
   }
 
+  ngOnInit(): void {
+    this.testService.getTasks();
+  }
   addNewData(task: string){
-    this.todos = this.testService.addNewData(task, this.todos);
+    this.testService.addNewData(task);
+  }
+  doneAll() {
+    this.testService.doneAll();
+  }
+  showAll() {
+    this.testService.getTasks();
+  }
+  filter(value: string) {
+    this.testService.filter(value);
   }
   setCount(){
-    const arr = [];
-    this.todos.forEach(item => {
-      if (!item.done){
-        arr.push(item);
-      }
-    });
-    return (arr.length);
+    this.testService.setCount();
   }
 }

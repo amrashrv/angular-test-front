@@ -1,31 +1,24 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Task, ApiService } from '../../services/api.service';
-import { TaskService } from '../../services/task.service';
+import { Component, Input } from '@angular/core';
+import { EditTaskType, TaskService } from '../../services/task.service';
+import { Task } from '../../task';
 
 @Component({
   selector: 'app-todo-item',
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.scss'],
-  providers: [TaskService],
 })
 
-export class TodoItemComponent implements OnInit{
-  // @Input()
-  @Input() todos: any;
-  @Output() newArrayEvent = new EventEmitter<any>();
+export class TodoItemComponent {
+  @Input() item: any;
   selectedItem: any;
-  constructor(private taskService: ApiService, private testService: TaskService) { }
+  public editType = EditTaskType;
+  constructor(public testService: TaskService) {}
 
-  ngOnInit(): void {
-    this.todos = this.testService.getTasks();
-    // this.newArrayEvent.emit(this.todos);
-  }
   deleteTask(task: Task): void {
-    this.todos = this.testService.deleteTask(task, this.todos);
-    // this.todos = this.testService.getTasks();
+    this.testService.deleteTask(task);
   }
-  editTask(item: any, value: any){
-    this.todos = this.testService.editTask(item, value, this.todos);
+  editTask(item: any, value: any, type: EditTaskType){
+    this.testService.editTask(item, value, type);
   }
   onSelect(item: Task) {
     this.selectedItem = '';

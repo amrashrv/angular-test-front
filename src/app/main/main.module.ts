@@ -15,10 +15,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ApiService } from '../services/api.service';
+import { ApiService } from '../api/api.service';
 import { MainComponent } from './main.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
-import { TaskService } from '../services/task.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +44,6 @@ import { TaskService } from '../services/task.service';
   ],
   providers: [
     ApiService,
-    TaskService
   ],
   exports: [MainComponent]
 })

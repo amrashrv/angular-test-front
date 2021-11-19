@@ -1,22 +1,35 @@
 <mat-card>
   <div class="app-container">
-      <div class="content-wrapper">
+    <div class="content-wrapper">
   <mat-card-title>
   <h1>Todos</h1>
   </mat-card-title>
-    <div class="content">
-      <div class="input-container">
-        <form (submit)="addNewData(task.value); task.value = ''">
-          <input id="task" placeholder="What needs to be done?" #task />
-        </form>
-      </div>
-      <div class="list-container">
-          <app-todo-item [todos]="todos"></app-todo-item>
-      </div>
-      <div class="count">{{setCount()}} items left</div>
-    </div>
-        <div class="under-contaier-one"></div>
-        <div class="under-contaier-two"></div>
+        <div class="content">
+          <div class="header">
+            <div class="select-all-icon">
+              <mat-icon class="select-all" (click)="doneAll()">keyboard_arrow_down</mat-icon>
+            </div>
+            <div class="input-container">
+              <form (submit)="addNewData(task.value); task.value = ''">
+                <input id="task" placeholder="What needs to be done?" #task />
+              </form>
+            </div>
+          </div>
+
+          <div class="list-container">
+            <mat-list *ngFor="let item of testService.todos">
+              <app-todo-item [item]="item"></app-todo-item>
+            </mat-list>
+          </div>
+          <div class="bottom">
+            <ul class="filters">
+              <li class="count">{{testService.count}} items left</li>
+              <li class="filter" (click)="showAll()"><a>all</a></li>
+              <li class="filter" (click)="filter('active')"><a>active</a></li>
+              <li class="filter" (click)="filter('completed')"><a>completed</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
   </div>
 </mat-card>

@@ -29,7 +29,7 @@
 
 }
 .content-wrapper{
-  width: 700px;
+  width: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,24 +37,12 @@
   align-items: center;
   align-content: center;
 }
-.under-contaier-one, .under-contaier-two{
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.43) 5px 10px 10px 0px;
-  padding-bottom: 7px;
-}
-.under-contaier-one{
-  width: 97%;
-}
-.under-contaier-two{
-  width: 95%;
-  margin-bottom: 20px;
-}
+
 .content{
-  width: 700px;
+  width: 550px;
   margin-top: 50px;
-  padding-bottom: 40px;
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.43) 0px 0px 10px 0px;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 25px 50px 0 rgb(0 0 0 / 10%);
 }
 .mat-card-title{
   h1{
@@ -67,8 +55,8 @@
   }
 }
 .list-container{
-  min-height: 300px;
-  max-height: 400px;
+  min-height: 200px;
+  max-height: 300px;
   overflow-y: scroll;
   border-bottom: solid rgba(12, 12, 12, 0.2);
 }
@@ -101,22 +89,59 @@
   }
 }
 .input-container{
-  width: 99%;
+  flex: 0.9;
   input{
-    width: 639px;
+    width: 100%;
     opacity: 0.7;
     height: 50px;
-    padding-left: 60px;
     font-size: 24px;
     font-style: italic;
     border: none;
-    border-bottom: solid rgba(0, 0, 0, 0.18);
+    outline: none
+  }
+}
+.bottom{
+  box-shadow: 0 1px 1px rgb(0 0 0 / 20%), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgb(0 0 0 / 20%), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgb(0 0 0 / 20%);
+}
+.header{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-items: center;
+  align-items: center;
+  border-bottom: solid rgba(128, 128, 128, 0.24);
+  .select-all-icon{
+    opacity: 0.3;
+    .select-all{
+      margin-top: 5px;
+      margin-left: 5px;
+      margin-right: 20px;
+      font-size: 50px;
+    }
+  }
+}
+.filters{
+  width: 90%;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  opacity: 0.5;
+  list-style-type: none;
+  li{
+    margin: 5px;
+    a{
+      border: solid 1px black;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    a:active{
+      border: solid 1px red;
+    }
   }
 }
 .count{
-  margin-left: 20px;
-  margin-top: 10px;
-  font-size: 18px;
-  opacity: 0.4;
+  padding-right: 50px;
 }
 

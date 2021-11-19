@@ -1,54 +1,101 @@
-import { Injectable } from '@angular/core';
-import { ApiService, Task } from './api.service';
+import { Injectable, OnChanges, SimpleChanges} from '@angular/core';
+import { ApiService } from '../api/api.service';
+import { Task } from '../task';
+
+export enum EditTaskType {
+  check,
+  editText
+}
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService {
-  constructor(private apiService: ApiService) { }
+export class TaskService implements OnChanges{
+  todos: Task[] = [];
+  count: any = 0;
+  filtersOn: boolean = false;
+
+  constructor(private apiService: ApiService) {
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    this.setCount();
+  }
 
   getTasks(){
-    const res: any = [];
-    this.apiService.getTasks().subscribe((result: any) => {
-        result.forEach((item: any) => {
-          res.push(item);
-        });
+    this.apiService.getTasks().subscribe((result: Task[]) => {
+      this.todos = result;
+      this.setCount();
     });
-    return res;
   }
-  addNewData(task: string, todos: any) {
-    const body: Task = {
-      text: task,
-      done: false
-    };
+  addNewData(str: string) {
+    const body: Task = {text: str, done: false};
     this.apiService.addTask(body).subscribe((result: Task) => {
-      todos.push(result);
-    });
-    return todos;
-  }
-  deleteTask(task: any, todos: Task[]) {
-    this.apiService.deleteTask(task).subscribe((result: any) => {
-        return todos.filter((item: any) => item._id !== task._id);
+      this.todos.push(result);
+      this.setCount();
     });
   }
-  editTask(item: any, value: any, todos: any) {
+  deleteTask(task: Task) {
+    this.apiService.deleteTask(task).subscribe(() => {
+      this.todos = this.todos.filter((item: Task) => item._id !== task._id);
+      this.setCount();
+    });
+  }
+  doneAll(){
+    this.apiService.doneAll(this.todos).subscribe((result: any) => {
+      this.todos.forEach((elem: Task) => {
+          elem.done = true;
+      });
+      this.count = 0;
+    });
+  }
+  filter(value: string) {
+    this.filtersOn = true;
+    this.apiService.getTasks().subscribe((result: Task[]) => {
+      if (value && value === 'completed') {
+        this.todos = result.filter((item: Task) => item.done);
+      }
+      if (value && value === 'active') {
+        this.todos = result.filter((item: Task) => !item.done);
+      }
+    });
+  }
+  editTask(item: any, value: any, type: EditTaskType) {
     let task = {};
     let valueKey: string;
-    if (typeof value === 'string') {
+    if (type === EditTaskType.editText){
       valueKey = 'text';
     } else {
       value = value.target.checked;
       valueKey = 'done';
     }
     this.apiService.editTask({...item, [valueKey]: value}).subscribe(result => {
-      todos.map((elem: any) => {
+      this.todos.forEach((elem: Task) => {
         if ( elem._id === item._id) {
           item[valueKey] = value;
           task = item;
+          this.setCount();
         }
       });
     });
-    return todos;
+  }
+  setCount() {
+    const arr = [];
+    if (this.filtersOn){
+      this.apiService.getTasks().subscribe(result => {
+        result.forEach(item => {
+          if (!item.done) {
+            arr.push(item);
+            this.count = arr.length;
+          }
+        });
+      });
+    } else {
+      this.todos.forEach(item => {
+        if (!item.done){
+          arr.push(item);
+          this.count = arr.length;
+        }
+      });
+    }
   }
 }
-
