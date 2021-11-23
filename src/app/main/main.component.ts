@@ -1,49 +1,50 @@
-import { Component, OnInit } from '@angular/core';
-import { TaskService } from '../services/task.service';
-import {select, Store} from "@ngrx/store";
-import {add, filterTasks, set, updateAll} from "../state/tasks/tasks.actions";
-import {ApiService} from "../api/api.service";
-import {selectCompletedTasksCounter, selectTasks} from "../state/tasks/tasks.selectors";
-import {ITasksState} from "../state/tasks/tasks.model";
-import {ITask} from "../interfaces/task";
-import {Observable} from "rxjs";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import {add, loadTasks, updateAll } from '../state/tasks/tasks.actions';
+import { ApiService } from '../api/api.service';
+import {getAllTasks, selectCompletedTasksCounter} from '../state/tasks/tasks.selectors';
+import { ITask } from '../interfaces/task';
+import {Subscription} from 'rxjs';
+import {IState} from "../state/state.model";
+
+
+export enum FilterType {
+  all,
+  active,
+  completed
+}
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-
 export class MainComponent implements OnInit {
-  tasks: any = [];
-  count = 0;
-  tasks$: Observable<ITask[]> = this.store.pipe(select(selectTasks));
   constructor(
-    public testService: TaskService,
     public apiService: ApiService,
-    private store: Store<{tasks: ITasksState}>) {
+    private store: Store<IState>) {
   }
-  ngOnInit(): void {
-    this.apiService.getTasks().subscribe(( tasks: ITask[]) => {
-      this.store.dispatch(set({tasks}));
-      this.setCount();
-    });
-    this.store.select(selectTasks).subscribe(tasks => this.tasks = tasks);
+
+  filterType = FilterType;
+  tasks$ = this.store.select(getAllTasks(FilterType.all));
+  count = this.store.select(selectCompletedTasksCounter);
+
+  private subscriptions: Subscription[] = [];
+
+  ngOnInit() {
+    this.store.dispatch(loadTasks());
   }
-  setCount(){
-    this.store.select(selectCompletedTasksCounter).subscribe(result => this.count = result);
-  }
+
   doneAll() {
-    this.apiService.doneAll(this.tasks).subscribe((result => this.store.dispatch(updateAll())));
+    // this.apiService.doneAll(this.tasks).subscribe((result => this.store.dispatch(updateAll())));
   }
-  showAll() {
-    this.testService.getTasks();
-  }
-  filter(value: boolean) {
-    this.store.dispatch(filterTasks({value}));
-  }
+
   add(text: string){
     const body: ITask = {text, done: false};
     this.apiService.addTask(body).subscribe((task: ITask) => this.store.dispatch(add({ task })));
+  }
+
+  filter(type: FilterType) {
+    this.tasks$ = this.store.select(getAllTasks(type));
   }
 }

@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ApiService } from '../../api/api.service';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { add, remove, set } from './tasks.actions';
+import {EMPTY, of} from 'rxjs';
+import {add, loadTasks, loadTasksSuccess, remove} from './tasks.actions';
 import { Store } from '@ngrx/store';
 import { ITasksState } from './tasks.model';
 
 @Injectable()
 export class TasksEffects {
   loadTasks$ = createEffect( () => this.actions$.pipe(
-    ofType(set),
+    ofType(loadTasks),
     mergeMap(() => this.apiService.getTasks()
       .pipe(
-        map(tasks => ({type: '[TODO API] tasks loaded success', payload: tasks})),
-        catchError(() => of ({ type: '[Movies API] Tasks Loaded Error' }))
+        map(tasks => loadTasksSuccess({ tasks })),
+        catchError(() => EMPTY)
       ))
   ));
   addTaskToCollectionsSuccess$ = createEffect(() => this.actions$.pipe(

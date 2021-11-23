@@ -17,16 +17,16 @@
           </div>
 
           <div class="list-container">
-            <mat-list *ngFor="let item of tasks">
+            <mat-list *ngFor="let item of tasks$ | async">
               <app-todo-item [item]="item"></app-todo-item>
             </mat-list>
           </div>
           <div class="bottom">
             <ul class="filters">
-              <li class="count">{{count}} items left</li>
-              <li class="filter" (click)="showAll()"><a>all</a></li>
-              <li class="filter" (click)="filter(false)"><a>active</a></li>
-              <li class="filter" (click)="filter(true)"><a>completed</a></li>
+              <li class="count">{{count | async}} items left</li>
+              <li class="filter" (click)="filter(filterType.all)"><a>all</a></li>
+              <li class="filter" (click)="filter(filterType.active)"><a>active</a></li>
+              <li class="filter" (click)="filter(filterType.completed)"><a>completed</a></li>
             </ul>
           </div>
         </div>

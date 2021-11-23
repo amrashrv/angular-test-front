@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { EditTaskType, TaskService } from '../../services/task.service';
 import { ITask } from '../../interfaces/task';
-import {Store} from "@ngrx/store";
+import { Store } from '@ngrx/store';
 import {ITasksState} from "../../state/tasks/tasks.model";
 import {ApiService} from "../../api/api.service";
 import {remove, update} from "../../state/tasks/tasks.actions";
@@ -17,7 +17,6 @@ export class TodoItemComponent {
   selectedItem: any;
   public editType = EditTaskType;
   constructor(
-    public testService: TaskService,
     public apiService: ApiService,
     private store: Store<{task: ITasksState}>) {}
 
