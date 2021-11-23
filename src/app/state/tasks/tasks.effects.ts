@@ -3,7 +3,7 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ApiService } from '../../api/api.service';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import {EMPTY, of} from 'rxjs';
-import {add, loadTasks, loadTasksSuccess, remove} from './tasks.actions';
+import { addTask, loadTasks, loadTasksSuccess, remove} from './tasks.actions';
 import { Store } from '@ngrx/store';
 import { ITasksState } from './tasks.model';
 
@@ -17,8 +17,8 @@ export class TasksEffects {
         catchError(() => EMPTY)
       ))
   ));
-  addTaskToCollectionsSuccess$ = createEffect(() => this.actions$.pipe(
-        ofType(add),
+  addTask$ = createEffect(() => this.actions$.pipe(
+        ofType(addTask),
         concatLatestFrom(action => this.store.select('tasks')),
         tap(([action, tasks]) => {
           if (tasks) {

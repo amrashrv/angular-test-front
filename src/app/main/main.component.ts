@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import {add, loadTasks, updateAll } from '../state/tasks/tasks.actions';
+import { addTask, loadTasks, updateAll} from '../state/tasks/tasks.actions';
 import { ApiService } from '../api/api.service';
 import {getAllTasks, selectCompletedTasksCounter} from '../state/tasks/tasks.selectors';
 import { ITask } from '../interfaces/task';
@@ -41,7 +41,8 @@ export class MainComponent implements OnInit {
 
   add(text: string){
     const body: ITask = {text, done: false};
-    this.apiService.addTask(body).subscribe((task: ITask) => this.store.dispatch(add({ task })));
+    this.store.dispatch(addTask({text}));
+    this.apiService.addTask(body).subscribe((task: ITask) => this.store.dispatch(addTask({ text })));
   }
 
   filter(type: FilterType) {

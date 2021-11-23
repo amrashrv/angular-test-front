@@ -6,7 +6,7 @@ export const taskReducerKey = 'tasks';
 
 export const tasksReducer = createReducer(
   initialTaskState,
-  on(TasksActions.add, (state, { task }) => {
+  on(TasksActions.addTaskSuccess, (state, { task }) => {
     const newTasks = [...state.tasks];
     newTasks.push(task);
     return {
