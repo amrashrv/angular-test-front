@@ -1,6 +1,5 @@
-export interface Task {
+export interface ITask {
   _id?: string;
   text: string;
   done: boolean;
-  __v?: number;
 }

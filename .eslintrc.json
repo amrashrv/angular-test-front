@@ -16,7 +16,8 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:ngrx/recommended"
       ],
       "parser": "@typescript-eslint/parser",
       "plugins": [
@@ -26,7 +27,8 @@
         "@angular-eslint/eslint-plugin",
         "@typescript-eslint",
         "@typescript-eslint/eslint-plugin-tslint",
-        "sonarjs"
+        "sonarjs",
+        "ngrx"
       ],
       "rules": {
         "sonarjs/prefer-single-boolean-return": "error",
@@ -240,9 +242,9 @@
         ],
         "getter-return": "error",
         "no-compare-neg-zero": "error",
-        "no-empty": "error",
+        "no-empty": "off",
         "no-extra-parens": "off",
-        "no-extra-semi": "error",
+        "no-extra-semi": "off",
         "no-magic-numbers": "off",
         "no-ex-assign": "error",
         "no-extra-boolean-cast": "error",
@@ -278,9 +280,7 @@
         "no-nested-ternary": "error",
         "operator-linebreak": "error",
         "no-debugger": "error",
-        "no-empty": "off",
         "no-eval": "error",
-        "no-extra-semi": "off",
         "no-fallthrough": "error",
         "no-invalid-this": "off",
         "no-irregular-whitespace": "error",

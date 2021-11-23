@@ -1,6 +1,6 @@
-import { Injectable, OnChanges, SimpleChanges} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
-import { Task } from '../task';
+import { ITask } from '../interfaces/task';
 
 export enum EditTaskType {
   check,
@@ -11,48 +11,51 @@ export enum EditTaskType {
   providedIn: 'root'
 })
 export class TaskService {
-  todos: Task[] = [];
+  todos: ITask[] = [];
   count: any = 0;
 
   constructor(private apiService: ApiService) {
   }
 
   getTasks(){
-    this.apiService.getTasks().subscribe((result: Task[]) => {
+    this.apiService.getTasks().subscribe((result: ITask[]) => {
       this.todos = result;
       this.setCount();
     });
   }
+
   addNewData(str: string) {
-    const body: Task = {text: str, done: false};
-    this.apiService.addTask(body).subscribe((result: Task) => {
+    const body: ITask = {text: str, done: false};
+    this.apiService.addTask(body).subscribe((result: ITask) => {
       this.todos.push(result);
       this.count++;
     });
   }
-  deleteTask(task: Task) {
+
+  deleteTask(task: ITask) {
     if (!task.done){
       this.count--;
     }
     this.apiService.deleteTask(task).subscribe(() => {
-      this.todos = this.todos.filter((item: Task) => item._id !== task._id);
+      this.todos = this.todos.filter((item: ITask) => item._id !== task._id);
     });
   }
+
   doneAll(){
     this.apiService.doneAll(this.todos).subscribe((result: any) => {
-      this.todos.forEach((elem: Task) => {
+      this.todos.forEach((elem: ITask) => {
           elem.done = true;
       });
       this.count = 0;
     });
   }
   filter(value: string) {
-    this.apiService.getTasks().subscribe((result: Task[]) => {
+    this.apiService.getTasks().subscribe((result: ITask[]) => {
       if (value && value === 'completed') {
-        this.todos = result.filter((item: Task) => item.done);
+        this.todos = result.filter((item: ITask) => item.done);
       }
       if (value && value === 'active') {
-        this.todos = result.filter((item: Task) => !item.done);
+        this.todos = result.filter((item: ITask) => !item.done);
       }
     });
   }
@@ -71,7 +74,7 @@ export class TaskService {
       valueKey = 'done';
     }
     this.apiService.editTask({...item, [valueKey]: value}).subscribe(result => {
-      this.todos.forEach((elem: Task) => {
+      this.todos.forEach((elem: ITask) => {
         if ( elem._id === item._id) {
           item[valueKey] = value;
           task = item;

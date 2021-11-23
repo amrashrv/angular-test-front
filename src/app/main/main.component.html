@@ -10,14 +10,14 @@
               <mat-icon class="select-all" (click)="doneAll()">keyboard_arrow_down</mat-icon>
             </div>
             <div class="input-container">
-              <form (submit)="addNewData(task.value); task.value = ''">
+              <form (submit)="add(task.value); task.value = ''">
                 <input id="task" placeholder="What needs to be done?" #task />
               </form>
             </div>
           </div>
 
           <div class="list-container">
-            <mat-list *ngFor="let item of testService.todos">
+            <mat-list *ngFor="let item of tasks">
               <app-todo-item [item]="item"></app-todo-item>
             </mat-list>
           </div>
