@@ -20,11 +20,15 @@ export const tasksReducer = createReducer(
       tasks
     };
   }),
-  on(TasksActions.update, (state, { task }) => ({...state, tasks: state.tasks
-      .map((item: any) => item._id === task._id ? {...item, done: task.done , text: task.text} : { ...item } )})),
-  on(TasksActions.remove, (state, {task}) => ({...state, tasks: state.tasks
+  on(TasksActions.updateSuccess, (state, { task }) => {
+    return {
+      ...state, 
+      tasks: state.tasks
+      .map((item: any) => item._id === task._id ? {...item, done: task.done , text: task.text} : { ...item } )}
+    }),
+  on(TasksActions.removeTaskSuccess, (state, {task}) => ({...state, tasks: state.tasks
       .filter(item => item._id !== task._id)})),
-  on(TasksActions.updateAll, (state) => ({...state, tasks: state.tasks
+  on(TasksActions.updateAllSuccess, (state) => ({...state, tasks: state.tasks
       .map(item => ({...item, done: true}))}))
 );
 

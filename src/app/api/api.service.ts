@@ -10,30 +10,27 @@ import { ITask } from '../interfaces/task';
 export class ApiService {
   constructor(private http: HttpClient) {
   }
+  url = 'http://localhost:5000/api/';
   getTasks(): Observable<ITask[]>{
-    return this.http.get('http://localhost:5000/api/tasks')
+    return this.http.get(`${this.url}tasks`)
       .pipe(map((result: any) => {
         return result.data;
       }));
   }
   addTask(body: ITask): Observable<ITask>{
-    return this.http.post('http://localhost:5000/api/task', body)
+    return this.http.post(`${this.url}task`, body)
       .pipe(map((result: any) => result.data));
   }
   deleteTask(task: ITask): Observable<ITask[]>{
-    return this.http.delete(`http://localhost:5000/api/task?_id=${task._id}`)
+    return this.http.delete(`${this.url}task?_id=${task._id}`)
       .pipe(map((result: any) => result.data));
   }
   editTask(body: ITask): Observable<ITask>{
-    return this.http.patch('http://localhost:5000/api/task', body)
+    return this.http.patch(`${this.url}task`, body)
       .pipe(map((result: any) => result.data));
   }
-  doneAll(body: ITask[]): Observable<ITask>{
-    return this.http.patch('http://localhost:5000/api/tasks', body)
+  doneAll(body: ITask[]): Observable<ITask[]>{
+    return this.http.patch(`${this.url}tasks`, {body})
       .pipe(map((result: any) => result.data));
   }
 }
-// export class Task {
-//   constructor(public text: string, public done: boolean) {
-//   }
-// }

@@ -1,12 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { addTask, loadTasks, updateAll} from '../state/tasks/tasks.actions';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { addTask, loadTasks, updateAll } from '../state/tasks/tasks.actions';
 import { ApiService } from '../api/api.service';
-import {getAllTasks, selectCompletedTasksCounter} from '../state/tasks/tasks.selectors';
+import { getAllTasks, selectCompletedTasksCounter} from '../state/tasks/tasks.selectors';
 import { ITask } from '../interfaces/task';
-import {Subscription} from 'rxjs';
-import {IState} from "../state/state.model";
-
+import { Subscription } from 'rxjs';
+import { IState } from '../state/state.model';
 
 export enum FilterType {
   all,
@@ -36,13 +35,11 @@ export class MainComponent implements OnInit {
   }
 
   doneAll() {
-    // this.apiService.doneAll(this.tasks).subscribe((result => this.store.dispatch(updateAll())));
+    this.store.dispatch(updateAll());
   }
 
   add(text: string){
-    const body: ITask = {text, done: false};
     this.store.dispatch(addTask({text}));
-    this.apiService.addTask(body).subscribe((task: ITask) => this.store.dispatch(addTask({ text })));
   }
 
   filter(type: FilterType) {
