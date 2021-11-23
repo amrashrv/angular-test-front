@@ -1,33 +1,42 @@
-import {Injectable} from "@angular/core";
-import {Actions, concatLatestFrom, createEffect, ofType} from "@ngrx/effects";
-import {ApiService} from "../../api/api.service";
-import {catchError, map, mergeMap, tap} from "rxjs/operators";
-import { of } from "rxjs";
-import {add, set} from "./tasks.actions";
-import {Store} from "@ngrx/store";
-import {ITasksState} from "./tasks.model";
+import { Injectable } from '@angular/core';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { ApiService } from '../../api/api.service';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { add, remove, set } from './tasks.actions';
+import { Store } from '@ngrx/store';
+import { ITasksState } from './tasks.model';
 
 @Injectable()
 export class TasksEffects {
-  loadTasks = createEffect( () => this.actions$.pipe(
-    ofType('[TODO] Add'),
+  loadTasks$ = createEffect( () => this.actions$.pipe(
+    ofType(set),
     mergeMap(() => this.apiService.getTasks()
       .pipe(
         map(tasks => ({type: '[TODO API] tasks loaded success', payload: tasks})),
-        catchError(() => of ({ type: '[Movies API] Movies Loaded Error' }))
+        catchError(() => of ({ type: '[Movies API] Tasks Loaded Error' }))
       ))
   ));
   addTaskToCollectionsSuccess$ = createEffect(() => this.actions$.pipe(
         ofType(add),
-        concatLatestFrom(action => this.store.select("tasks")),
+        concatLatestFrom(action => this.store.select('tasks')),
         tap(([action, tasks]) => {
           if (tasks) {
-            window.alert('Congrats on adding your first book!');
+            window.alert('Task added!');
           } else {
-            window.alert('You have added book number ');
+            window.alert('there are no tasks ');
           }
         })
       ),
+    { dispatch: false }
+  );
+  deleteTaskSuccess$ = createEffect(() => this.actions$.pipe(
+      ofType(remove),
+      concatLatestFrom(action => this.store.select('tasks')),
+      tap(([action, tasks]) => {
+        window.alert('task removed');
+      })
+    ),
     { dispatch: false }
   );
   constructor(

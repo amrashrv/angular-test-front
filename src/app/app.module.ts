@@ -5,8 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { MainModule } from './main/main.module';
-import { StateModule } from "./state/state.module";
-import { EffectsModule } from '@ngrx/effects';
+import { StateModule } from './state/state.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +17,7 @@ import { EffectsModule } from '@ngrx/effects';
     BrowserModule,
     MainModule,
     StateModule,
-    EffectsModule.forRoot([])
+
   ],
   providers: [
   ],

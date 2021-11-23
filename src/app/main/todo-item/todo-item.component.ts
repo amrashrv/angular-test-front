@@ -27,7 +27,7 @@ export class TodoItemComponent {
     });
   }
   editTask(item: any, value: any, type: EditTaskType){
-    let task: any;
+    let task: ITask;
     let valueKey: string;
     if (type === EditTaskType.editText){
       valueKey = 'text';

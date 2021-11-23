@@ -1,7 +1,7 @@
-import {createSelector} from '@ngrx/store';
-import {ITasksState } from "./tasks.model";
-import {IState} from "../state.model";
-import {taskReducerKey} from "./tasks.reducer";
+import { createSelector } from '@ngrx/store';
+import { ITasksState } from './tasks.model';
+import { IState } from '../state.model';
+import { taskReducerKey } from './tasks.reducer';
 
 
 export const tasksStateSelector = (state: IState) => state[taskReducerKey];

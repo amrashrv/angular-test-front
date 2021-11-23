@@ -18,6 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiService } from '../api/api.service';
 import { MainComponent } from './main.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
+import {EffectsModule} from "@ngrx/effects";
+import {TasksEffects} from "../state/tasks/tasks.effects";
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { TodoItemComponent } from './todo-item/todo-item.component';
     MatTableModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    EffectsModule.forRoot([TasksEffects])
   ],
   providers: [
     ApiService,
