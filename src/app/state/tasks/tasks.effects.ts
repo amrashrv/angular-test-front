@@ -1,41 +1,64 @@
 import { Injectable } from '@angular/core';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import {Actions, concatLatestFrom, createEffect, Effect, ofType} from '@ngrx/effects';
 import { ApiService } from '../../api/api.service';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-import {EMPTY, of} from 'rxjs';
-import {addTask, addTaskSuccess, loadTasks, loadTasksSuccess, remove} from './tasks.actions';
-import { Store } from '@ngrx/store';
+import { catchError, exhaustMap, map, mergeMap, switchMap, switchMapTo, tap} from 'rxjs/operators';
+import {EMPTY, Observable, of} from 'rxjs';
+import * as TasksActions from './tasks.actions';
+import {select, Store} from '@ngrx/store';
 import { ITasksState } from './tasks.model';
-import {ITask} from "../../interfaces/task";
+import { ITask } from 'src/app/interfaces/task';
+import { EditTaskType } from 'src/app/services/task.service';
 
 @Injectable()
 export class TasksEffects {
+
   loadTasks$ = createEffect( () => this.actions$.pipe(
-    ofType(loadTasks),
+    ofType(TasksActions.loadTasks),
     mergeMap(() => this.apiService.getTasks()
       .pipe(
-        map(tasks => loadTasksSuccess({ tasks })),
+        map(tasks => TasksActions.loadTasksSuccess({ tasks })),
         catchError(() => EMPTY)
       ))
   ));
+
   addTask$ = createEffect(() => this.actions$.pipe(
-        ofType(addTask),
-        concatLatestFrom(action => this.store.select('tasks')),
-        mergeMap(([action]) => {
-          const body: ITask = {text, done: false};
-          this.apiService.addTask(body)}
-      ),
-    { dispatch: false }
+        ofType(TasksActions.addTask),
+        mergeMap(( action) => this.apiService.addTask(action.text)
+          .pipe(
+            map((task: ITask) => TasksActions.addTaskSuccess({task})),
+            catchError(() => EMPTY)
+        ))
+      )
   );
-  deleteTaskSuccess$ = createEffect(() => this.actions$.pipe(
-      ofType(remove),
-      concatLatestFrom(action => this.store.select('tasks')),
-      tap(([action, tasks]) => {
-        window.alert('task removed');
-      })
-    ),
-    { dispatch: false }
+
+  update$ = createEffect(() => this.actions$.pipe(
+    ofType(TasksActions.update),
+    mergeMap((action) => this.apiService.editTask(action).pipe(
+      map(task => TasksActions.updateSuccess({task})),
+      catchError(() => EMPTY)
+      ))
+  ));
+
+  updateAll$ = createEffect(() => this.actions$.pipe(
+    ofType(TasksActions.updateAll),
+    mergeMap(() => this.apiService.doneAll([])
+      .pipe(
+        map(result => TasksActions.updateAllSuccess()),
+        catchError(err => EMPTY))
+    ))
   );
+
+  deleteTask$ = createEffect(() => this.actions$.pipe(
+      ofType(TasksActions.removeTask),
+      mergeMap((action) => this.apiService.deleteTask(action.task).pipe(
+        map(result => {
+          const task = action.task;
+          return TasksActions.removeTaskSuccess({task});
+        }),
+        catchError(err => EMPTY)
+      ))
+  ));
+
   constructor(
     private apiService: ApiService,
     private actions$: Actions,

@@ -3,6 +3,7 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ITask } from '../interfaces/task';
+import {EditTaskType} from "../services/task.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,30 +11,37 @@ import { ITask } from '../interfaces/task';
 export class ApiService {
   constructor(private http: HttpClient) {
   }
+  url = 'http://localhost:5000/api/';
   getTasks(): Observable<ITask[]>{
-    return this.http.get('http://localhost:5000/api/tasks')
+    return this.http.get(`${this.url}tasks`)
       .pipe(map((result: any) => {
         return result.data;
       }));
   }
-  addTask(body: ITask): Observable<ITask>{
-    return this.http.post('http://localhost:5000/api/task', body)
+  addTask(text: string): Observable<ITask>{
+    const body = {text , done: false};
+    return this.http.post(`${this.url}task`, body)
       .pipe(map((result: any) => result.data));
   }
   deleteTask(task: ITask): Observable<ITask[]>{
-    return this.http.delete(`http://localhost:5000/api/task?_id=${task._id}`)
+    return this.http.delete(`${this.url}task?_id=${task._id}`)
       .pipe(map((result: any) => result.data));
   }
-  editTask(body: ITask): Observable<ITask>{
-    return this.http.patch('http://localhost:5000/api/task', body)
-      .pipe(map((result: any) => result.data));
+  editTask(action: any): Observable<ITask>{
+      let valueKey: string;
+      let value = action.value;
+      if (action.valuetype === EditTaskType.editText){
+       valueKey = 'text';
+      } else {
+        value = action.value.target.checked;
+        valueKey = 'done';
+      }
+      const task: ITask = { ...action.item, [valueKey]: value};
+    return this.http.patch(`${this.url}task`, task)
+      .pipe(map(() => task));
   }
-  doneAll(body: ITask[]): Observable<ITask>{
-    return this.http.patch('http://localhost:5000/api/tasks', body)
+  doneAll(body: ITask[]): Observable<ITask[]>{
+    return this.http.patch(`${this.url}tasks`, {body})
       .pipe(map((result: any) => result.data));
   }
 }
-// export class Task {
-//   constructor(public text: string, public done: boolean) {
-//   }
-// }
