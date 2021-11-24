@@ -3,9 +3,10 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ApiService } from '../../api/api.service';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import {EMPTY, of} from 'rxjs';
-import { addTask, loadTasks, loadTasksSuccess, remove} from './tasks.actions';
+import {addTask, addTaskSuccess, loadTasks, loadTasksSuccess, remove} from './tasks.actions';
 import { Store } from '@ngrx/store';
 import { ITasksState } from './tasks.model';
+import {ITask} from "../../interfaces/task";
 
 @Injectable()
 export class TasksEffects {
@@ -20,13 +21,9 @@ export class TasksEffects {
   addTask$ = createEffect(() => this.actions$.pipe(
         ofType(addTask),
         concatLatestFrom(action => this.store.select('tasks')),
-        tap(([action, tasks]) => {
-          if (tasks) {
-            window.alert('Task added!');
-          } else {
-            window.alert('there are no tasks ');
-          }
-        })
+        mergeMap(([action]) => {
+          const body: ITask = {text, done: false};
+          this.apiService.addTask(body)}
       ),
     { dispatch: false }
   );
