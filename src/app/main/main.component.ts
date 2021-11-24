@@ -34,9 +34,8 @@ export class MainComponent implements OnInit {
   private subscriptions: Subscription[] = [];
 
   ngOnInit() {
-    this.taskService.isToggle = true;
     this.store.dispatch(loadTasks());
-    // this.taskService.isToggle = false;
+    this.taskService.isToggle = false;
   }
 
   doneAll() {
