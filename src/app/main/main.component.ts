@@ -5,6 +5,7 @@ import { ApiService } from '../api/api.service';
 import { getAllTasks, selectCompletedTasksCounter } from '../state/tasks/tasks.selectors';
 import { Subscription } from 'rxjs';
 import { IState } from '../state/state.model';
+import {ToastService} from "angular-toastify";
 
 export enum FilterType {
   all,
@@ -20,7 +21,8 @@ export enum FilterType {
 export class MainComponent implements OnInit {
   constructor(
     public apiService: ApiService,
-    private store: Store<IState>) {
+    private store: Store<IState>,
+    private _toastService: ToastService) {
   }
 
   filterType = FilterType;
@@ -38,7 +40,11 @@ export class MainComponent implements OnInit {
   }
 
   add(text: string){
-    this.store.dispatch(addTask({text}));
+    if (!text) {
+      this._toastService.warn('task should not be empty');
+    } else {
+      this.store.dispatch(addTask({text}));
+    }
   }
 
   filter(type: FilterType) {

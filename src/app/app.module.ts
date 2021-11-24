@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { MainModule } from './main/main.module';
 import { StateModule } from './state/state.module';
+import { AngularToastifyModule } from 'angular-toastify';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { StateModule } from './state/state.module';
     BrowserModule,
     MainModule,
     StateModule,
-
+    AngularToastifyModule,
   ],
   providers: [
   ],

@@ -22,7 +22,6 @@ export const tasksReducer = createReducer(
     };
   }),
   on(TasksActions.updateSuccess, (state, { task }) => {
-    console.log(state.tasks);
     const updateStatusAndTextById = (item: ITask) => {
       if (item._id === task._id) {
         return {
@@ -48,6 +47,10 @@ export const tasksReducer = createReducer(
     return {...state,
       tasks: state.tasks
       .map(item => ({...item, done: true}))};
+  }),
+  on(TasksActions.handleError, (state, error) => {
+    console.log(error);
+    return state;
   })
 );
 

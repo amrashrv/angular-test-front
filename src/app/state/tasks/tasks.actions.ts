@@ -13,3 +13,5 @@ export const loadTasksSuccess = createAction('[TODO] Load tasks successfully', p
 export const updateSuccess = createAction('[TODO] Update task success', props<{task: ITask}>());
 export const updateAllSuccess = createAction('[TODO] update all success');
 
+export const handleError = createAction('[TODO] error', props<{error: object}>());
+

@@ -1,41 +1,44 @@
 import { Injectable } from '@angular/core';
-import {Actions, concatLatestFrom, createEffect, Effect, ofType} from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ApiService } from '../../api/api.service';
-import { catchError, exhaustMap, map, mergeMap, switchMap, switchMapTo, tap} from 'rxjs/operators';
-import {EMPTY, Observable, of} from 'rxjs';
+import { catchError, map, mergeMap, tap} from 'rxjs/operators';
+import { of } from 'rxjs';
 import * as TasksActions from './tasks.actions';
-import {select, Store} from '@ngrx/store';
-import { ITasksState } from './tasks.model';
 import { ITask } from 'src/app/interfaces/task';
-import { EditTaskType } from 'src/app/services/task.service';
+import { ToastService } from 'angular-toastify';
 
 @Injectable()
 export class TasksEffects {
-
   loadTasks$ = createEffect( () => this.actions$.pipe(
     ofType(TasksActions.loadTasks),
     mergeMap(() => this.apiService.getTasks()
       .pipe(
         map(tasks => TasksActions.loadTasksSuccess({ tasks })),
-        catchError(() => EMPTY)
-      ))
+        catchError((error) => of (TasksActions.handleError(error))
+      )))
   ));
 
   addTask$ = createEffect(() => this.actions$.pipe(
         ofType(TasksActions.addTask),
         mergeMap(( action) => this.apiService.addTask(action.text)
           .pipe(
-            map((task: ITask) => TasksActions.addTaskSuccess({task})),
-            catchError(() => EMPTY)
+            map((task: ITask) => {
+              this._toastService.success('task added');
+              return TasksActions.addTaskSuccess({task});
+            }),
+            catchError((error) => of (TasksActions.handleError(error))
         ))
       )
-  );
+  ));
 
   update$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.update),
     mergeMap((action) => this.apiService.editTask(action).pipe(
-      map(task => TasksActions.updateSuccess({task})),
-      catchError(() => EMPTY)
+      map(task => {
+        this._toastService.success('task updated');
+        return TasksActions.updateSuccess({task});
+      }),
+      catchError((error) => of (TasksActions.handleError(error)))
       ))
   ));
 
@@ -43,8 +46,11 @@ export class TasksEffects {
     ofType(TasksActions.updateAll),
     mergeMap(() => this.apiService.doneAll([])
       .pipe(
-        map(result => TasksActions.updateAllSuccess()),
-        catchError(err => EMPTY))
+        map(result => {
+          this._toastService.success('all tasks done');
+          return TasksActions.updateAllSuccess();
+        }),
+        catchError(error => of (TasksActions.handleError(error))))
     ))
   );
 
@@ -53,15 +59,19 @@ export class TasksEffects {
       mergeMap((action) => this.apiService.deleteTask(action.task).pipe(
         map(result => {
           const task = action.task;
+          this._toastService.success('task deleted');
           return TasksActions.removeTaskSuccess({task});
         }),
-        catchError(err => EMPTY)
+        catchError((error) => of (TasksActions.handleError(error)))
       ))
   ));
-
+  handleError$ = createEffect(() => this.actions$.pipe(
+    ofType(TasksActions.handleError),
+    tap((action) => this._toastService.error(action.toString())),
+  ), {dispatch: false});
   constructor(
     private apiService: ApiService,
     private actions$: Actions,
-    private store: Store<{tasks: ITasksState}>
+    private _toastService: ToastService
   ) {}
 }
