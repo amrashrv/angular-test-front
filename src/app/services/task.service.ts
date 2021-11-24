@@ -10,7 +10,7 @@ export enum EditTaskType {
   providedIn: 'root'
 })
 export class TaskService {
-
+  isToggle = false;
   constructor(private apiService: ApiService) {
   }
 

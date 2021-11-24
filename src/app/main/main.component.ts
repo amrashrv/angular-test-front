@@ -6,6 +6,7 @@ import { getAllTasks, selectCompletedTasksCounter } from '../state/tasks/tasks.s
 import { Subscription } from 'rxjs';
 import { IState } from '../state/state.model';
 import {ToastService} from "angular-toastify";
+import {TaskService} from "../services/task.service";
 
 export enum FilterType {
   all,
@@ -22,7 +23,8 @@ export class MainComponent implements OnInit {
   constructor(
     public apiService: ApiService,
     private store: Store<IState>,
-    private _toastService: ToastService) {
+    private _toastService: ToastService,
+    public taskService: TaskService) {
   }
 
   filterType = FilterType;
@@ -32,7 +34,9 @@ export class MainComponent implements OnInit {
   private subscriptions: Subscription[] = [];
 
   ngOnInit() {
+    this.taskService.isToggle = true;
     this.store.dispatch(loadTasks());
+    // this.taskService.isToggle = false;
   }
 
   doneAll() {

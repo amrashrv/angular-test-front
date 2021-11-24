@@ -17,6 +17,7 @@
           </div>
 
           <div class="list-container">
+            <mat-spinner class="spinner" [ngClass]="taskService.isToggle? 'display-spinner' : 'non-display-spinner' "></mat-spinner>
             <mat-list *ngFor="let item of tasks$ | async">
               <app-todo-item [item]="item"></app-todo-item>
             </mat-list>

@@ -3,7 +3,7 @@ import {catchError, map} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import { ITask } from '../interfaces/task';
-import {EditTaskType} from "../services/task.service";
+import {EditTaskType, TaskService} from "../services/task.service";
 import {ToastService} from "angular-toastify";
 
 @Injectable({
@@ -16,6 +16,7 @@ export class ApiService {
   getTasks(): Observable<ITask[]>{
     return this.http.get(`${this.url}tasks`)
       .pipe(map((result: any) => {
+        // this.taskServise.isToggle = false;
         return result.data;
       }));
   }
@@ -24,13 +25,17 @@ export class ApiService {
       return this.http.post(`${this.url}task`, body)
         .pipe(
           map((result: any) => {
+            // this.taskServise.isToggle = false;
             return result.data;
           }));
   }
   deleteTask(task: ITask): Observable<ITask[]>{
     return this.http.delete(`${this.url}task?_id=${task._id}`)
       .pipe(
-        map((result: any) => result.data));
+        map((result: any) => {
+          // this.taskServise.isToggle = false;
+          return result.data;
+        }));
   }
   editTask(action: any): Observable<ITask>{
       let valueKey: string;
@@ -43,10 +48,16 @@ export class ApiService {
       }
       const task: ITask = { ...action.item, [valueKey]: value};
     return this.http.patch(`${this.url}task`, task)
-      .pipe(map(() => task));
+      .pipe(map(() => {
+        // this.taskServise.isToggle = false;
+        return task;
+      }));
   }
   doneAll(body: ITask[]): Observable<ITask[]>{
     return this.http.patch(`${this.url}tasks`, {body})
-      .pipe(map((result: any) => result.data));
+      .pipe(map((result: any) => {
+        // this.taskServise.isToggle = false;
+        return result.data;
+      }));
   }
 }

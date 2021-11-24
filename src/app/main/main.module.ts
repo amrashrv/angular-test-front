@@ -20,31 +20,33 @@ import { MainComponent } from './main.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { EffectsModule } from '@ngrx/effects';
 import { TasksEffects } from '../state/tasks/tasks.effects';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
     MainComponent,
     TodoItemComponent
   ],
-  imports: [
-    CommonModule,
-    MatListModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    LayoutModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatExpansionModule,
-    MatCheckboxModule,
-    MatTableModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    EffectsModule.forRoot([TasksEffects])
-  ],
+    imports: [
+        CommonModule,
+        MatListModule,
+        MatGridListModule,
+        MatCardModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        LayoutModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatExpansionModule,
+        MatCheckboxModule,
+        MatTableModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        EffectsModule.forRoot([TasksEffects]),
+        MatProgressSpinnerModule
+    ],
   providers: [
     ApiService,
   ],
