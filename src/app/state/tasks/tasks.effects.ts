@@ -46,7 +46,7 @@ export class TasksEffects {
         return TasksActions.updateSuccess({task});
       }),
         catchError(error => {
-          this.taskService.errorHandler(error.statusText);
+          this.taskService.errorHandler(error.error.message);
           return of(TasksActions.operationFail());
         })
       ))
