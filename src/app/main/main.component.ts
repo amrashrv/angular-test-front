@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {addTask, loadTasks, updateAll} from '../state/tasks/tasks.actions';
-import {ApiService} from '../api/api.service';
-import {getAllTasks, selectCompletedTasksCounter} from '../state/tasks/tasks.selectors';
-import {Observable, Subscription} from 'rxjs';
-import {IState} from '../state/state.model';
-import {ToastService} from "angular-toastify";
-import {TaskService} from "../services/task.service";
-import {appStateKey} from "../state/appState/appState.reducer";
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { addTask, loadTasks, updateAll } from '../state/tasks/tasks.actions';
+import { ApiService } from '../api/api.service';
+import { getAllTasks, selectCompletedTasksCounter} from '../state/tasks/tasks.selectors';
+import { Observable, Subscription } from 'rxjs';
+import { IState } from '../state/state.model';
+import { ToastService } from 'angular-toastify';
+import { TaskService } from '../services/task.service';
+import { selectAppState } from '../state/app/app.selectors';
 
 export enum FilterType {
   all,
@@ -27,14 +27,13 @@ export class MainComponent implements OnInit {
     private store: Store<IState>,
     private _toastService: ToastService,
     public taskService: TaskService) {
-    this.store.subscribe((state) => this.loading = state[appStateKey]);
+    this.loading$ = this.store.select(selectAppState);
   }
 
   filterType = FilterType;
   tasks$ = this.store.select(getAllTasks(FilterType.all));
   count = this.store.select(selectCompletedTasksCounter);
-  loading: any;
-
+  loading$: Observable<boolean>;
 
   private subscriptions: Subscription[] = [];
 

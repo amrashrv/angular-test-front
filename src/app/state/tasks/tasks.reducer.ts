@@ -48,5 +48,8 @@ export const tasksReducer = createReducer(
       tasks: state.tasks
       .map(item => ({...item, done: true}))};
   }),
+  on(TasksActions.operationFail, ( state ) => {
+    return state;
+  })
 );
 

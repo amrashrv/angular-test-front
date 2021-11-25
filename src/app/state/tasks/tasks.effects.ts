@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ApiService } from '../../api/api.service';
 import { catchError, map, mergeMap, tap} from 'rxjs/operators';
-import { of } from 'rxjs';
+import {Observable, of} from 'rxjs';
 import * as TasksActions from './tasks.actions';
 import { ITask } from 'src/app/interfaces/task';
 import { ToastService } from 'angular-toastify';
@@ -15,8 +15,11 @@ export class TasksEffects {
     mergeMap(() => this.apiService.getTasks()
       .pipe(
         map(tasks => TasksActions.loadTasksSuccess({ tasks })),
-        catchError((error) => of (this.taskService.errorHandler(error.statusText))
-      )))
+        catchError(error => {
+          this.taskService.errorHandler(error.statusText);
+          return of(TasksActions.operationFail());
+        })
+      ))
   ));
 
   addTask$ = createEffect(() => this.actions$.pipe(
@@ -27,8 +30,11 @@ export class TasksEffects {
               this._toastService.success('task added');
               return TasksActions.addTaskSuccess({task});
             }),
-            catchError((error) => of (this.taskService.errorHandler(error.statusText))
-        ))
+            catchError(error => {
+              this.taskService.errorHandler(error.statusText);
+              return of(TasksActions.operationFail());
+            })
+        )
       )
   ));
 
@@ -39,7 +45,10 @@ export class TasksEffects {
         this._toastService.success('task updated');
         return TasksActions.updateSuccess({task});
       }),
-      catchError((error) => of (this.taskService.errorHandler(error.statusText)))
+        catchError(error => {
+          this.taskService.errorHandler(error.statusText);
+          return of(TasksActions.operationFail());
+        })
       ))
   ));
 
@@ -51,7 +60,10 @@ export class TasksEffects {
           this._toastService.success('all tasks done');
           return TasksActions.updateAllSuccess();
         }),
-        catchError(error => of (this.taskService.errorHandler(error.statusText))))
+        catchError(error => {
+          this.taskService.errorHandler(error.statusText);
+          return of(TasksActions.operationFail());
+        }))
     ))
   );
 
@@ -63,7 +75,10 @@ export class TasksEffects {
           this._toastService.success('task deleted');
           return TasksActions.removeTaskSuccess({task});
         }),
-        catchError((error) => of (this.taskService.errorHandler(error.statusText)))
+        catchError(error => {
+          this.taskService.errorHandler(error.statusText);
+          return of(TasksActions.operationFail());
+        })
       ))
   ));
   constructor(

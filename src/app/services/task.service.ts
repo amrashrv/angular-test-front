@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
-import { setErrorState} from "../state/appState/appState.actions";
-import {Store} from "@ngrx/store";
-import {ToastService} from "angular-toastify";
+import { setErrorState } from '../state/app/app.actions';
+import { Store } from '@ngrx/store';
+import { ToastService } from 'angular-toastify';
 
 export enum EditTaskType {
   check,

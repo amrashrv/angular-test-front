@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { initialAppState } from './appState.model';
+import { initialAppState } from './app.model';
 import * as TasksActions from '../tasks/tasks.actions';
-import { setErrorState } from './appState.actions';
+import { setErrorState } from './app.actions';
 
 export const appStateKey = 'appState';
 
-export const appStateReducer = createReducer(
+export const appReducer = createReducer(
   initialAppState,
   on(TasksActions.loadTasks,
     TasksActions.removeTask,
@@ -23,6 +23,7 @@ export const appStateReducer = createReducer(
     TasksActions.updateSuccess,
     TasksActions.updateAllSuccess,
     TasksActions.addTaskSuccess,
+    TasksActions.operationFail,
     (state) => {
     return {
       ...state,
