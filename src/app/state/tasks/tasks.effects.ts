@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import * as TasksActions from './tasks.actions';
 import { ITask } from 'src/app/interfaces/task';
 import { ToastService } from 'angular-toastify';
+import { TaskService } from '../../services/task.service';
 
 @Injectable()
 export class TasksEffects {
@@ -14,7 +15,7 @@ export class TasksEffects {
     mergeMap(() => this.apiService.getTasks()
       .pipe(
         map(tasks => TasksActions.loadTasksSuccess({ tasks })),
-        catchError((error) => of (TasksActions.handleError(error))
+        catchError((error) => of (this.taskService.errorHandler(error.statusText))
       )))
   ));
 
@@ -26,7 +27,7 @@ export class TasksEffects {
               this._toastService.success('task added');
               return TasksActions.addTaskSuccess({task});
             }),
-            catchError((error) => of (TasksActions.handleError(error))
+            catchError((error) => of (this.taskService.errorHandler(error.statusText))
         ))
       )
   ));
@@ -38,7 +39,7 @@ export class TasksEffects {
         this._toastService.success('task updated');
         return TasksActions.updateSuccess({task});
       }),
-      catchError((error) => of (TasksActions.handleError(error)))
+      catchError((error) => of (this.taskService.errorHandler(error.statusText)))
       ))
   ));
 
@@ -50,7 +51,7 @@ export class TasksEffects {
           this._toastService.success('all tasks done');
           return TasksActions.updateAllSuccess();
         }),
-        catchError(error => of (TasksActions.handleError(error))))
+        catchError(error => of (this.taskService.errorHandler(error.statusText))))
     ))
   );
 
@@ -62,16 +63,13 @@ export class TasksEffects {
           this._toastService.success('task deleted');
           return TasksActions.removeTaskSuccess({task});
         }),
-        catchError((error) => of (TasksActions.handleError(error)))
+        catchError((error) => of (this.taskService.errorHandler(error.statusText)))
       ))
   ));
-  handleError$ = createEffect(() => this.actions$.pipe(
-    ofType(TasksActions.handleError),
-    tap((action) => this._toastService.error(action.toString())),
-  ), {dispatch: false});
   constructor(
     private apiService: ApiService,
     private actions$: Actions,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private taskService: TaskService
   ) {}
 }

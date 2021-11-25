@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
-import {catchError, map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import { Observable } from 'rxjs';
 import { ITask } from '../interfaces/task';
-import {EditTaskType, TaskService} from "../services/task.service";
-import {ToastService} from "angular-toastify";
+import { EditTaskType } from '../services/task.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  constructor(private http: HttpClient, private _toastService: ToastService) {
+  constructor(private http: HttpClient) {
   }
   url = 'http://localhost:5000/api/';
   getTasks(): Observable<ITask[]>{
     return this.http.get(`${this.url}tasks`)
       .pipe(map((result: any) => {
-        // this.taskServise.isToggle = false;
         return result.data;
       }));
   }
@@ -25,7 +23,6 @@ export class ApiService {
       return this.http.post(`${this.url}task`, body)
         .pipe(
           map((result: any) => {
-            // this.taskServise.isToggle = false;
             return result.data;
           }));
   }
@@ -33,7 +30,6 @@ export class ApiService {
     return this.http.delete(`${this.url}task?_id=${task._id}`)
       .pipe(
         map((result: any) => {
-          // this.taskServise.isToggle = false;
           return result.data;
         }));
   }
@@ -49,14 +45,12 @@ export class ApiService {
       const task: ITask = { ...action.item, [valueKey]: value};
     return this.http.patch(`${this.url}task`, task)
       .pipe(map(() => {
-        // this.taskServise.isToggle = false;
         return task;
       }));
   }
   doneAll(body: ITask[]): Observable<ITask[]>{
     return this.http.patch(`${this.url}tasks`, {body})
       .pipe(map((result: any) => {
-        // this.taskServise.isToggle = false;
         return result.data;
       }));
   }

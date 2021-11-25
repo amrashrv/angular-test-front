@@ -48,9 +48,5 @@ export const tasksReducer = createReducer(
       tasks: state.tasks
       .map(item => ({...item, done: true}))};
   }),
-  on(TasksActions.handleError, (state, error) => {
-    console.log(error);
-    return state;
-  })
 );
 

@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
+import { setErrorState} from "../state/appState/appState.actions";
+import {Store} from "@ngrx/store";
+import {ToastService} from "angular-toastify";
 
 export enum EditTaskType {
   check,
@@ -10,8 +13,12 @@ export enum EditTaskType {
   providedIn: 'root'
 })
 export class TaskService {
-  isToggle = false;
-  constructor(private apiService: ApiService) {
+  errorHandler(msg: string) {
+    console.log(msg);
+    this._toastService.error(msg);
+    return setErrorState({ hasError: true });
+  }
+  constructor(private apiService: ApiService, private store: Store, private _toastService: ToastService) {
   }
 
 }
