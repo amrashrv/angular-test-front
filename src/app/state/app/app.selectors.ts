@@ -5,7 +5,7 @@ import {IAppState} from "./app.model";
 
 export const appStateSelector = (state: IState) => state[appStateKey];
 
-export const selectAppState = createSelector(
+export const selectIsLoading = createSelector(
   appStateSelector,
   (state: IAppState) => state.isLoading
 );

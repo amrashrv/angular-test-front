@@ -3,7 +3,6 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ITask } from '../interfaces/task';
-import { EditTaskType } from '../services/task.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,46 +10,62 @@ import { EditTaskType } from '../services/task.service';
 export class ApiService {
   constructor(private http: HttpClient) {
   }
-  url = 'http://localhost:5000/api/';
-  getTasks(): Observable<ITask[]>{
-    return this.http.get(`${this.url}tasks`)
-      .pipe(map((result: any) => {
+
+  private readonly baseUrl = 'http://localhost:5000/api';
+
+  getTasks(): Observable<ITask[]> {
+    return this.http.get(`${this.baseUrl}/tasks`).pipe(
+      map((result: any) => {
         return result.data;
-      }));
+      })
+    );
   }
-  addTask(text: string): Observable<ITask>{
+
+  addTask(text: string): Observable<ITask> {
     const body = {text , done: false};
-      return this.http.post(`${this.url}task`, body)
+      return this.http.post(`${this.baseUrl}/task`, body)
         .pipe(
           map((result: any) => {
             return result.data;
           }));
   }
   deleteTask(task: ITask): Observable<ITask[]>{
-    return this.http.delete(`${this.url}task?_id=${task._id}`)
-      .pipe(
+    const options = {
+      params: {
+        _id: task._id
+      }
+    };
+    return this.http.delete(`${this.baseUrl}/task`, options).pipe(
         map((result: any) => {
           return result.data;
-        }));
+        })
+    );
   }
-  editTask(action: any): Observable<ITask>{
-      let valueKey: string;
-      let value = action.value;
-      if (action.valuetype === EditTaskType.editText){
-       valueKey = 'text';
-      } else {
-        value = action.value.target.checked;
-        valueKey = 'done';
-      }
-      const task: ITask = { ...action.item, [valueKey]: value};
-    return this.http.patch(`${this.url}task`, task)
+
+  updateTaskIsCompleted(action: any): Observable<ITask>{
+      console.log(action);
+      const task: ITask = { ...action.task, done: action.done};
+      console.log(task);
+    return this.http.patch(`${this.baseUrl}/task`, task)
       .pipe(map(() => {
         return task;
       }));
   }
+
+  updateTaskText(action: any): Observable<ITask>{
+    console.log(action);
+    const task: ITask = { ...action.task, text: action.text};
+    console.log(task);
+    return this.http.patch(`${this.baseUrl}/task`, task)
+      .pipe(map(() => {
+        return task;
+      }));
+  }
+
   doneAll(body: ITask[]): Observable<ITask[]>{
-    return this.http.patch(`${this.url}tasks`, {body})
+    return this.http.patch(`${this.baseUrl}/tasks`, {body})
       .pipe(map((result: any) => {
+        console.log(result.data);
         return result.data;
       }));
   }

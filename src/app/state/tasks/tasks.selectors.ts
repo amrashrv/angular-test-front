@@ -7,7 +7,7 @@ import {FilterType} from "../../main/main.component";
 
 export const tasksStateSelector = (state: IState) => state[taskReducerKey];
 
-const selectTasks = createSelector(
+const selectAllTasks = createSelector(
   tasksStateSelector,
   (state: ITasksState) => state.tasks
 );
@@ -35,6 +35,6 @@ export const getAllTasks = (type: FilterType) => {
     case FilterType.completed:
       return selectCompletedTasks;
   }
-  return selectTasks;
+  return selectAllTasks;
 };
 

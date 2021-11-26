@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialAppState } from './app.model';
 import * as TasksActions from '../tasks/tasks.actions';
-import { setErrorState } from './app.actions';
+import * as AppActions from './app.actions';
 
 export const appStateKey = 'appState';
 
@@ -11,8 +11,8 @@ export const appReducer = createReducer(
     TasksActions.removeTask,
     TasksActions.addTask,
     TasksActions.updateAll,
-    TasksActions.update,
-    ( state ) => {
+    // TasksActions.update,
+    (state) => {
     return {
       ...state,
       isLoading: true
@@ -23,17 +23,17 @@ export const appReducer = createReducer(
     TasksActions.updateSuccess,
     TasksActions.updateAllSuccess,
     TasksActions.addTaskSuccess,
-    TasksActions.operationFail,
+    AppActions.operationFailed,
     (state) => {
     return {
       ...state,
       isLoading: false
     };
   }),
-  on(setErrorState, (state, { hasError }) => {
+  on(AppActions.operationFailed, (state) => {
     return {
       ...state,
-      hasError
+      hasError: true
     };
   })
 );

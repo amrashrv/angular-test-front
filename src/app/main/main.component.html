@@ -7,27 +7,23 @@
         <div class="content">
           <div class="header">
             <div class="select-all-icon">
-              <mat-icon class="select-all" (click)="doneAll()">keyboard_arrow_down</mat-icon>
+              <mat-icon class="mark-all-done" (click)="markAllTasksDone()">keyboard_arrow_down</mat-icon>
             </div>
             <div class="input-container">
-              <form (submit)="add(task.value); task.value = ''">
-                <input id="task" placeholder="What needs to be done?" #task />
-              </form>
+                <input id="task" placeholder="What needs to be done?" [formControl]="newTaskFormControl" (keydown.enter)="changeValue()"  />
             </div>
           </div>
 
           <div class="list-container">
-            <mat-progress-bar *ngIf=" loading$ | async" color="accent" mode="indeterminate"></mat-progress-bar>
+            <mat-progress-bar *ngIf="isLoading$ | async" color="accent" mode="indeterminate"></mat-progress-bar>
             <mat-list *ngFor="let item of tasks$ | async">
               <app-todo-item [item]="item"></app-todo-item>
             </mat-list>
           </div>
-          <div class="bottom">
-            <ul class="filters">
-              <li class="count">{{count | async}} items left</li>
-              <li class="filter" (click)="filter(filterType.all)"><a>all</a></li>
-              <li class="filter" (click)="filter(filterType.active)"><a>active</a></li>
-              <li class="filter" (click)="filter(filterType.completed)"><a>completed</a></li>
+          <div class="filters-container">
+            <ul class="filters-group">
+              <li class="items-left-counter">{{counter | async}} items left</li>
+              <li class="filter-item" *ngFor="let filterState of filterStates" (click)="updateFilterType(filterState.type)"><a>{{filterState.label}}</a></li>
             </ul>
           </div>
         </div>

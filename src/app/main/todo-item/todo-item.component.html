@@ -1,7 +1,7 @@
 <mat-list-item>
   <div [ngClass]="item === selectedItem? 'selected' : 'default-task-class' ">
     <label>
-      <input class="default-checkbox" type="checkbox" [checked]="item.done"  (change)="editTask(item, $event, editType.check)">
+      <input class="default-checkbox" type="checkbox" [checked]="item.done"  (change)="updateIsTaskCompleted(item, $event)" >
       <div class="checkbox-icon">
         <mat-icon class="done">done</mat-icon>
       </div>
@@ -11,11 +11,10 @@
     <mat-icon class='cross' (click)="deleteTask(item)">clear</mat-icon>
   </div>
   <form [ngClass]="item === selectedItem? 'default-task-class' : 'selected' "
-        (submit)="editTask(item, input.value, editType.editText);
-        input.value = '';
-        selectedItem = ''"
+        (submit)="updateTaskText(item, input.value);
+        input.value = ''"
   >
-    <input placeholder="edit task" class="task-edit-input" #input/>
+    <input (abort)="deleteTask(item)" [defaultValue]="item.text" placeholder="edit task" class="task-edit-input" #input/>
   </form>
 </mat-list-item>
 
