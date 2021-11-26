@@ -3,7 +3,6 @@ import { ITask } from '../../interfaces/task';
 import { Store } from '@ngrx/store';
 import { ApiService } from '../../api/api.service';
 import * as taskActions from '../../state/tasks/tasks.actions';
-import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-todo-item',
@@ -11,22 +10,18 @@ import {FormControl} from "@angular/forms";
   styleUrls: ['./todo-item.component.scss'],
 })
 
-export class TodoItemComponent {
+export class TodoItemComponent implements OnInit{
   @Input() item: any;
   selectedItem?: ITask;
-  checkboxFormControl = new FormControl();
-  // subscription: Subscription;
+  checked = false;
+
   constructor(
     public apiService: ApiService,
     private store: Store) {
   }
-  // ngOnInit() {
-  //   this.subscription = this.checked.valueChanges
-  //     .subscribe(value => console.log(value));
-  // }
-  // ngOnDestroy() {
-  //   this.subscription.unsubscribe();
-  // }
+  ngOnInit() {
+    this.checked = this.item.done;
+  }
 
   deleteTask(task: ITask): void {
     this.store.dispatch(taskActions.removeTask({task}));
@@ -35,14 +30,9 @@ export class TodoItemComponent {
   updateTaskText(task: ITask, text: string) {
     this.store.dispatch(taskActions.updateTaskText({task, text}));
   }
-  updateIsTaskCompleted(task: ITask, done: any) {
-    console.log(done.target.checked);
-    done = done.target.checked;
+  updateIsTaskCompleted(task: ITask, done: boolean) {
     this.store.dispatch(taskActions.updateIsTaskCompleted({task, done}));
   }
-  // editTask(item: ITask, value: any, valuetype: EditTaskType) {
-  //   this.store.dispatch(taskActions.update({item, value, valuetype}));
-  // }
 
   onSelect(item: ITask) {
     this.selectedItem = item;

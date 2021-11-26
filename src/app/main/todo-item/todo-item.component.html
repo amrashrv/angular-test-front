@@ -1,7 +1,9 @@
 <mat-list-item>
   <div [ngClass]="item === selectedItem? 'selected' : 'default-task-class' ">
     <label>
-      <input class="default-checkbox" type="checkbox" [checked]="item.done"  (change)="updateIsTaskCompleted(item, $event)" >
+      <input class="default-checkbox" type="checkbox"
+              [ngModel]="checked"
+              (ngModelChange)="updateIsTaskCompleted(item, !checked)">
       <div class="checkbox-icon">
         <mat-icon class="done">done</mat-icon>
       </div>
