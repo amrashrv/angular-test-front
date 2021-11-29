@@ -43,9 +43,7 @@ export class ApiService {
   }
 
   updateTaskIsCompleted(action: any): Observable<ITask>{
-      console.log(action);
       const task: ITask = { ...action.task, done: action.done};
-      console.log(task);
     return this.http.patch(`${this.baseUrl}/task`, task)
       .pipe(map(() => {
         return task;
@@ -53,17 +51,15 @@ export class ApiService {
   }
 
   updateTaskText(action: any): Observable<ITask>{
-    console.log(action);
     const task: ITask = { ...action.task, text: action.text};
-    console.log(task);
     return this.http.patch(`${this.baseUrl}/task`, task)
       .pipe(map(() => {
         return task;
       }));
   }
 
-  doneAll(body: ITask[]): Observable<ITask[]>{
-    return this.http.patch(`${this.baseUrl}/tasks`, {body})
+  updateAll(action: any): Observable<ITask[]>{
+    return this.http.patch(`${this.baseUrl}/tasks`, {done: action})
       .pipe(map((result: any) => {
         console.log(result.data);
         return result.data;

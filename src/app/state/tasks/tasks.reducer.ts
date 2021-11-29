@@ -38,16 +38,16 @@ export const tasksReducer = createReducer(
       tasks: newTasks
     };
   }),
-  on(TasksActions.removeTaskSuccess, (state, {task}) => {
+  on(TasksActions.removeTaskSuccess, (state, { task }) => {
     return {
       ...state,
       tasks: state.tasks.filter(item => item._id !== task._id)
     };
   }),
-  on(TasksActions.updateAllSuccess, (state) => {
+  on(TasksActions.updateAllSuccess, (state, { done }) => {
     return {
       ...state,
-      tasks: state.tasks.map(item => ({ ...item, done: true }))
+      tasks: state.tasks.map(item => ({ ...item, done }))
     };
   })
 );

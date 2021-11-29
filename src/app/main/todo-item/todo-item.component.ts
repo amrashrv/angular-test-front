@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ITask } from '../../interfaces/task';
+import { Component, Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+
+import { ITask } from '../../interfaces/task';
 import { ApiService } from '../../api/api.service';
 import * as taskActions from '../../state/tasks/tasks.actions';
 
@@ -12,13 +13,21 @@ import * as taskActions from '../../state/tasks/tasks.actions';
 
 export class TodoItemComponent implements OnInit{
   @Input() item: any;
+  @ViewChild('taskInput')
+  set input(element: ElementRef<HTMLInputElement>) {
+    if (element) {
+      element.nativeElement.focus();
+    }
+  }
   selectedItem?: ITask;
   checked = false;
+  autofocus = false;
 
   constructor(
     public apiService: ApiService,
     private store: Store) {
   }
+
   ngOnInit() {
     this.checked = this.item.done;
   }
@@ -27,17 +36,22 @@ export class TodoItemComponent implements OnInit{
     this.store.dispatch(taskActions.removeTask({task}));
   }
 
-  updateTaskText(task: ITask, text: string) {
+  updateTaskText(task: ITask, event: Event) {
+    const text = (event.target as HTMLInputElement).value;
     this.store.dispatch(taskActions.updateTaskText({task, text}));
   }
 
   updateIsTaskCompleted(task: ITask, done: boolean) {
     this.store.dispatch(taskActions.updateIsTaskCompleted({task, done}));
   }
-  blurEvent(){
+
+  onCancelEditMode(){
     this.selectedItem = undefined;
   }
-  onSelect(item: ITask) {
+
+  onStartEditMode(item: ITask) {
     this.selectedItem = item;
+    this.autofocus = true;
+
   }
 }

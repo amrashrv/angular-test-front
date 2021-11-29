@@ -63,12 +63,14 @@ export class TasksEffects {
     ))
   ));
 
-  markAllDone$ = createEffect(() => this.actions$.pipe(
+  updateAllTasks$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.updateAll),
-    mergeMap(() => this.apiService.doneAll([]).pipe(
+    mergeMap((action) => this.apiService.updateAll(action.done).pipe(
       map(() => {
+        console.log(action);
         this._toastService.success('all tasks done');
-        return TasksActions.updateAllSuccess();
+        const done: boolean = action.done;
+        return TasksActions.updateAllSuccess({done});
       }),
       catchError(error => this.handleError(error.error.message))
     ))

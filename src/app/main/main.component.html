@@ -24,7 +24,9 @@
             <ul class="filters-group">
               <li class="items-left-counter">{{counter | async}} items left</li>
               <li class="filter-item" *ngFor="let filterState of filterStates" (click)="updateFilterType(filterState.type)"><a>{{filterState.label}}</a></li>
+              <a class="mark-all-undone" (click)="markAllTasksUndone()">undone all</a>
             </ul>
+
           </div>
         </div>
       </div>

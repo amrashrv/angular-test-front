@@ -27,16 +27,17 @@ export class MainComponent implements OnInit {
     private store: Store<IState>,
     private _toastService: ToastService) {
   }
-  newTaskFormControl = new FormControl('',
-    [Validators.required,
-      Validators.maxLength(40)] );
+  newTaskFormControl = new FormControl('', [Validators.required, Validators.maxLength(60)]
+  );
 
   changeValue(){
-    console.log(this.newTaskFormControl);
-    this.newTaskFormControl.status === 'INVALID'
-      ? console.log(this.newTaskFormControl.errors)
-      : this.addTask(this.newTaskFormControl.value);
-    this.newTaskFormControl.setValue('');
+    const formControl = this.newTaskFormControl;
+    if (formControl.errors) {
+      if (formControl.errors['required']) this._toastService.error('required');
+      if (formControl.errors['maxlength']) this._toastService.error('max length should be less than 60 symbols');
+    } else {
+      this.addTask(formControl.value);
+    }
   }
   readonly filterStates = [{
     type: FilterType.all,
@@ -59,7 +60,10 @@ export class MainComponent implements OnInit {
   }
 
   markAllTasksDone() {
-    this.store.dispatch(taskActions.updateAll());
+    this.store.dispatch(taskActions.updateAll({done: true}));
+  }
+  markAllTasksUndone(){
+    this.store.dispatch(taskActions.updateAll({done: false}));
   }
 
   addTask(text: string){
