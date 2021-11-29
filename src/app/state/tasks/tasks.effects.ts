@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap} from 'rxjs/operators';
 import { ToastService } from 'angular-toastify';
 import { of } from 'rxjs';
 
@@ -16,6 +16,11 @@ export class TasksEffects {
     private actions$: Actions,
     private _toastService: ToastService,
   ) {}
+
+  createMessage = (str: string) => {
+    str = str.substr(str.indexOf(']') + 2);
+    return str;
+  };
 
   handleError = (error: string) => {
     this._toastService.error(error);
@@ -33,8 +38,8 @@ export class TasksEffects {
   addTask$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.addTask),
     mergeMap(( action) => this.apiService.addTask(action.text).pipe(
+      tap(() => this._toastService.success(this.createMessage(action.type))),
       map((task: ITask) => {
-        this._toastService.success('task added');
         return TasksActions.addTaskSuccess({task});
       }),
       catchError(error => this.handleError(error.error.message))
@@ -44,8 +49,8 @@ export class TasksEffects {
   updateIsTasCompleted$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.updateIsTaskCompleted),
     mergeMap((action) => this.apiService.updateTaskIsCompleted(action).pipe(
+      tap(() => this._toastService.success(this.createMessage(action.type))),
       map(task => {
-        this._toastService.success('task updated');
         return TasksActions.updateSuccess({task});
       }),
       catchError(error => this.handleError(error.error.message))
@@ -55,8 +60,8 @@ export class TasksEffects {
   updateTaskText$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.updateTaskText),
     mergeMap((action) => this.apiService.updateTaskText(action).pipe(
+      tap(() => this._toastService.success(this.createMessage(action.type))),
       map(task => {
-        this._toastService.success('task updated');
         return TasksActions.updateSuccess({task});
       }),
       catchError(error => this.handleError(error.error.message))
@@ -66,9 +71,8 @@ export class TasksEffects {
   updateAllTasks$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.updateAll),
     mergeMap((action) => this.apiService.updateAll(action.done).pipe(
+      tap(() => this._toastService.success(this.createMessage(action.type))),
       map(() => {
-        console.log(action);
-        this._toastService.success('all tasks done');
         const done: boolean = action.done;
         return TasksActions.updateAllSuccess({done});
       }),
@@ -79,12 +83,21 @@ export class TasksEffects {
   deleteTask$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.removeTask),
     mergeMap((action) => this.apiService.deleteTask(action.task).pipe(
+      tap(() => this._toastService.success(this.createMessage(action.type))),
       map(result => {
         const task = action.task;
-        this._toastService.success('task deleted');
         return TasksActions.removeTaskSuccess({task});
       }),
       catchError(error => this.handleError(error.error.message))
     ))
+  ));
+
+  clearAllCompleted$ = createEffect(() => this.actions$.pipe(
+    ofType(TasksActions.clearAllCompleted),
+    mergeMap((action) => this.apiService.clearAll().pipe(
+      tap(() => this._toastService.success(this.createMessage(action.type))),
+      map(() => TasksActions.clearAllCompletedSuccess()),
+      catchError(error => this.handleError(error.error.message))
+  ))
   ));
 }

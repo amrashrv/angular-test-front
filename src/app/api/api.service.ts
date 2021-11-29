@@ -61,8 +61,15 @@ export class ApiService {
   updateAll(action: any): Observable<ITask[]>{
     return this.http.patch(`${this.baseUrl}/tasks`, {done: action})
       .pipe(map((result: any) => {
-        console.log(result.data);
         return result.data;
       }));
+  }
+
+  clearAll(): Observable<ITask[]>{
+    return this.http.delete(`${this.baseUrl}/tasks`).pipe(
+      map((result: any) => {
+        return result.data;
+    })
+    );
   }
 }

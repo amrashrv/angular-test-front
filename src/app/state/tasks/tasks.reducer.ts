@@ -49,6 +49,12 @@ export const tasksReducer = createReducer(
       ...state,
       tasks: state.tasks.map(item => ({ ...item, done }))
     };
+  }),
+  on(TasksActions.clearAllCompletedSuccess, (state) => {
+    return {
+      ...state,
+      tasks: state.tasks.filter(item => item.done === false)
+    };
   })
 );
 

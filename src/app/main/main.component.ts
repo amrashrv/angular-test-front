@@ -8,6 +8,7 @@ import { getAllTasks, selectCompletedTasksCounter } from '../state/tasks/tasks.s
 import { IState } from '../state/state.model';
 import { selectIsLoading } from '../state/app/app.selectors';
 import { FormControl, Validators } from '@angular/forms';
+import { TaskValidationService } from '../services/task-validation.service';
 
 export enum FilterType {
   all,
@@ -25,20 +26,12 @@ export class MainComponent implements OnInit {
   constructor(
     public apiService: ApiService,
     private store: Store<IState>,
-    private _toastService: ToastService) {
+    private _toastService: ToastService,
+    private validationService: TaskValidationService) {
   }
   newTaskFormControl = new FormControl('', [Validators.required, Validators.maxLength(60)]
   );
 
-  changeValue(){
-    const formControl = this.newTaskFormControl;
-    if (formControl.errors) {
-      if (formControl.errors['required']) this._toastService.error('required');
-      if (formControl.errors['maxlength']) this._toastService.error('max length should be less than 60 symbols');
-    } else {
-      this.addTask(formControl.value);
-    }
-  }
   readonly filterStates = [{
     type: FilterType.all,
     label: 'All'
@@ -62,12 +55,17 @@ export class MainComponent implements OnInit {
   markAllTasksDone() {
     this.store.dispatch(taskActions.updateAll({done: true}));
   }
-  markAllTasksUndone(){
-    this.store.dispatch(taskActions.updateAll({done: false}));
+
+  clearAllCompleted(){
+    this.store.dispatch(taskActions.clearAllCompleted());
   }
 
-  addTask(text: string){
-    this.store.dispatch(taskActions.addTask({text}));
+  addTask(){
+    if ( this.validationService.taskValidation(this.newTaskFormControl)){
+      const text = this.newTaskFormControl.value;
+      this.store.dispatch(taskActions.addTask({text}));
+      this.newTaskFormControl.setValue('');
+    }
   }
 
   updateFilterType(type: FilterType) {

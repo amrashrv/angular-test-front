@@ -22,6 +22,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { TasksEffects } from '../state/tasks/tasks.effects';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {TaskValidationService} from "../services/task-validation.service";
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
   ],
   providers: [
     ApiService,
+    TaskValidationService
   ],
   exports: [MainComponent]
 })

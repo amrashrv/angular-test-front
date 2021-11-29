@@ -4,6 +4,9 @@ import { Store } from '@ngrx/store';
 import { ITask } from '../../interfaces/task';
 import { ApiService } from '../../api/api.service';
 import * as taskActions from '../../state/tasks/tasks.actions';
+import { FormControl, Validators } from '@angular/forms';
+import { ToastService } from 'angular-toastify';
+import { TaskValidationService } from '../../services/task-validation.service';
 
 @Component({
   selector: 'app-todo-item',
@@ -17,28 +20,36 @@ export class TodoItemComponent implements OnInit{
   set input(element: ElementRef<HTMLInputElement>) {
     if (element) {
       element.nativeElement.focus();
+      this.editTaskFormControl.setValue(this.item.text);
     }
   }
+
   selectedItem?: ITask;
   checked = false;
-  autofocus = false;
+  editTaskFormControl = new FormControl('', [Validators.required, Validators.maxLength(60)]);
 
   constructor(
     public apiService: ApiService,
-    private store: Store) {
+    private store: Store,
+    private _toastService: ToastService,
+    private validationService: TaskValidationService) {
   }
 
   ngOnInit() {
     this.checked = this.item.done;
+    this.editTaskFormControl.setValue(this.item.text);
   }
 
   deleteTask(task: ITask): void {
     this.store.dispatch(taskActions.removeTask({task}));
   }
 
-  updateTaskText(task: ITask, event: Event) {
-    const text = (event.target as HTMLInputElement).value;
-    this.store.dispatch(taskActions.updateTaskText({task, text}));
+  updateTaskText(task: ITask) {
+    const formControl = this.editTaskFormControl;
+    if (this.validationService.taskValidation(formControl)) {
+      const text = formControl.value;
+      this.store.dispatch(taskActions.updateTaskText({task, text}));
+    }
   }
 
   updateIsTaskCompleted(task: ITask, done: boolean) {
@@ -51,7 +62,5 @@ export class TodoItemComponent implements OnInit{
 
   onStartEditMode(item: ITask) {
     this.selectedItem = item;
-    this.autofocus = true;
-
   }
 }
