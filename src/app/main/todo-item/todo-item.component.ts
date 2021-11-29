@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ITask } from '../../interfaces/task';
 import { Store } from '@ngrx/store';
 import { ApiService } from '../../api/api.service';
@@ -30,10 +30,13 @@ export class TodoItemComponent implements OnInit{
   updateTaskText(task: ITask, text: string) {
     this.store.dispatch(taskActions.updateTaskText({task, text}));
   }
+
   updateIsTaskCompleted(task: ITask, done: boolean) {
     this.store.dispatch(taskActions.updateIsTaskCompleted({task, done}));
   }
-
+  blurEvent(){
+    this.selectedItem = undefined;
+  }
   onSelect(item: ITask) {
     this.selectedItem = item;
   }

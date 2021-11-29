@@ -1,5 +1,5 @@
 <mat-list-item>
-  <div [ngClass]="item === selectedItem? 'selected' : 'default-task-class' ">
+  <div *ngIf="!selectedItem else input" class="default-task-class">
     <label>
       <input class="default-checkbox" type="checkbox"
               [ngModel]="checked"
@@ -8,15 +8,15 @@
         <mat-icon class="done">done</mat-icon>
       </div>
     </label>
-    <span [ngClass]="[item && item.done !== false? 'task-done' : 'default-task-class']"
+    <span  [ngClass]="[item && item.done !== false? 'task-done' : 'default-task-class']"
           (dblclick)="onSelect(item)">{{item.text}}</span>
     <mat-icon class='cross' (click)="deleteTask(item)">clear</mat-icon>
   </div>
-  <form [ngClass]="item === selectedItem? 'default-task-class' : 'selected' "
-        (submit)="updateTaskText(item, input.value);
-        input.value = ''"
-  >
-    <input (abort)="deleteTask(item)" [defaultValue]="item.text" placeholder="edit task" class="task-edit-input" #input/>
-  </form>
+  <ng-template #input>
+    <input [defaultValue]="item.text"
+           (keydown.enter)="updateTaskText(item, input.value)"
+           (blur)="blurEvent()"
+           class="task-edit-input" #input/>
+  </ng-template>
 </mat-list-item>
 
