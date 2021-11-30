@@ -13,7 +13,6 @@
                 <input id="task" placeholder="What needs to be done?" [formControl]="newTaskFormControl" (keydown.enter)="addTask()"  />
             </div>
           </div>
-
           <div class="list-container">
             <mat-progress-bar *ngIf="isLoading$ | async" color="accent" mode="indeterminate"></mat-progress-bar>
             <mat-list *ngFor="let item of tasks$ | async">
@@ -22,7 +21,7 @@
           </div>
           <div class="filters-container">
             <ul class="filters-group">
-              <li class="items-left-counter">{{counter | async}} items left</li>
+              <li class="items-left-counter">{{counter}} items left</li>
               <li class="filter-item" *ngFor="let filterState of filterStates" (click)="updateFilterType(filterState.type)"><a>{{filterState.label}}</a></li>
               <a class="mark-all-undone" (click)="clearAllCompleted()">clear all</a>
             </ul>

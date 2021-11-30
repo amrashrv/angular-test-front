@@ -4,11 +4,12 @@ import { ToastService } from 'angular-toastify';
 
 import * as taskActions from '../state/tasks/tasks.actions';
 import { ApiService } from '../api/api.service';
-import { getAllTasks, selectCompletedTasksCounter } from '../state/tasks/tasks.selectors';
+import { selectAllTasks } from '../state/tasks/tasks.selectors';
 import { IState } from '../state/state.model';
 import { selectIsLoading } from '../state/app/app.selectors';
 import { FormControl, Validators } from '@angular/forms';
 import { TaskValidationService } from '../services/task-validation.service';
+import {map} from "rxjs/operators";
 
 export enum FilterType {
   all,
@@ -44,8 +45,9 @@ export class MainComponent implements OnInit {
   }];
 
   filterType = FilterType;
-  tasks$ = this.store.select(getAllTasks(FilterType.all));
-  counter = this.store.select(selectCompletedTasksCounter);
+  tasks$ = this.store.select(selectAllTasks);
+  // counter = this.store.select(selectCompletedTasksCounter);
+  counter = 0;
   isLoading$ = this.store.select(selectIsLoading);
 
   ngOnInit() {
@@ -57,6 +59,9 @@ export class MainComponent implements OnInit {
   }
 
   clearAllCompleted(){
+    const ids: any = [];
+    console.log(this.tasks$);
+    console.log(ids);
     this.store.dispatch(taskActions.clearAllCompleted());
   }
 
@@ -69,6 +74,6 @@ export class MainComponent implements OnInit {
   }
 
   updateFilterType(type: FilterType) {
-    this.tasks$ = this.store.select(getAllTasks(type));
+    // this.tasks$ = this.store.select(getAllTasks(type));
   }
 }

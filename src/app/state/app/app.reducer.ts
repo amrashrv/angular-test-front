@@ -5,13 +5,13 @@ import * as AppActions from './app.actions';
 
 export const appStateKey = 'appState';
 
+
 export const appReducer = createReducer(
   initialAppState,
   on(TasksActions.loadTasks,
     TasksActions.removeTask,
     TasksActions.addTask,
     TasksActions.updateAll,
-    // TasksActions.update,
     (state) => {
     return {
       ...state,

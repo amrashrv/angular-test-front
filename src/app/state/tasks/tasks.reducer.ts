@@ -1,60 +1,43 @@
-import { createReducer, on } from '@ngrx/store';
+import { createReducer, on, State} from '@ngrx/store';
 import * as TasksActions from './tasks.actions';
-import { initialTaskState, ITasksState } from './tasks.model';
+import { adapter, initialTaskState, ITasksState } from './tasks.model';
 import { ITask } from '../../interfaces/task';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 export const taskReducerKey = 'tasks';
+
+export interface TestState extends EntityState<ITask>{
+  selectedTaskId: string | number;
+}
 
 export const tasksReducer = createReducer(
   initialTaskState,
   on(TasksActions.addTaskSuccess, (state, { task }) => {
-    const newTasks = [...state.tasks];
-    newTasks.push(task);
-    return {
-      ...state,
-      tasks: newTasks
-    };
+    return adapter.setOne(task, state);
   }),
   on(TasksActions.loadTasksSuccess, (state, { tasks }): ITasksState => {
-    return {
-      ...state,
-      tasks
-    };
+    return adapter.setAll(tasks, state);
   }),
   on(TasksActions.updateSuccess, (state, { task }) => {
-    const updateStatusAndTextById = (item: ITask) => {
-      if (item._id === task._id) {
-        return {
-          ...item,
-          done: task.done,
-          text: task.text
-        };
-      }
-      return item;
-    };
-    const newTasks = state.tasks.map(updateStatusAndTextById);
-    return {
-      ...state,
-      tasks: newTasks
-    };
+    return adapter.updateOne({ id: task._id, changes: { done: task.done, text: task.text } }, state);
   }),
   on(TasksActions.removeTaskSuccess, (state, { task }) => {
-    return {
-      ...state,
-      tasks: state.tasks.filter(item => item._id !== task._id)
-    };
+    return adapter.removeOne(task._id, state);
   }),
-  on(TasksActions.updateAllSuccess, (state, { done }) => {
-    return {
-      ...state,
-      tasks: state.tasks.map(item => ({ ...item, done }))
-    };
+  on(TasksActions.updateAllSuccess, (state, { tasks }) => {
+    return adapter.upsertMany(tasks, state);
   }),
-  on(TasksActions.clearAllCompletedSuccess, (state) => {
-    return {
-      ...state,
-      tasks: state.tasks.filter(item => item.done === false)
-    };
+  on(TasksActions.clearAllCompletedSuccess, (state, {action}) => {
+    console.log(action);
+    return adapter.removeMany(action, state);
   })
 );
 
+const {
+  selectIds,
+  selectEntities,
+  selectAll,
+  selectTotal,
+} = adapter.getSelectors();
+
+export const selectAllTasks = selectAll;
