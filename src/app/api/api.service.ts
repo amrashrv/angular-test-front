@@ -15,9 +15,7 @@ export class ApiService {
 
   getTasks(): Observable<ITask[]> {
     return this.http.get(`${this.baseUrl}/tasks`).pipe(
-      map((result: any) => {
-        return result.data;
-      })
+      map((result: any ) => result.data)
     );
   }
 
@@ -25,9 +23,7 @@ export class ApiService {
     const body = {text , done: false};
       return this.http.post(`${this.baseUrl}/task`, body)
         .pipe(
-          map((result: any) => {
-            return result.data;
-          }));
+          map((result: any) => result.data));
   }
   deleteTask(task: ITask): Observable<ITask[]>{
     const options = {
@@ -36,40 +32,30 @@ export class ApiService {
       }
     };
     return this.http.delete(`${this.baseUrl}/task`, options).pipe(
-        map((result: any) => {
-          return result.data;
-        })
+        map((result: any) => result.data)
     );
   }
 
   updateTaskIsCompleted(action: any): Observable<ITask>{
       const task: ITask = { ...action.task, done: action.done};
     return this.http.patch(`${this.baseUrl}/task`, task)
-      .pipe(map(() => {
-        return task;
-      }));
+      .pipe(map(() => task));
   }
 
   updateTaskText(action: any): Observable<ITask>{
     const task: ITask = { ...action.task, text: action.text};
     return this.http.patch(`${this.baseUrl}/task`, task)
-      .pipe(map(() => {
-        return task;
-      }));
+      .pipe(map(() => task));
   }
 
   updateAll(action: any): Observable<ITask[]>{
     return this.http.patch(`${this.baseUrl}/tasks`, {done: action})
-      .pipe(map((result: any) => {
-        return result.data;
-      }));
+      .pipe(map((result: any) => result.data ));
   }
 
   clearAll(): Observable<ITask[]>{
     return this.http.delete(`${this.baseUrl}/tasks`).pipe(
-      map((result: any) => {
-        return result.data;
-    })
+      map((result: any) => result.data)
     );
   }
 }

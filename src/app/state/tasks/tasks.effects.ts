@@ -17,10 +17,7 @@ export class TasksEffects {
     private _toastService: ToastService,
   ) {}
 
-  createMessage = (str: string) => {
-    str = str.substr(str.indexOf(']') + 2);
-    return str;
-  };
+  createMessage = (str: string) => str.substr(str.indexOf(']') + 2);
 
   handleError = (error: string) => {
     this._toastService.error(error);
@@ -97,7 +94,7 @@ export class TasksEffects {
     mergeMap((action) => this.apiService.clearAll().pipe(
       tap(() => this._toastService.success(this.createMessage(action.type))),
       map((ids: any) => {
-        return TasksActions.clearAllCompletedSuccess({ids})
+        return TasksActions.clearAllCompletedSuccess({ids});
       }),
       catchError(error => this.handleError(error.error.message))
   ))
