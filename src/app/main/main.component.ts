@@ -7,14 +7,12 @@ import { ApiService } from '../api/api.service';
 import {
   getAllTasks,
   selectAllTasks,
-  selectCompletedTasks,
   selectCompletedTasksCounter
 } from '../state/tasks/tasks.selectors';
 import { IState } from '../state/state.model';
 import { selectIsLoading } from '../state/app/app.selectors';
 import { FormControl, Validators } from '@angular/forms';
 import { TaskValidationService } from '../services/task-validation.service';
-import {map} from "rxjs/operators";
 
 export enum FilterType {
   all,
