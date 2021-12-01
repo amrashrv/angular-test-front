@@ -1,17 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {TaskService} from "./task.service";
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [TaskService]
 })
-export class AppComponent implements OnInit{
+export class AppComponent {
   title = 'todo-list';
-
-
-  ngOnInit() {
-
-  }
+  constructor() {}
 }
