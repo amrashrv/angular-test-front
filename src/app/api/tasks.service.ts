@@ -7,7 +7,7 @@ import { ITask } from '../interfaces/task';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class TasksService {
   constructor(private http: HttpClient) {
   }
 
