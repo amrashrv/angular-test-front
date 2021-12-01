@@ -68,7 +68,6 @@ export class ApiService {
   clearAll(): Observable<ITask[]>{
     return this.http.delete(`${this.baseUrl}/tasks`).pipe(
       map((result: any) => {
-        console.log(result.data);
         return result.data;
     })
     );
