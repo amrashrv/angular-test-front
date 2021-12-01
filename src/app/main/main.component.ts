@@ -61,9 +61,6 @@ export class MainComponent implements OnInit {
   }
 
   clearAllCompleted(){
-    const ids: any = [];
-    console.log(this.tasks$);
-    console.log(ids);
     this.store.dispatch(taskActions.clearAllCompleted());
   }
 
