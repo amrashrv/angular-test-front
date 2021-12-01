@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
-import { catchError, map, mergeMap, tap} from 'rxjs/operators';
+import { Actions , createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ToastService } from 'angular-toastify';
 import { of } from 'rxjs';
 
@@ -8,9 +8,6 @@ import { ApiService } from '../../api/api.service';
 import * as TasksActions from './tasks.actions';
 import * as AppActions from '../app/app.actions';
 import { ITask } from 'src/app/interfaces/task';
-import {Store} from "@ngrx/store";
-import {selectAllTasks} from "./tasks.reducer";
-import {Update} from "@ngrx/entity";
 
 @Injectable()
 export class TasksEffects {
@@ -18,7 +15,6 @@ export class TasksEffects {
     private apiService: ApiService,
     private actions$: Actions,
     private _toastService: ToastService,
-    private store: Store
   ) {}
 
   createMessage = (str: string) => {
@@ -77,7 +73,6 @@ export class TasksEffects {
     mergeMap((action) => this.apiService.updateAll(action.done).pipe(
       tap(() => this._toastService.success(this.createMessage(action.type))),
       map((action) => {
-        console.log(action);
         const tasks: ITask[] = action;
         return TasksActions.updateAllSuccess({tasks});
       }),
@@ -101,7 +96,9 @@ export class TasksEffects {
     ofType(TasksActions.clearAllCompleted),
     mergeMap((action) => this.apiService.clearAll().pipe(
       tap(() => this._toastService.success(this.createMessage(action.type))),
-      map((action: any) => TasksActions.clearAllCompletedSuccess({action})),
+      map((ids: any) => {
+        return TasksActions.clearAllCompletedSuccess({ids})
+      }),
       catchError(error => this.handleError(error.error.message))
   ))
   ));

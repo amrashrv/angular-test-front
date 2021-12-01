@@ -1,8 +1,8 @@
-import { createReducer, on, State} from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as TasksActions from './tasks.actions';
 import { adapter, initialTaskState, ITasksState } from './tasks.model';
 import { ITask } from '../../interfaces/task';
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { EntityState } from '@ngrx/entity';
 
 export const taskReducerKey = 'tasks';
 
@@ -27,17 +27,11 @@ export const tasksReducer = createReducer(
   on(TasksActions.updateAllSuccess, (state, { tasks }) => {
     return adapter.upsertMany(tasks, state);
   }),
-  on(TasksActions.clearAllCompletedSuccess, (state, {action}) => {
-    console.log(action);
-    return adapter.removeMany(action, state);
+  on(TasksActions.clearAllCompletedSuccess, (state, {ids}) => {
+    return adapter.removeMany(ids, state);
   })
 );
 
-const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors();
+const { selectAll } = adapter.getSelectors();
 
 export const selectAllTasks = selectAll;

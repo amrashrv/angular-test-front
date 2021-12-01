@@ -4,7 +4,12 @@ import { ToastService } from 'angular-toastify';
 
 import * as taskActions from '../state/tasks/tasks.actions';
 import { ApiService } from '../api/api.service';
-import {getAllTasks, selectAllTasks, selectCompletedTasksCounter} from '../state/tasks/tasks.selectors';
+import {
+  getAllTasks,
+  selectAllTasks,
+  selectCompletedTasks,
+  selectCompletedTasksCounter
+} from '../state/tasks/tasks.selectors';
 import { IState } from '../state/state.model';
 import { selectIsLoading } from '../state/app/app.selectors';
 import { FormControl, Validators } from '@angular/forms';
@@ -73,6 +78,6 @@ export class MainComponent implements OnInit {
   }
 
   updateFilterType(type: FilterType) {
-    this.tasks$ = this.store.select(selectAllTasks);
+    this.tasks$ = this.store.select(getAllTasks(type));
   }
 }

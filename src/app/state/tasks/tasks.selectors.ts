@@ -1,34 +1,29 @@
-import { ActionReducerMap, createSelector } from '@ngrx/store';
-import { adapter, ITasksState } from './tasks.model';
+import { createSelector } from '@ngrx/store';
 import { IState } from '../state.model';
 import { taskReducerKey } from './tasks.reducer';
 import { FilterType } from '../../main/main.component';
 import * as fromTasks from './tasks.reducer';
-import {ITask} from "../../interfaces/task";
+import { ITask } from '../../interfaces/task';
 
 export const tasksStateSelector = (state: IState) => state[taskReducerKey];
 
-// const selectAllTasks = createSelector(
-//   tasksStateSelector,
-//   (state: ITasksState) => state.tasks
-// );
 export const selectAllTasks = createSelector(
   tasksStateSelector,
   fromTasks.selectAllTasks
 );
 
-// export const selectCompletedTasksCounter = createSelector(
-//   fromTasks.selectAllTasks,
-//   (tasks: ITask[]) => tasks.filter(task => !task.done).length
-// );
+export const selectCompletedTasksCounter = createSelector(
+  selectAllTasks,
+  (tasks: ITask[]) => tasks.filter(task => !task.done).length
+);
 
-const selectCompletedTasks = createSelector(
-  fromTasks.selectAllTasks,
+export const selectCompletedTasks = createSelector(
+  selectAllTasks,
   (tasks: ITask[]) => tasks.filter(task => task.done)
 );
 
 const selectActiveTasks = createSelector(
-  fromTasks.selectAllTasks,
+  selectAllTasks,
   (tasks: ITask[]) => tasks.filter(task => !task.done)
 );
 
