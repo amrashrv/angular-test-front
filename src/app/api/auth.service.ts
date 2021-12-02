@@ -13,16 +13,14 @@ export class AuthService {
   private readonly baseUrl = 'http://localhost:5000/api';
 
   register(body: IUser): Observable<IUser> {
-    console.log(body);
     return this.http.post(`${this.baseUrl}/auth/register`, body).pipe(
       map((result: any ) => {
-        console.log(result);
+        this.setSession(result);
         return result.data;
       })
     );
   }
   login(body: any){
-    console.log(body);
     return this.http.post(`${this.baseUrl}/auth/login`, body).pipe(
       map((result: any) => {
         this.setSession(result);
@@ -34,7 +32,6 @@ export class AuthService {
     localStorage.clear();
   }
   private setSession(authResult: any) {
-    console.log(authResult);
     localStorage.setItem('token', authResult.token);
     localStorage.setItem('refToken', authResult.refToken);
   }
