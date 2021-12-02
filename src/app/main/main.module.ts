@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ApiService } from '../api/api.service';
+import { TasksService } from '../api/tasks.service';
 import { MainComponent } from './main.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { EffectsModule } from '@ngrx/effects';
@@ -36,7 +36,7 @@ import { TaskValidationService } from '../services/task-validation.service';
     ReactiveFormsModule
   ],
   providers: [
-    ApiService,
+    TasksService,
     TaskValidationService
   ],
   exports: [MainComponent]

@@ -1,0 +1,17 @@
+.login-container{
+  width: 400px;
+  padding: 10px;
+  background: white;
+}
+.mat-card-title{
+  font-size: 100px;
+  font-weight: 100;
+  color: indianred;
+  opacity: 0.5;
+  text-align: center;
+  //margin-top: 20px;
+}
+.login-form{
+  display: flex;
+  flex-direction: column;
+}

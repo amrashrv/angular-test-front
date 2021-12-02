@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AuthService } from '../../api/auth.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -9,6 +11,8 @@ import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, 
 export class RegisterComponent implements OnInit {
 
   constructor(
+    private authService: AuthService,
+    private router: Router
   ) { }
   identityRevealedValidator: ValidatorFn = (control: AbstractControl):
   ValidationErrors | null => {
@@ -24,9 +28,9 @@ export class RegisterComponent implements OnInit {
     email: new FormControl('', Validators.email),
     password: new FormControl(''),
     repeatPassword: new FormControl('', this.identityRevealedValidator)
-  }, {validators: this.identityRevealedValidator})
+  }, {validators: this.identityRevealedValidator});
   onSubmit(){
-    console.log(this.registerForm.value)
+    this.authService.register(this.registerForm.value).subscribe(() => this.router.navigateByUrl('/main'));
   }
 
   ngOnInit(): void {

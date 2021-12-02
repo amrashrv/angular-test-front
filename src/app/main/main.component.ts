@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
 
 import * as taskActions from '../state/tasks/tasks.actions';
-import { ApiService } from '../api/api.service';
+import { TasksService } from '../api/tasks.service';
 import {
   getAllTasks,
   selectAllTasks,
@@ -28,7 +28,7 @@ export enum FilterType {
 export class MainComponent implements OnInit {
 
   constructor(
-    public apiService: ApiService,
+    public apiService: TasksService,
     private store: Store<IState>,
     private _toastService: ToastService,
     private validationService: TaskValidationService) {
