@@ -1,31 +1,34 @@
 
   <mat-card-title>Register</mat-card-title>
-  <div class="register-container">
-  <mat-card-content>
-    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>login</mat-label>
-        <input matInput placeholder="userName" formControlName="userName" required>
-      </mat-form-field>
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>email</mat-label>
-        <input matInput type="email" formControlName="email"  placeholder="email" required>
-      </mat-form-field>
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>password</mat-label>
-        <input matInput  type=password formControlName="password"  placeholder="password" required>
-      </mat-form-field>
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>repeat password</mat-label>
-        <input matInput type=password formControlName="repeatPassword"  placeholder="password" required>
-      </mat-form-field>
-      <div *ngIf="registerForm.errors?.['identityRevealed'] && (registerForm.touched || registerForm.dirty)" class="cross-validation-error-message alert alert-danger">
-        Name cannot match alter ego.
-      </div>
-      <button mat-button color="primary" type="submit" [disabled]="!registerForm.valid">submit</button>
-      <button mat-button color="primary">to login</button>
-    </form>
-  </mat-card-content>
+  <div class="outer-container">
+    <div class="register-container">
+      <mat-card-content>
+        <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>login</mat-label>
+            <input matInput placeholder="userName" formControlName="userName" required>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>email</mat-label>
+            <input matInput type="email" formControlName="email"  placeholder="email" required>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>password</mat-label>
+            <input matInput  type=password formControlName="password"  placeholder="password" required>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>repeat password</mat-label>
+            <input matInput type=password formControlName="repeatPassword"  placeholder="password" required>
+          </mat-form-field>
+          <div *ngIf="registerForm.errors?.['identityRevealed'] && (registerForm.touched || registerForm.dirty)" class="cross-validation-error-message alert alert-danger">
+            Name cannot match alter ego.
+          </div>
+          <button mat-button color="primary" type="submit" [disabled]="!registerForm.valid">submit</button>
+          <a mat-button color="primary" routerLink="/auth/login">to login</a>
+        </form>
+      </mat-card-content>
+    </div>
   </div>
+
 
 
