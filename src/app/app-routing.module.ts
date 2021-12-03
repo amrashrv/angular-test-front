@@ -8,6 +8,7 @@ import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   {path: 'main', component: MainComponent, canActivate: [AuthGuard]},
+  // {path: 'main', loadChildren: () => import('./main/main.module').then(m => m.MainModule)},
   {path: 'auth', component: AuthorizationComponent, children: [
       {path: 'registration', component: RegisterComponent},
       {path: 'login', component: LoginComponent}

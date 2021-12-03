@@ -17,8 +17,8 @@ import { RegisterComponent } from './authorization/register/register.component';
 import { LoginComponent } from './authorization/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './api/auth.service';
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {AuthInterceptor} from "./services/auth-interceptor";
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './services/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -49,12 +49,6 @@ import {AuthInterceptor} from "./services/auth-interceptor";
       useClass: AuthInterceptor,
       multi: true
     },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   // этим будем соответственно рефрешить
-    //   useClass: RefreshTokenInterceptor,
-    //   multi: true
-    // }
   ],
   bootstrap: [AppComponent]
 })

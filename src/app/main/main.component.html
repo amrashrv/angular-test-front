@@ -21,13 +21,21 @@
           </div>
           <div class="filters-container">
             <ul class="filters-group">
+
               <li class="items-left-counter">{{counter | async}} items left</li>
-              <li class="filter-item" *ngFor="let filterState of filterStates" (click)="updateFilterType(filterState.type)"><a>{{filterState.label}}</a></li>
+              <mat-button-toggle-group appearance="legacy">
+                <mat-button-toggle *ngFor="let filterState of filterStates" (click)="updateFilterType(filterState.type)">{{filterState.label}}</mat-button-toggle>
+              </mat-button-toggle-group>
               <a class="mark-all-undone" (click)="clearAllCompleted()">clear all</a>
             </ul>
 
           </div>
         </div>
+      <div class="logout">
+        <button mat-fab color="accent" aria-label="Example icon button with a bookmark icon" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
       </div>
   </div>
 </mat-card>

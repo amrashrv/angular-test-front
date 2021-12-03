@@ -15,8 +15,8 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) { }
   loginForm = new FormGroup({
-    email: new FormControl('', Validators.email),
-    password: new FormControl('')
+    email: new FormControl('', [Validators.email, Validators.required]),
+    password: new FormControl('', [Validators.required])
   });
   onSubmit(){
     this.authService.login(this.loginForm.value).subscribe(() => this.router.navigateByUrl('/main'));

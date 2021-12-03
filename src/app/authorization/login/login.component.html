@@ -6,11 +6,11 @@
       <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>email</mat-label>
-          <input matInput placeholder="email" formControlName="email" required>
+          <input matInput placeholder="email" formControlName="email">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>password</mat-label>
-          <input matInput placeholder="password" formControlName="password" required>
+          <input matInput placeholder="password" type="password" formControlName="password">
         </mat-form-field>
         <button mat-button color="primary" [disabled]="!loginForm.valid" >submit</button>
         <a mat-button color="primary" routerLink="/auth/registration">to registration</a>

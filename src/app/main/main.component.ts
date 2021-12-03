@@ -13,6 +13,7 @@ import { IState } from '../state/state.model';
 import { selectIsLoading } from '../state/app/app.selectors';
 import { FormControl, Validators } from '@angular/forms';
 import { TaskValidationService } from '../services/task-validation.service';
+import {AuthService} from "../api/auth.service";
 
 export enum FilterType {
   all,
@@ -29,6 +30,7 @@ export class MainComponent implements OnInit {
 
   constructor(
     public apiService: TasksService,
+    public authService: AuthService,
     private store: Store<IState>,
     private _toastService: ToastService,
     private validationService: TaskValidationService) {
@@ -71,7 +73,9 @@ export class MainComponent implements OnInit {
       this.newTaskFormControl.setValue('');
     }
   }
-
+  logout(){
+    this.authService.logout();
+  }
   updateFilterType(type: FilterType) {
     this.tasks$ = this.store.select(getAllTasks(type));
   }

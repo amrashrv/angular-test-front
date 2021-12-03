@@ -15,26 +15,30 @@ import { EffectsModule } from '@ngrx/effects';
 import { TasksEffects } from '../state/tasks/tasks.effects';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TaskValidationService } from '../services/task-validation.service';
+import {MatButtonModule} from "@angular/material/button";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
     MainComponent,
     TodoItemComponent
   ],
-  imports: [
-    CommonModule,
-    MatListModule,
-    MatCardModule,
-    MatIconModule,
-    LayoutModule,
-    MatInputModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    EffectsModule.forRoot([TasksEffects]),
-    MatProgressBarModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        CommonModule,
+        MatListModule,
+        MatCardModule,
+        MatIconModule,
+        LayoutModule,
+        MatInputModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        EffectsModule.forRoot([TasksEffects]),
+        MatProgressBarModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatButtonToggleModule
+    ],
   providers: [
     TasksService,
     TaskValidationService
