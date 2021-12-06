@@ -33,7 +33,7 @@ describe('RegisterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create Register Component', () => {
     expect(component).toBeTruthy();
   });
 });
