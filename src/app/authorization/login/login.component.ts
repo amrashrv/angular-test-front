@@ -10,17 +10,21 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) { }
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', [Validators.required])
   });
-  onSubmit(){
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
+  }
+
+  onSubmit() {
     this.authService.login(this.loginForm.value).subscribe(() => this.router.navigateByUrl('/main'));
   }
+
   ngOnInit(): void {
 
   }

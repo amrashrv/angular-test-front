@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { IUser } from '../interfaces/user';
@@ -45,8 +45,14 @@ export class AuthService {
     localStorage.clear();
     this.router.navigateByUrl('auth/login');
   }
+  refreshToken(): Observable<any> {
+    const refToken = localStorage.getItem('refToken');
+    return this.http.post(`${this.baseUrl}/auth/refreshToken`, {refToken});
+  }
   private setSession(authResult: any) {
+    console.log(authResult);
     localStorage.setItem('token', authResult.token);
     localStorage.setItem('refToken', authResult.refToken);
   }
+
 }

@@ -8,6 +8,7 @@ import { TasksService } from '../../api/tasks.service';
 import * as TasksActions from './tasks.actions';
 import * as AppActions from '../app/app.actions';
 import { ITask } from 'src/app/interfaces/task';
+import {AuthService} from "../../api/auth.service";
 
 @Injectable()
 export class TasksEffects {
@@ -15,20 +16,30 @@ export class TasksEffects {
     private apiService: TasksService,
     private actions$: Actions,
     private _toastService: ToastService,
+    private authService: AuthService
   ) {}
 
   createMessage = (str: string) => str.substr(str.indexOf(']') + 2);
 
   handleError = (error: string) => {
-    this._toastService.error(error);
-    return of(AppActions.operationFailed());
+      if (error === 'unauthorized'){
+        this._toastService.error(`${error} refreshing token`);
+        this.authService.refreshToken().subscribe( result => {
+          console.log(result);
+          return of(AppActions.operationFailed());
+        });
+      }
+      this._toastService.error(error);
+      return of(AppActions.operationFailed());
   };
 
   loadTasks$ = createEffect( () => this.actions$.pipe(
     ofType(TasksActions.loadTasks),
     mergeMap(() => this.apiService.getTasks().pipe(
       map(tasks => TasksActions.loadTasksSuccess({ tasks })),
-      catchError(error => this.handleError(error.error.message))
+      catchError(error => {
+        return this.handleError(error.error.message);
+      })
     ))
   ));
 
