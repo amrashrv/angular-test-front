@@ -49,8 +49,7 @@ export class AuthService {
     const refToken = localStorage.getItem('refToken');
     return this.http.post(`${this.baseUrl}/auth/refreshToken`, {refToken});
   }
-  private setSession(authResult: any) {
-    console.log(authResult);
+  setSession(authResult: any) {
     localStorage.setItem('token', authResult.token);
     localStorage.setItem('refToken', authResult.refToken);
   }

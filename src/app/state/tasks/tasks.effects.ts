@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Actions , createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, delay, map, mergeMap, retry, tap } from 'rxjs/operators';
 import { ToastService } from 'angular-toastify';
 import { of } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { TasksService } from '../../api/tasks.service';
 import * as TasksActions from './tasks.actions';
 import * as AppActions from '../app/app.actions';
 import { ITask } from 'src/app/interfaces/task';
-import {AuthService} from "../../api/auth.service";
+import { AuthService } from '../../api/auth.service';
 
 @Injectable()
 export class TasksEffects {
@@ -17,26 +17,27 @@ export class TasksEffects {
     private actions$: Actions,
     private _toastService: ToastService,
     private authService: AuthService
-  ) {}
+  ) {
+  }
 
   createMessage = (str: string) => str.substr(str.indexOf(']') + 2);
 
   handleError = (error: string) => {
-      if (error === 'unauthorized'){
-        this._toastService.error(`${error} refreshing token`);
-        this.authService.refreshToken().subscribe( result => {
-          console.log(result);
-          return of(AppActions.operationFailed());
-        });
-      }
+    if (error === 'unauthorized') {
+      this.authService.refreshToken().subscribe(result => {
+         this.authService.setSession(result);
+      });
+      return of(TasksActions.loadTasks());
+    } else {
       this._toastService.error(error);
       return of(AppActions.operationFailed());
+    }
   };
 
-  loadTasks$ = createEffect( () => this.actions$.pipe(
+  loadTasks$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.loadTasks),
     mergeMap(() => this.apiService.getTasks().pipe(
-      map(tasks => TasksActions.loadTasksSuccess({ tasks })),
+      map(tasks => TasksActions.loadTasksSuccess({tasks})),
       catchError(error => {
         return this.handleError(error.error.message);
       })
@@ -45,7 +46,7 @@ export class TasksEffects {
 
   addTask$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.addTask),
-    mergeMap(( action) => this.apiService.addTask(action.text).pipe(
+    mergeMap((action) => this.apiService.addTask(action.text).pipe(
       tap(() => this._toastService.success(this.createMessage(action.type))),
       map((task: ITask) => {
         return TasksActions.addTaskSuccess({task});
@@ -108,6 +109,6 @@ export class TasksEffects {
         return TasksActions.clearAllCompletedSuccess({ids});
       }),
       catchError(error => this.handleError(error.error.message))
-  ))
+    ))
   ));
 }
