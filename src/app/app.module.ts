@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './api/auth.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth-interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { AuthInterceptor } from './services/auth-interceptor';
         MatFormFieldModule,
         MatInputModule,
         ReactiveFormsModule,
+        BrowserAnimationsModule
     ],
   providers: [
     AuthService,
