@@ -24,6 +24,7 @@ export class TasksEffects {
 
   handleError = (error: string) => {
     if (error === 'unauthorized') {
+      this._toastService.error(`${error} refreshing token`);
       this.authService.refreshToken().subscribe(result => {
          this.authService.setSession(result);
       });
@@ -32,6 +33,7 @@ export class TasksEffects {
       this._toastService.error(error);
       return of(AppActions.operationFailed());
     }
+
   };
 
   loadTasks$ = createEffect(() => this.actions$.pipe(
@@ -41,7 +43,8 @@ export class TasksEffects {
       catchError(error => {
         return this.handleError(error.error.message);
       })
-    ))
+    )),
+    delay(1000)
   ));
 
   addTask$ = createEffect(() => this.actions$.pipe(
