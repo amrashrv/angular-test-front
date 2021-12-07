@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ITask } from '../interfaces/task';
 import { AuthService } from './auth.service';
@@ -25,7 +25,9 @@ export class TasksService {
     const body = {text , done: false};
       return this.http.post(`${this.baseUrl}/task`, body)
         .pipe(
-          map((result: any) => result.data));
+          map((result: any) => {
+            return result.data;
+          }));
   }
   deleteTask(task: ITask): Observable<ITask[]>{
     const options = {
