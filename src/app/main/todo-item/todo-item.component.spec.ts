@@ -7,6 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ITask } from 'src/app/interfaces/task';
 
 describe('TodosListComponent', () => {
   let component: TodoItemComponent;
@@ -17,7 +18,7 @@ describe('TodosListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, RouterTestingModule, MatListModule, MatIconModule, FormsModule, ReactiveFormsModule],
       declarations: [TodoItemComponent],
-      providers: [provideMockStore({ initialState })]
+      providers: [provideMockStore({ initialState }), TodoItemComponent]
     })
     .compileComponents();
   });
@@ -26,9 +27,14 @@ describe('TodosListComponent', () => {
     fixture = TestBed.createComponent(TodoItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component = TestBed.inject(TodoItemComponent);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('task should be undone by default', () => {
+    expect(component.checked).toEqual(false);
+  })
 });
