@@ -12,7 +12,7 @@ const routes: Routes = [
       {path: 'registration', component: RegisterComponent},
       {path: 'login', component: LoginComponent}
     ]},
-  {path: '**', redirectTo: 'auth/login'}
+  {path: '**', redirectTo: 'main'}
 ];
 
 @NgModule({

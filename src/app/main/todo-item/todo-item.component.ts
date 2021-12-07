@@ -20,7 +20,9 @@ export class TodoItemComponent implements OnInit{
   set input(element: ElementRef<HTMLInputElement>) {
     if (element) {
       element.nativeElement.focus();
-      this.editTaskFormControl.setValue(this.item.text);
+      if (this.item){
+        this.editTaskFormControl.setValue(this.item.text);
+      }
     }
   }
 
@@ -36,8 +38,10 @@ export class TodoItemComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.checked = this.item.done;
-    this.editTaskFormControl.setValue(this.item.text);
+    if (this.item){
+      this.checked = this.item.done;
+      this.editTaskFormControl.setValue(this.item.text);
+    }
   }
 
   deleteTask(task: ITask): void {

@@ -13,7 +13,7 @@ import { IState } from '../state/state.model';
 import { selectIsLoading } from '../state/app/app.selectors';
 import { FormControl, Validators } from '@angular/forms';
 import { TaskValidationService } from '../services/task-validation.service';
-import {AuthService} from "../api/auth.service";
+import { AuthService } from '../api/auth.service';
 
 export enum FilterType {
   all,
@@ -28,13 +28,6 @@ export enum FilterType {
 })
 export class MainComponent implements OnInit {
 
-  constructor(
-    public apiService: TasksService,
-    public authService: AuthService,
-    private store: Store<IState>,
-    private _toastService: ToastService,
-    private validationService: TaskValidationService) {
-  }
   newTaskFormControl = new FormControl('', [Validators.required, Validators.maxLength(60)]
   );
 
@@ -54,6 +47,14 @@ export class MainComponent implements OnInit {
   counter = this.store.select(selectCompletedTasksCounter);
   isLoading$ = this.store.select(selectIsLoading);
 
+  constructor(
+    public apiService: TasksService,
+    public authService: AuthService,
+    private store: Store<IState>,
+    private _toastService: ToastService,
+    private validationService: TaskValidationService) {
+  }
+
   ngOnInit() {
     this.store.dispatch(taskActions.loadTasks());
   }
@@ -62,20 +63,22 @@ export class MainComponent implements OnInit {
     this.store.dispatch(taskActions.updateAll({done: true}));
   }
 
-  clearAllCompleted(){
+  clearAllCompleted() {
     this.store.dispatch(taskActions.clearAllCompleted());
   }
 
-  addTask(){
-    if ( this.validationService.taskValidation(this.newTaskFormControl)){
+  addTask() {
+    if (this.validationService.taskValidation(this.newTaskFormControl)) {
       const text = this.newTaskFormControl.value;
       this.store.dispatch(taskActions.addTask({text}));
       this.newTaskFormControl.setValue('');
     }
   }
-  logout(){
+
+  logout() {
     this.authService.logout();
   }
+
   updateFilterType(type: FilterType) {
     this.tasks$ = this.store.select(getAllTasks(type));
   }

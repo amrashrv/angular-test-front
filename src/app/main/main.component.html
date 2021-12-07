@@ -1,42 +1,44 @@
 <mat-card>
   <div class="app-container">
     <div class="content-wrapper">
-  <mat-card-title>
-  <h1>Todos</h1>
-  </mat-card-title>
-        <div class="content">
-          <div class="header">
-            <div class="select-all-icon">
-              <mat-icon class="mark-all-done" (click)="markAllTasksDone()">keyboard_arrow_down</mat-icon>
-            </div>
-            <div class="input-container">
-                <input id="task" placeholder="What needs to be done?" [formControl]="newTaskFormControl" (keydown.enter)="addTask()"  />
-            </div>
+      <mat-card-title>
+        <h1>Todos</h1>
+      </mat-card-title>
+      <div class="content">
+        <div class="header">
+          <div class="select-all-icon">
+            <mat-icon class="mark-all-done" (click)="markAllTasksDone()">keyboard_arrow_down</mat-icon>
           </div>
-          <div class="list-container">
-            <mat-progress-bar *ngIf="isLoading$ | async" color="accent" mode="indeterminate"></mat-progress-bar>
-            <mat-list *ngFor="let item of tasks$ | async">
-              <app-todo-item [item]="item"></app-todo-item>
-            </mat-list>
-          </div>
-          <div class="filters-container">
-            <ul class="filters-group">
-
-              <li class="items-left-counter">{{counter | async}} items left</li>
-              <mat-button-toggle-group appearance="legacy">
-                <mat-button-toggle *ngFor="let filterState of filterStates" (click)="updateFilterType(filterState.type)">{{filterState.label}}</mat-button-toggle>
-              </mat-button-toggle-group>
-              <a class="mark-all-undone" (click)="clearAllCompleted()">clear all</a>
-            </ul>
-
+          <div class="input-container">
+            <input id="task" placeholder="What needs to be done?" [formControl]="newTaskFormControl"
+                   (keydown.enter)="addTask()"/>
           </div>
         </div>
+        <div class="list-container">
+          <mat-progress-bar *ngIf="isLoading$ | async" color="accent" mode="indeterminate"></mat-progress-bar>
+          <mat-list *ngFor="let item of tasks$ | async">
+            <app-todo-item [item]="item"></app-todo-item>
+          </mat-list>
+        </div>
+        <div class="filters-container">
+          <ul class="filters-group">
+
+            <li class="items-left-counter">{{counter | async}} items left</li>
+            <mat-button-toggle-group appearance="legacy">
+              <mat-button-toggle *ngFor="let filterState of filterStates"
+                                 (click)="updateFilterType(filterState.type)">{{filterState.label}}</mat-button-toggle>
+            </mat-button-toggle-group>
+            <a class="mark-all-undone" (click)="clearAllCompleted()">clear all</a>
+          </ul>
+
+        </div>
+      </div>
       <div class="logout">
         <button mat-fab color="accent" aria-label="Example icon button with a bookmark icon" (click)="logout()">
           <mat-icon>logout</mat-icon>
         </button>
       </div>
-      </div>
+    </div>
   </div>
 </mat-card>
 
