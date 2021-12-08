@@ -22,7 +22,7 @@ describe('AuthorizationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create Authorization component', () => {
     expect(component).toBeTruthy();
   });
 });

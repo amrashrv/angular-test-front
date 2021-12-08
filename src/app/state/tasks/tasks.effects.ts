@@ -44,7 +44,7 @@ export class TasksEffects {
         return this.handleError(error.error.message);
       })
     )),
-    delay(1000)
+    delay(3000)
   ));
 
   addTask$ = createEffect(() => this.actions$.pipe(

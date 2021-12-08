@@ -8,14 +8,17 @@ import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ITask } from '../interfaces/task';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { TasksService } from '../api/tasks.service';
+import { By } from '@angular/platform-browser';
 
 describe('MainComponent', () => {
   let component: MainComponent;
   let mockTasks: Observable<ITask[]>;
   let fixture: ComponentFixture<MainComponent>;
+  const serviceSpy = jasmine.createSpyObj('TasksService', ['getTasks', 'addTask']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,7 +30,8 @@ describe('MainComponent', () => {
         MatButtonModule,
         MatButtonToggleModule,
         ReactiveFormsModule],
-      providers: [provideMockStore(), MainComponent]
+      providers: [provideMockStore(), MainComponent,
+        {provide: TasksService, useValue: serviceSpy}]
     })
     .compileComponents();
   });
@@ -43,4 +47,23 @@ describe('MainComponent', () => {
   it('should create Main Component', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should define form input', () => {
+    const formElement = fixture.nativeElement.querySelectorAll('input');
+    expect(formElement.length).toEqual(1);
+  });
+
+  it('check initial values for addTask input', () => {
+    const addTaskFrom = component.newTaskFormControl;
+    const taskFormValues = '';
+    expect(addTaskFrom.value).toEqual(taskFormValues);
+  });
+
+  it('check values from formControll and input equality', () => {
+    const editTaskInputElement = fixture.nativeElement.querySelector('input');
+    const editTaskValueFromControll = component.newTaskFormControl;
+    expect(editTaskInputElement.value).toEqual(editTaskValueFromControll.value);
+    expect(editTaskValueFromControll.errors).not.toBeNull();
+  });
+
 });
