@@ -9,9 +9,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ITask } from '../interfaces/task';
+import { Observable } from 'rxjs';
 
 describe('MainComponent', () => {
   let component: MainComponent;
+  let mockTasks: Observable<ITask[]>;
   let fixture: ComponentFixture<MainComponent>;
 
   beforeEach(async () => {
@@ -24,7 +27,7 @@ describe('MainComponent', () => {
         MatButtonModule,
         MatButtonToggleModule,
         ReactiveFormsModule],
-      providers: [provideMockStore()]
+      providers: [provideMockStore(), MainComponent]
     })
     .compileComponents();
   });
@@ -33,6 +36,8 @@ describe('MainComponent', () => {
     fixture = TestBed.createComponent(MainComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    component = TestBed.inject(MainComponent);
   });
 
   it('should create Main Component', () => {
