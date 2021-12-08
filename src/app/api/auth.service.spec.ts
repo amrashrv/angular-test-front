@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { IUser } from '../interfaces/user';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestScheduler } from 'rxjs/testing';
+
 const mockUser: IUser = {
   _id: '12312312',
   userName: ';ajsdfljksad',
