@@ -1,18 +1,18 @@
 <mat-list-item (dblclick)="onStartEditMode(item)">
-  <div  class="task-undone">
+  <div class="task-undone">
     <label>
       <input class="default-checkbox" type="checkbox"
-              [ngModel]="checked"
-              (ngModelChange)="updateIsTaskCompleted(item, $event)">
+             [ngModel]="checked"
+             (ngModelChange)="updateIsTaskCompleted(item, $event)">
       <div class="checkbox-icon">
         <mat-icon class="done">done</mat-icon>
       </div>
     </label>
-    <span *ngIf="!selectedItem else input" [ngClass]="[item && item.done ? 'task-done' : 'task-undone']"
-          >{{ item.text }}</span>
+    <span *ngIf=" item && !selectedItem else input" [ngClass]="[item && item.done ? 'task-done' : 'task-undone']"
+    >{{ item.text }}</span>
     <mat-icon class='cross' (click)="deleteTask(item)">clear</mat-icon>
   </div>
-  <ng-template  #input>
+  <ng-template #input>
     <input (keydown.enter)="updateTaskText(item)"
            (blur)="onCancelEditMode()"
            class="task-edit-input"

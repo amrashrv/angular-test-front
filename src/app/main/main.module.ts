@@ -8,35 +8,39 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ApiService } from '../api/api.service';
+import { TasksService } from '../api/tasks.service';
 import { MainComponent } from './main.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { EffectsModule } from '@ngrx/effects';
 import { TasksEffects } from '../state/tasks/tasks.effects';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TaskValidationService } from '../services/task-validation.service';
+import {MatButtonModule} from "@angular/material/button";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
     MainComponent,
     TodoItemComponent
   ],
-  imports: [
-    CommonModule,
-    MatListModule,
-    MatCardModule,
-    MatIconModule,
-    LayoutModule,
-    MatInputModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    EffectsModule.forRoot([TasksEffects]),
-    MatProgressBarModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        CommonModule,
+        MatListModule,
+        MatCardModule,
+        MatIconModule,
+        LayoutModule,
+        MatInputModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        EffectsModule.forRoot([TasksEffects]),
+        MatProgressBarModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatButtonToggleModule
+    ],
   providers: [
-    ApiService,
+    TasksService,
     TaskValidationService
   ],
   exports: [MainComponent]

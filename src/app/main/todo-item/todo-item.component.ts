@@ -2,7 +2,7 @@ import { Component, Directive, ElementRef, Input, OnInit, ViewChild } from '@ang
 import { Store } from '@ngrx/store';
 
 import { ITask } from '../../interfaces/task';
-import { ApiService } from '../../api/api.service';
+import { TasksService } from '../../api/tasks.service';
 import * as taskActions from '../../state/tasks/tasks.actions';
 import { FormControl, Validators } from '@angular/forms';
 import { ToastService } from 'angular-toastify';
@@ -20,7 +20,9 @@ export class TodoItemComponent implements OnInit{
   set input(element: ElementRef<HTMLInputElement>) {
     if (element) {
       element.nativeElement.focus();
-      this.editTaskFormControl.setValue(this.item.text);
+      if (this.item){
+        this.editTaskFormControl.setValue(this.item.text);
+      }
     }
   }
 
@@ -29,15 +31,17 @@ export class TodoItemComponent implements OnInit{
   editTaskFormControl = new FormControl('', [Validators.required, Validators.maxLength(60)]);
 
   constructor(
-    public apiService: ApiService,
+    public apiService: TasksService,
     private store: Store,
     private _toastService: ToastService,
     private validationService: TaskValidationService) {
   }
 
   ngOnInit() {
-    this.checked = this.item.done;
-    this.editTaskFormControl.setValue(this.item.text);
+    if (this.item){
+      this.checked = this.item.done;
+      this.editTaskFormControl.setValue(this.item.text);
+    }
   }
 
   deleteTask(task: ITask): void {
