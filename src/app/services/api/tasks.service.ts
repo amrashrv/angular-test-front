@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -12,6 +12,7 @@ import { ITask } from '../../interfaces/task';
 export class TasksService {
   constructor(private http: HttpClient) {
   }
+
   private readonly baseUrl = 'http://localhost:5000/api';
   private readonly taskBaseUrl = `${this.baseUrl}/task`;
   private readonly tasksBaseUrl = `${this.baseUrl}/tasks`;

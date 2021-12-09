@@ -1,36 +1,33 @@
+import { of } from 'rxjs';
 import { TasksService } from './tasks.service';
 import { ITask } from '../../interfaces/task';
 import { HttpClient } from '@angular/common/http';
 
-import { of } from 'rxjs';
-
-const testUrl = 'http://localhost:5000/api';
-
 
 const mockTask: ITask = {
-  _id: '123123',
-  text: '123123',
+  _id: '1',
+  text: 'test',
   done: false,
-  userId: '123123'
+  userId: '1'
 };
 const mockTasks: ITask[] = [
   {
-    _id: '123123',
-    text: '123123',
+    _id: '1',
+    text: 'test',
     done: false,
-    userId: '123123'
+    userId: '1'
   },
   {
-    _id: '123123',
-    text: '123123',
+    _id: '2',
+    text: 'test2',
     done: false,
-    userId: '123123'
+    userId: '2'
   },
   {
-    _id: '123123',
-    text: '123123',
-    done: false,
-    userId: '123123'
+    _id: '3',
+    text: 'test3',
+    done: true,
+    userId: '3'
   }
 ];
 
@@ -44,14 +41,11 @@ describe('TasksService', () => {
     tasksService = new TasksService(httpClientSpy);
   });
 
-  it('should return expected tasks (HttpClient called once)', (done: DoneFn) => {
-    const expectedTasks: ITask[] = mockTasks;
-
-    httpClientSpy.get.and.returnValue(of(expectedTasks));
-
+  it('should return expected tasks ', (done: DoneFn) => {
+    httpClientSpy.get.and.returnValue(of(mockTasks));
     tasksService.getTasks().subscribe(
       tasks => {
-        expect(tasks).toEqual(expectedTasks, 'expected tasks');
+        expect(tasks).toEqual(mockTasks, 'expected tasks');
         done();
       },
       done.fail
@@ -59,16 +53,12 @@ describe('TasksService', () => {
     expect(httpClientSpy.get.calls.count()).toBe(1, 'one call');
   });
 
-  it('should post expected task (HttpClient called once)', (done: DoneFn) => {
-    const expectedTask: ITask = mockTask;
-
+  it('should post expected task ', (done: DoneFn) => {
     const str = 'test text';
-
-    httpClientSpy.post.and.returnValue(of(expectedTask));
-
+    httpClientSpy.post.and.returnValue(of(mockTask));
     tasksService.addTask(str).subscribe(
       task => {
-        expect(task).toEqual(expectedTask, 'expected task');
+        expect(task).toEqual(mockTask, 'expected task');
         done();
       },
       done.fail
@@ -76,15 +66,11 @@ describe('TasksService', () => {
     expect(httpClientSpy.post.calls.count()).toBe(1, 'one call');
   });
 
-  it('should delete expected task (HttpClient called once)', (done: DoneFn) => {
-    const expectedTask: ITask = mockTask;
-    const expectedTasks: ITask[] = mockTasks;
-
-    httpClientSpy.delete.and.returnValue(of(expectedTasks));
-
-    tasksService.deleteTask(expectedTask).subscribe(
+  it('should delete expected task ', (done: DoneFn) => {
+    httpClientSpy.delete.and.returnValue(of(mockTasks));
+    tasksService.deleteTask(mockTask).subscribe(
       tasks => {
-        expect(tasks).toEqual(expectedTasks, 'expected task');
+        expect(tasks).toEqual(mockTasks, 'expected task');
         done();
       },
       done.fail
@@ -92,66 +78,27 @@ describe('TasksService', () => {
     expect(httpClientSpy.delete.calls.count()).toBe(1, 'one call');
   });
 
-  it('should update expected task (HttpClient called once)', (done: DoneFn) => {
-    const expectedTask: ITask = mockTask;
-    const expectedTasks: ITask[] = mockTasks;
-
-    httpClientSpy.patch.and.returnValue(of(expectedTask));
-
-    tasksService.updateTaskText(expectedTask, 'test').subscribe(
+  it('should update expected task text ', (done: DoneFn) => {
+    httpClientSpy.patch.and.returnValue(of(mockTask));
+    tasksService.updateTaskText(mockTask, 'test').subscribe(
       tasks => {
-        expect(tasks).toEqual(expectedTask, 'expected task');
+        expect(tasks).toEqual(mockTask, 'expected task');
         done();
       },
       done.fail
     );
     expect(httpClientSpy.patch.calls.count()).toBe(1, 'one call');
   });
-//   let controller: HttpTestingController;
-//
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       providers: [TasksService],
-//       imports: [HttpClientTestingModule, RouterTestingModule]
-//       });
-//     // tasksService = TestBed.inject(TasksService);
-//     controller = TestBed.inject(HttpTestingController);
-//   });
 
-  // it('tasks service should be defined', () => {
-  //   expect(tasksService).toBeDefined();
-  // });
-  //
-  // it('should get tasks', fakeAsync (() => {
-  //   return tasksService.getTasks().subscribe((tasks) => {
-  //     expect(mockTasks).toEqual(tasks);
-  //   });
-  // }));
-  //
-  // it('should delete task', fakeAsync(() => {
-  //   return tasksService.deleteTask(mockTask).subscribe((tasks) => {
-  //     expect(mockTasks).toEqual(tasks);
-  //   });
-  // }));
-  //
-  // it('should add task', fakeAsync(() => {
-  //   const text = 'test test';
-  //   tasksService.addTask(text).subscribe((res) => {
-  //     expect(mockTask).toEqual(res);
-  //   });
-  // }));
-  //
-  // it('should update task text', fakeAsync(() => {
-  //   tasksService.updateTaskText(mockTask, 'text').subscribe((res) => {
-  //     expect({...mockTask, text: 'ahsdkfhjas'}).toEqual(res);
-  //   });
-  // }));
-  //
-  // it('should update task is done', (done) => {
-  //   tasksService.updateTaskIsCompleted(mockTask, true).subscribe((res) => {
-  //     expect({...mockTask, done: false}).toEqual(res);
-  //     done();
-  //   });
-  // });
-
+  it('should update expected task is completed ', (done: DoneFn) => {
+    httpClientSpy.patch.and.returnValue(of(mockTask));
+    tasksService.updateTaskIsCompleted(mockTask, false).subscribe(
+      tasks => {
+        expect(tasks).toEqual(mockTask, 'expected task');
+        done();
+      },
+      done.fail
+    );
+    expect(httpClientSpy.patch.calls.count()).toBe(1, 'one call');
+  });
 });
