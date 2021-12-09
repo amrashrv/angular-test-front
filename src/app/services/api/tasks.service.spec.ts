@@ -86,17 +86,15 @@ describe('TasksService', () => {
   }));
 
   it('should update task text', fakeAsync(() => {
-    const mockAction = { text: 'ahsdkfhjas', task: mockTask};
     serviceSpy.updateTaskText.and.returnValue(of({...mockTask, text: 'ahsdkfhjas'}));
-    tasksService.updateTaskText(mockAction).subscribe((res) => {
+    tasksService.updateTaskText(mockTask, 'text').subscribe((res) => {
       expect({...mockTask, text: 'ahsdkfhjas'}).toEqual(res);
     });
   }));
 
   it('should update task is done', fakeAsync (() => {
-    const mockAction = { done: true, task: mockTask};
     serviceSpy.updateTaskIsCompleted.and.returnValue(of(mockTask));
-    tasksService.updateTaskIsCompleted(mockAction).subscribe((res) => {
+    tasksService.updateTaskIsCompleted(mockTask, true).subscribe((res) => {
       expect({...mockTask, done: false}).toEqual(res);
     });
   }));
