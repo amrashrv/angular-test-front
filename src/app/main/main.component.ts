@@ -5,7 +5,7 @@ import { ToastService } from 'angular-toastify';
 import { FormControl, Validators } from '@angular/forms';
 
 import * as taskActions from '../state/tasks/tasks.actions';
-import { TasksService } from '../api/tasks.service';
+import { TasksService } from '../services/api/tasks.service';
 import {
   getAllTasks,
   selectAllTasks,
@@ -14,7 +14,7 @@ import {
 import { IState } from '../state/state.model';
 import { selectIsLoading } from '../state/app/app.selectors';
 import { TaskValidationService } from '../services/task-validation.service';
-import { AuthService } from '../api/auth.service';
+import { AuthService } from '../services/api/auth.service';
 import { ITask } from '../interfaces/task';
 
 export enum FilterType {

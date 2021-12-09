@@ -5,8 +5,8 @@ import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ToastService } from 'angular-toastify';
 
-import { IUser } from '../interfaces/user';
-import { IToken } from '../interfaces/token';
+import { IUser } from '../../interfaces/user';
+import { IToken } from '../../interfaces/token';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +24,8 @@ export class AuthService {
   register(body: IUser): Observable<IUser> {
     return this.http.post<IToken>(`${this.baseUrl}/auth/register`, body).pipe(
       map(result => {
-          this.setSession(result);
-          return result;
+        this.setSession(result);
+        return result;
       }),
       catchError(err => {
         this._toastService.error(this.createMessage(err.error.message));

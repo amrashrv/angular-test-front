@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+
 import { IState } from '../state.model';
 import { taskReducerKey } from './tasks.reducer';
 import { FilterType } from '../../main/main.component';

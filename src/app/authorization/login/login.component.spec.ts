@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginComponent } from './login.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -8,15 +8,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from '../../api/auth.service';
-import { elementAt, of, Subject } from 'rxjs';
+import { AuthService } from '../../services/api/auth.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   const authServiceSpy = jasmine.createSpyObj('AuthService', ['login']);
   let authService: AuthService;
-  let mockUser = {email: 'asdfsadlf', password: 'jkl;lkj;'};
+  const mockUser = {email: 'test@test.com', password: 'password'};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -36,10 +35,7 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    // authServiceSpy.login = new Subject<any>();
-
     authService = TestBed.inject(AuthService);
-
     fixture.detectChanges();
   });
 

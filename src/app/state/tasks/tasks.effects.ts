@@ -4,11 +4,10 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ToastService } from 'angular-toastify';
 import { of } from 'rxjs';
 
-import { TasksService } from '../../api/tasks.service';
+import { TasksService } from '../../services/api/tasks.service';
 import * as TasksActions from './tasks.actions';
 import * as AppActions from '../app/app.actions';
 import { ITask } from 'src/app/interfaces/task';
-import { Action } from '@ngrx/store';
 
 @Injectable()
 export class TasksEffects {

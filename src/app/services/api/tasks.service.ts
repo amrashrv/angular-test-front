@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ITask } from '../interfaces/task';
+
+import { ITask } from '../../interfaces/task';
 
 
 @Injectable({

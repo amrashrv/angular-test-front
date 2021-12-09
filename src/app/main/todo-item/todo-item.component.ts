@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ITask } from '../../interfaces/task';
-import { TasksService } from '../../api/tasks.service';
+import { TasksService } from '../../services/api/tasks.service';
 import * as taskActions from '../../state/tasks/tasks.actions';
 import { FormControl, Validators } from '@angular/forms';
 import { ToastService } from 'angular-toastify';
@@ -14,13 +14,14 @@ import { TaskValidationService } from '../../services/task-validation.service';
   styleUrls: ['./todo-item.component.scss'],
 })
 
-export class TodoItemComponent implements OnInit{
+export class TodoItemComponent implements OnInit {
   @Input() item!: ITask;
+
   @ViewChild('taskInput')
   set input(element: ElementRef<HTMLInputElement>) {
     if (element) {
       element.nativeElement.focus();
-      if (this.item){
+      if (this.item) {
         this.editTaskFormControl.setValue(this.item.text);
       }
     }
@@ -38,7 +39,7 @@ export class TodoItemComponent implements OnInit{
   }
 
   ngOnInit() {
-    if (this.item){
+    if (this.item) {
       this.checked = this.item.done;
       this.editTaskFormControl.setValue(this.item.text);
     }
@@ -60,7 +61,7 @@ export class TodoItemComponent implements OnInit{
     this.store.dispatch(taskActions.updateIsTaskCompleted({task, done}));
   }
 
-  onCancelEditMode(){
+  onCancelEditMode() {
     this.selectedItem = undefined;
   }
 

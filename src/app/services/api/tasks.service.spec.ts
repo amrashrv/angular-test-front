@@ -2,9 +2,9 @@ import { TasksService } from './tasks.service';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ITask } from '../interfaces/task';
+import { ITask } from '../../interfaces/task';
 import { HttpClient } from '@angular/common/http';
-import { addTask } from '../state/tasks/tasks.actions';
+import { addTask } from '../../state/tasks/tasks.actions';
 import { of } from 'rxjs';
 
 const testUrl = 'http://localhost:5000/api';

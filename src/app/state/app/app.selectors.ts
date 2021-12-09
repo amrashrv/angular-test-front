@@ -1,5 +1,6 @@
-import { IState } from '../state.model';
 import { createSelector } from '@ngrx/store';
+
+import { IState } from '../state.model';
 import { appStateKey } from './app.reducer';
 import { IAppState } from './app.model';
 

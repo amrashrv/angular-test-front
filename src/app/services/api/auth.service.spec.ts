@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { AuthService } from './auth.service';
-import { IUser } from '../interfaces/user';
+import { IUser } from '../../interfaces/user';
 
 const mockUser: IUser = {
   _id: '1',
