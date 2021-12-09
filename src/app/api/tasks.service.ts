@@ -65,8 +65,8 @@ export class TasksService {
       );
   }
 
-  clearAll(): Observable<ITask[]> {
-    return this.http.delete<ITask[]>(`${this.baseUrl}/tasks`)
+  clearAll(): Observable<string[]> {
+    return this.http.delete<string[]>(`${this.baseUrl}/tasks`)
       .pipe(
         map(result => result)
       );

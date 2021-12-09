@@ -1,4 +1,4 @@
-import { Component, Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ITask } from '../../interfaces/task';

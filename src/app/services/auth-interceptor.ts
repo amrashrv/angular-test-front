@@ -20,8 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
           'Bearer ' + token)
       });
       return next.handle(cloned).pipe(
-        catchError((error) => {
-          console.log(error);
+        catchError(() => {
           return this.handleAuthError(req, next);
         })
       );
@@ -30,7 +29,6 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   handleAuthError(req: HttpRequest<any>, next: HttpHandler) {
-    console.log(req);
     return this.authService.refreshToken().pipe(
       switchMap((item) => {
         this.authService.setSession(item);
