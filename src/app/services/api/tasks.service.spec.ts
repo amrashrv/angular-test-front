@@ -8,10 +8,7 @@ import { addTask } from '../../state/tasks/tasks.actions';
 import { of } from 'rxjs';
 
 const testUrl = 'http://localhost:5000/api';
-let testTasksArray: ITask[] | undefined;
-let resTasks: ITask[];
-let resTask: ITask;
-let testTask: ITask| undefined;
+
 
 const mockTask: ITask = {
   _id: '123123',
@@ -44,15 +41,10 @@ describe('TasksService', () => {
   let tasksService: TasksService;
   let controller: HttpTestingController;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
-  const serviceSpy = jasmine.createSpyObj('TasksService', ['getTasks',
-    'deleteTask',
-    'addTask',
-    'updateTaskText',
-    'updateTaskIsCompleted']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TasksService, {provide: TasksService, useValue: serviceSpy}],
+      providers: [TasksService],
       imports: [HttpClientTestingModule, RouterTestingModule]
       });
     tasksService = TestBed.inject(TasksService);
@@ -64,36 +56,31 @@ describe('TasksService', () => {
   });
 
   it('should get tasks', fakeAsync (() => {
-    serviceSpy.getTasks.and.returnValue(of(mockTasks));
-    tasksService.getTasks().subscribe((tasks) => {
+    return tasksService.getTasks().subscribe((tasks) => {
       expect(mockTasks).toEqual(tasks);
     });
   }));
 
   it('should delete task', fakeAsync(() => {
-    serviceSpy.deleteTask.and.returnValue(of(mockTasks));
-    tasksService.deleteTask(mockTask).subscribe((tasks) => {
+    return tasksService.deleteTask(mockTask).subscribe((tasks) => {
       expect(mockTasks).toEqual(tasks);
     });
   }));
 
   it('should add task', fakeAsync(() => {
     const text = 'test test';
-    serviceSpy.addTask.and.returnValue(of(mockTask));
     tasksService.addTask(text).subscribe((res) => {
       expect(mockTask).toEqual(res);
     });
   }));
 
   it('should update task text', fakeAsync(() => {
-    serviceSpy.updateTaskText.and.returnValue(of({...mockTask, text: 'ahsdkfhjas'}));
     tasksService.updateTaskText(mockTask, 'text').subscribe((res) => {
       expect({...mockTask, text: 'ahsdkfhjas'}).toEqual(res);
     });
   }));
 
   it('should update task is done', fakeAsync (() => {
-    serviceSpy.updateTaskIsCompleted.and.returnValue(of(mockTask));
     tasksService.updateTaskIsCompleted(mockTask, true).subscribe((res) => {
       expect({...mockTask, done: false}).toEqual(res);
     });
