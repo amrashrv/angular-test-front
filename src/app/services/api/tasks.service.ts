@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -12,23 +12,17 @@ import { ITask } from '../../interfaces/task';
 export class TasksService {
   constructor(private http: HttpClient) {
   }
-
   private readonly baseUrl = 'http://localhost:5000/api';
+  private readonly taskBaseUrl = `${this.baseUrl}/task`;
+  private readonly tasksBaseUrl = `${this.baseUrl}/tasks`;
 
   getTasks(): Observable<ITask[]> {
-    return this.http.get<ITask[]>(`${this.baseUrl}/tasks`)
-      .pipe(
-        map(result => result)
-      );
+    return this.http.get<ITask[]>(`${this.tasksBaseUrl}`);
   }
 
   addTask(text: string): Observable<ITask> {
     const body = {text, done: false};
-    return this.http.post<ITask>(`${this.baseUrl}/task`, body)
-      .pipe(
-        map((result) => {
-          return result;
-        }));
+    return this.http.post<ITask>(`${this.taskBaseUrl}`, body);
   }
 
   deleteTask(task: ITask): Observable<ITask[]> {
@@ -37,15 +31,12 @@ export class TasksService {
         _id: task._id
       }
     };
-    return this.http.delete<ITask[]>(`${this.baseUrl}/task`, options)
-      .pipe(
-        map(result => result)
-      );
+    return this.http.delete<ITask[]>(`${this.taskBaseUrl}`, options);
   }
 
   updateTaskIsCompleted(task: ITask, done: boolean): Observable<ITask> {
     const updatedTask: ITask = {...task, done};
-    return this.http.patch(`${this.baseUrl}/task`, updatedTask)
+    return this.http.patch(`${this.taskBaseUrl}`, updatedTask)
       .pipe(
         map(() => updatedTask)
       );
@@ -53,23 +44,17 @@ export class TasksService {
 
   updateTaskText(task: ITask, text: string): Observable<ITask> {
     const updatedTask: ITask = {...task, text};
-    return this.http.patch(`${this.baseUrl}/task`, updatedTask)
+    return this.http.patch(`${this.taskBaseUrl}`, updatedTask)
       .pipe(
         map(() => updatedTask)
       );
   }
 
   updateAll(done: boolean): Observable<ITask[]> {
-    return this.http.patch<ITask[]>(`${this.baseUrl}/tasks`, {done})
-      .pipe(
-        map(result => result)
-      );
+    return this.http.patch<ITask[]>(`${this.tasksBaseUrl}`, {done});
   }
 
   clearAll(): Observable<string[]> {
-    return this.http.delete<string[]>(`${this.baseUrl}/tasks`)
-      .pipe(
-        map(result => result)
-      );
+    return this.http.delete<string[]>(`${this.tasksBaseUrl}`);
   }
 }
