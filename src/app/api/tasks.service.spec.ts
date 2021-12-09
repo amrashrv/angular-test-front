@@ -51,8 +51,6 @@ describe('TasksService', () => {
     'updateTaskIsCompleted']);
 
   beforeEach(() => {
-    // httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-
     TestBed.configureTestingModule({
       providers: [TasksService, {provide: TasksService, useValue: serviceSpy}],
       imports: [HttpClientTestingModule, RouterTestingModule]

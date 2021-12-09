@@ -17,28 +17,30 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TaskValidationService } from '../services/task-validation.service';
 import {MatButtonModule} from "@angular/material/button";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
     MainComponent,
     TodoItemComponent
   ],
-    imports: [
-        CommonModule,
-        MatListModule,
-        MatCardModule,
-        MatIconModule,
-        LayoutModule,
-        MatInputModule,
-        FormsModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        EffectsModule.forRoot([TasksEffects]),
-        MatProgressBarModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatButtonToggleModule
-    ],
+  imports: [
+    CommonModule,
+    MatListModule,
+    MatCardModule,
+    MatIconModule,
+    LayoutModule,
+    MatInputModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    EffectsModule.forRoot([TasksEffects]),
+    MatProgressBarModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatRippleModule
+  ],
   providers: [
     TasksService,
     TaskValidationService

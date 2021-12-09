@@ -27,13 +27,20 @@
   font-size: 18px;
 }
 mat-list-item:hover{
-  .cross{
-    display: block;
+  .delete{
+    display: flex;
     justify-self: center;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    align-content: center;
     cursor: pointer;
+    border-radius: 50%;
   }
 }
-.cross{
+.delete{
+  width: 30px;
+  height: 30px;
   justify-self: flex-end;
   color: indianred;
   display: none;

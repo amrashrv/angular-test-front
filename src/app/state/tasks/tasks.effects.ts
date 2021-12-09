@@ -23,16 +23,16 @@ export class TasksEffects {
   createMessage = (str: string) => str.substr(str.indexOf(']') + 2);
 
   handleError = (error: string) => {
-    if (error === 'unauthorized') {
-      this._toastService.error(`${error} refreshing token`);
-      this.authService.refreshToken().subscribe(result => {
-         this.authService.setSession(result);
-      });
-      return of(TasksActions.loadTasks());
-    } else {
+    // if (error === 'unauthorized') {
+    //   this._toastService.error(`${error} refreshing token`);
+    //   this.authService.refreshToken().subscribe(result => {
+    //      this.authService.setSession(result);
+    //   });
+    //   return of(TasksActions.loadTasks());
+    // } else {
       this._toastService.error(error);
       return of(AppActions.operationFailed());
-    }
+    // }
 
   };
 
@@ -43,8 +43,7 @@ export class TasksEffects {
       catchError(error => {
         return this.handleError(error.error.message);
       })
-    )),
-    delay(3000)
+    ))
   ));
 
   addTask$ = createEffect(() => this.actions$.pipe(

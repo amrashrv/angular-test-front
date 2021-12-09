@@ -1,22 +1,17 @@
-import { TestBed, getTestBed, fakeAsync, tick } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { AuthService } from './auth.service';
-import { IUser } from '../interfaces/user';
+import { TestBed, fakeAsync } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
+import { AuthService } from './auth.service';
+import { IUser } from '../interfaces/user';
+
 const mockUser: IUser = {
-  _id: '12312312',
-  userName: ';ajsdfljksad',
-  email: 'e;maipflasf',
-  password: 'jalsdjfllsjda;f'
-}
-const mockUser2: IUser = {
-  _id: '1231232',
-  userName: ';ajsdfljksad',
-  email: 'e;maipflasf',
-  password: 'jalsdjfllsjda;f'
-}
+  _id: '1',
+  userName: 'FirstUserName',
+  email: 'test@mail.com',
+  password: 'password'
+};
 
 describe('AuthService tests', () => {
   let service: AuthService;
@@ -48,8 +43,4 @@ describe('AuthService tests', () => {
     });
   }));
 
-  // it('clear localStorage on logout', () => {
-  //   service.logout();
-  //   expect(localStorage.getItem('token')).not.toBeTruthy();
-  // });
 });
