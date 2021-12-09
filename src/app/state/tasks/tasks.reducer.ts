@@ -12,22 +12,22 @@ export interface TestState extends EntityState<ITask>{
 
 export const tasksReducer = createReducer(
   initialTaskState,
-  on(TasksActions.addTaskSuccess, (state, { task }) => {
+  on(TasksActions.addTaskSuccess, (state, { task }): ITasksState => {
     return adapter.setOne(task, state);
   }),
   on(TasksActions.loadTasksSuccess, (state, { tasks }): ITasksState => {
     return adapter.setAll(tasks, state);
   }),
-  on(TasksActions.updateSuccess, (state, { task }) => {
+  on(TasksActions.updateSuccess, (state, { task }): ITasksState => {
     return adapter.updateOne({ id: task._id, changes: { done: task.done, text: task.text } }, state);
   }),
-  on(TasksActions.removeTaskSuccess, (state, { task }) => {
+  on(TasksActions.removeTaskSuccess, (state, { task }): ITasksState => {
     return adapter.removeOne(task._id, state);
   }),
-  on(TasksActions.updateAllSuccess, (state, { tasks }) => {
+  on(TasksActions.updateAllSuccess, (state, { tasks }): ITasksState => {
     return adapter.upsertMany(tasks, state);
   }),
-  on(TasksActions.clearAllCompletedSuccess, (state, {ids}) => {
+  on(TasksActions.clearAllCompletedSuccess, (state, {ids}): ITasksState => {
     return adapter.removeMany(ids, state);
   })
 );

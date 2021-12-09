@@ -15,7 +15,7 @@ import { TaskValidationService } from '../../services/task-validation.service';
 })
 
 export class TodoItemComponent implements OnInit{
-  @Input() item: any;
+  @Input() item!: ITask;
   @ViewChild('taskInput')
   set input(element: ElementRef<HTMLInputElement>) {
     if (element) {
@@ -31,7 +31,7 @@ export class TodoItemComponent implements OnInit{
   editTaskFormControl = new FormControl('', [Validators.required, Validators.maxLength(60)]);
 
   constructor(
-    public apiService: TasksService,
+    private apiService: TasksService,
     private store: Store,
     private _toastService: ToastService,
     private validationService: TaskValidationService) {

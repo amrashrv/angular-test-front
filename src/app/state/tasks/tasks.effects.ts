@@ -8,7 +8,7 @@ import { TasksService } from '../../api/tasks.service';
 import * as TasksActions from './tasks.actions';
 import * as AppActions from '../app/app.actions';
 import { ITask } from 'src/app/interfaces/task';
-import { AuthService } from '../../api/auth.service';
+import { Action } from '@ngrx/store';
 
 @Injectable()
 export class TasksEffects {
@@ -16,7 +16,6 @@ export class TasksEffects {
     private apiService: TasksService,
     private actions$: Actions,
     private _toastService: ToastService,
-    private authService: AuthService
   ) {
   }
 
@@ -86,7 +85,7 @@ export class TasksEffects {
     ofType(TasksActions.removeTask),
     mergeMap((action) => this.apiService.deleteTask(action.task).pipe(
       tap(() => this._toastService.success(this.createMessage(action.type))),
-      map(result => {
+      map(() => {
         const task = action.task;
         return TasksActions.removeTaskSuccess({task});
       }),
@@ -96,7 +95,7 @@ export class TasksEffects {
 
   clearAllCompleted$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.clearAllCompleted),
-    mergeMap((action) => this.apiService.clearAll().pipe(
+    mergeMap((action: Action) => this.apiService.clearAll().pipe(
       tap(() => this._toastService.success(this.createMessage(action.type))),
       map((ids: any) => {
         return TasksActions.clearAllCompletedSuccess({ids});
