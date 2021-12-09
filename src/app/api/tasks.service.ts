@@ -42,24 +42,24 @@ export class TasksService {
       );
   }
 
-  updateTaskIsCompleted(action: any): Observable<ITask> {
-    const task: ITask = {...action.task, done: action.done};
-    return this.http.patch(`${this.baseUrl}/task`, task)
+  updateTaskIsCompleted(task: ITask, done: boolean): Observable<ITask> {
+    const updatedTask: ITask = {...task, done};
+    return this.http.patch(`${this.baseUrl}/task`, updatedTask)
       .pipe(
-        map(() => task)
+        map(() => updatedTask)
       );
   }
 
-  updateTaskText(action: any): Observable<ITask> {
-    const task: ITask = {...action.task, text: action.text};
-    return this.http.patch(`${this.baseUrl}/task`, task)
+  updateTaskText(task: ITask, text: string): Observable<ITask> {
+    const updatedTask: ITask = {...task, text};
+    return this.http.patch(`${this.baseUrl}/task`, updatedTask)
       .pipe(
-        map(() => task)
+        map(() => updatedTask)
       );
   }
 
-  updateAll(action: any): Observable<ITask[]> {
-    return this.http.patch<ITask[]>(`${this.baseUrl}/tasks`, {done: action})
+  updateAll(done: boolean): Observable<ITask[]> {
+    return this.http.patch<ITask[]>(`${this.baseUrl}/tasks`, {done})
       .pipe(
         map(result => result)
       );

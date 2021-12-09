@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, delay, map, mergeMap, retry, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ToastService } from 'angular-toastify';
 import { of } from 'rxjs';
 
@@ -23,17 +23,8 @@ export class TasksEffects {
   createMessage = (str: string) => str.substr(str.indexOf(']') + 2);
 
   handleError = (error: string) => {
-    // if (error === 'unauthorized') {
-    //   this._toastService.error(`${error} refreshing token`);
-    //   this.authService.refreshToken().subscribe(result => {
-    //      this.authService.setSession(result);
-    //   });
-    //   return of(TasksActions.loadTasks());
-    // } else {
-      this._toastService.error(error);
-      return of(AppActions.operationFailed());
-    // }
-
+    this._toastService.error(error);
+    return of(AppActions.operationFailed());
   };
 
   loadTasks$ = createEffect(() => this.actions$.pipe(
@@ -59,7 +50,7 @@ export class TasksEffects {
 
   updateIsTaskCompleted$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.updateIsTaskCompleted),
-    mergeMap((action) => this.apiService.updateTaskIsCompleted(action).pipe(
+    mergeMap((action) => this.apiService.updateTaskIsCompleted(action.task, action.done).pipe(
       tap(() => this._toastService.success(this.createMessage(action.type))),
       map(task => {
         return TasksActions.updateSuccess({task});
@@ -70,7 +61,7 @@ export class TasksEffects {
 
   updateTaskText$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.updateTaskText),
-    mergeMap((action) => this.apiService.updateTaskText(action).pipe(
+    mergeMap((action) => this.apiService.updateTaskText(action.task, action.text).pipe(
       tap(() => this._toastService.success(this.createMessage(action.type))),
       map(task => {
         return TasksActions.updateSuccess({task});
