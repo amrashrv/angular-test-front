@@ -8,7 +8,8 @@ import { Injectable } from '@angular/core';
 export class TaskValidationService {
   constructor(private _toastService: ToastService) {
   }
-  taskValidation(formControl: FormControl){
+
+  taskValidation(formControl: FormControl) {
     if (formControl.errors) {
       if (formControl.errors['required']) {
         return this._toastService.error('required');

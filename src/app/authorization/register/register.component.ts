@@ -1,14 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { AuthService } from '../../api/auth.service';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
+
+import { AuthService } from '../../services/api/auth.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
 
   registerForm = new FormGroup({
     userName: new FormControl('', Validators.compose([
@@ -27,12 +34,7 @@ export class RegisterComponent implements OnInit {
   });
 
   constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {
-  }
-
-  ngOnInit(): void {
+    private authService: AuthService) {
   }
 
   passwordsCompare(): ValidatorFn {

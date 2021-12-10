@@ -7,23 +7,22 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ITask } from 'src/app/interfaces/task';
-import { TasksService } from '../../api/tasks.service';
+import { TasksService } from '../../services/api/tasks.service';
 
 describe('TodosListComponent', () => {
   let component: TodoItemComponent;
   let fixture: ComponentFixture<TodoItemComponent>;
-  const initialState = { loggedIn: false };
+  const initialState = {loggedIn: false};
   const serviceSpy = jasmine.createSpyObj('TasksService', ['getTasks']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, RouterTestingModule, MatListModule, MatIconModule, FormsModule, ReactiveFormsModule],
       declarations: [TodoItemComponent],
-      providers: [provideMockStore({ initialState }),
+      providers: [provideMockStore({initialState}),
         TodoItemComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

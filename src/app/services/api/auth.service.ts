@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { IUser } from '../interfaces/user';
-import { ToastService } from 'angular-toastify';
 import { Router } from '@angular/router';
+import { ToastService } from 'angular-toastify';
+
+import { IUser } from '../../interfaces/user';
+import { IToken } from '../../interfaces/token';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  public isAuth = false;
-
-  private readonly baseUrl = 'http://localhost:5000/api';
+  private readonly baseUrl = 'http://158.101.201.163:5000/api';
 
   constructor(private http: HttpClient,
               private _toastService: ToastService,
@@ -22,10 +22,10 @@ export class AuthService {
   createMessage = (str: string) => str.substr(str.indexOf(':') + 1);
 
   register(body: IUser): Observable<IUser> {
-    return this.http.post(`${this.baseUrl}/auth/register`, body).pipe(
-      map((result: any) => {
-          this.setSession(result);
-          return result.data;
+    return this.http.post<IToken>(`${this.baseUrl}/auth/register`, body).pipe(
+      map(result => {
+        this.setSession(result);
+        return result;
       }),
       catchError(err => {
         this._toastService.error(this.createMessage(err.error.message));
@@ -35,10 +35,10 @@ export class AuthService {
   }
 
   login(body: IUser) {
-    return this.http.post(`${this.baseUrl}/auth/login`, body).pipe(
-      map((result: any) => {
+    return this.http.post<IToken>(`${this.baseUrl}/auth/login`, body).pipe(
+      map(result => {
         this.setSession(result);
-        return result.data;
+        return result;
       }),
       catchError(err => {
         this._toastService.error(this.createMessage(err.error.message));
@@ -52,16 +52,15 @@ export class AuthService {
     this.router.navigateByUrl('auth/login');
   }
 
-  refreshToken(): Observable<any> {
+  refreshToken(): Observable<IToken> {
     const refToken = localStorage.getItem('refToken');
-    return this.http.post(`${this.baseUrl}/auth/refreshToken`, {refToken});
+    return this.http.post<IToken>(`${this.baseUrl}/auth/refreshToken`, {refToken});
   }
 
-  setSession(authResult: any) {
+  setSession(authResult: IToken) {
     localStorage.setItem('token', authResult.token);
     localStorage.setItem('refToken', authResult.refToken);
-    this.isAuth = true;
-    this.router.navigateByUrl('/main');
+    this.router.navigateByUrl('main');
   }
 
 }

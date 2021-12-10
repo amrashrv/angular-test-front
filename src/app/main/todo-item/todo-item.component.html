@@ -4,13 +4,13 @@
       <input class="default-checkbox" type="checkbox"
              [ngModel]="checked"
              (ngModelChange)="updateIsTaskCompleted(item, $event)">
-      <div class="checkbox-icon">
+      <div matRipple class="checkbox-icon">
         <mat-icon class="done">done</mat-icon>
       </div>
     </label>
     <span *ngIf=" item && !selectedItem else input" [ngClass]="[item && item.done ? 'task-done' : 'task-undone']"
     >{{ item.text }}</span>
-    <mat-icon class='cross' (click)="deleteTask(item)">clear</mat-icon>
+    <mat-icon class='delete' (click)="deleteTask(item)">clear</mat-icon>
   </div>
   <ng-template #input>
     <input (keydown.enter)="updateTaskText(item)"

@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
-import { reducers } from './state.model';
 import { EffectsModule } from '@ngrx/effects';
-import { TasksEffects } from './tasks/tasks.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { reducers } from './state.model';
+import { TasksEffects } from './tasks/tasks.effects';
 
 @NgModule({
   imports: [
@@ -14,4 +15,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     }),
   ],
 })
-export class StateModule { }
+
+export class StateModule {
+}
