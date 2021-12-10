@@ -1,11 +1,14 @@
-import { TestBed, fakeAsync } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
 
 import { AuthService } from './auth.service';
 import { IUser } from '../../interfaces/user';
 import { HttpClient } from '@angular/common/http';
+import { RegisterComponent } from '../../authorization/register/register.component';
+import { LoginComponent } from '../../authorization/login/login.component';
+import { MainComponent } from '../../main/main.component';
+import { IToken } from '../../interfaces/token';
 
 const mockUser: IUser = {
   _id: '1',
@@ -14,35 +17,64 @@ const mockUser: IUser = {
   password: 'password'
 };
 
+const mockToken: IToken = {
+  token: '123123',
+  refToken: '123123'
+};
+
 describe('AuthService tests', () => {
-  let service: AuthService;
-  let serviceSpy: jasmine.SpyObj<HttpClient>;
+  let authService: AuthService;
+  let httpMock: HttpTestingController;
+  let httpClient: HttpClient;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [{provide: HttpClient, useValue: serviceSpy}],
+      imports: [HttpClientTestingModule,
+        RouterTestingModule.withRoutes(
+          [
+            {path: 'auth/register', component: RegisterComponent},
+            {path: 'auth/login', component: LoginComponent},
+            {path: 'main', component: MainComponent}
+          ]
+        )],
+      providers: [AuthService]
     });
-    service = TestBed.inject(AuthService);
-    serviceSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'delete', 'patch']);
+    authService = TestBed.inject(AuthService);
+    httpMock = TestBed.get(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
   });
 
   it('Should create AuthService', () => {
-    expect(service).toBeDefined();
+    expect(authService).toBeDefined();
   });
 
-  it('should login user', fakeAsync(() => {
-    serviceSpy.post.and.returnValue(of(mockUser));
-    service.login(mockUser).subscribe((item: IUser) => {
-      expect(mockUser).toEqual(item);
+  it('should register user', () => {
+    authService.register(mockUser).subscribe((user) => {
+      expect(user).toEqual(mockUser);
     });
-  }));
+    const req = httpMock.expectOne('http://localhost:5000/api/auth/register');
+    expect(req.request.method).toEqual('POST');
+    req.flush(mockUser);
+    httpMock.verify();
+  });
 
-  it('should register user', fakeAsync(() => {
-    serviceSpy.post.and.returnValue(of(mockUser));
-    service.register(mockUser).subscribe((item: IUser) => {
-      expect(mockUser).toEqual(item);
+  it('should login user', () => {
+    authService.login(mockUser).subscribe((user) => {
+      expect(user).toEqual(mockUser);
     });
-  }));
+    const req = httpMock.expectOne('http://localhost:5000/api/auth/login');
+    expect(req.request.method).toEqual('POST');
+    req.flush(mockUser);
+    httpMock.verify();
+  });
 
+  it('should refresh token', () => {
+    authService.refreshToken().subscribe((token) => {
+      expect(mockToken).toEqual(token);
+    });
+    const req = httpMock.expectOne('http://localhost:5000/api/auth/refreshToken');
+    expect(req.request.method).toEqual('POST');
+    req.flush(mockToken);
+    httpMock.verify();
+  });
 });

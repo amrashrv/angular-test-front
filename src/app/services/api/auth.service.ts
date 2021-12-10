@@ -60,7 +60,7 @@ export class AuthService {
   setSession(authResult: IToken) {
     localStorage.setItem('token', authResult.token);
     localStorage.setItem('refToken', authResult.refToken);
-    this.router.navigateByUrl('/main');
+    this.router.navigateByUrl('main');
   }
 
 }
