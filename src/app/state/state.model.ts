@@ -1,6 +1,7 @@
+import { ActionReducerMap } from '@ngrx/store';
+
 import { taskReducerKey, tasksReducer } from './tasks/tasks.reducer';
 import { ITasksState } from './tasks/tasks.model';
-import { ActionReducerMap } from '@ngrx/store';
 import { appStateKey, appReducer } from './app/app.reducer';
 import { IAppState } from './app/app.model';
 

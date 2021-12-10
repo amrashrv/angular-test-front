@@ -1,51 +1,68 @@
-.mat-list-item{
+.mat-list-item {
   border-bottom: solid rgba(0, 0, 0, 0.16);
 }
-.default-checkbox{
+
+.default-checkbox {
   display: none;
 }
-.default-checkbox:checked ~ .checkbox-icon .done{
+
+.default-checkbox:checked ~ .checkbox-icon .done {
   display: block;
   color: green;
 }
-.checkbox-icon{
+
+.checkbox-icon {
   border: solid green 1px;
   width: 25px;
   height: 25px;
   border-radius: 50%;
   margin-right: 30px;
   cursor: pointer;
+
   .done {
     display: none;
   }
 }
-.task-undone, .task-done{
+
+.task-undone, .task-done {
   display: flex;
   width: 100%;
   flex-direction: row;
   align-items: center;
   font-size: 18px;
 }
-mat-list-item:hover{
-  .cross{
-    display: block;
+
+mat-list-item:hover {
+  .delete {
+    display: flex;
     justify-self: center;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    align-content: center;
     cursor: pointer;
+    border-radius: 50%;
   }
 }
-.cross{
+
+.delete {
+  width: 30px;
+  height: 30px;
   justify-self: flex-end;
   color: indianred;
   display: none;
 }
-.task-done{
+
+.task-done {
   text-decoration: line-through;
   opacity: 0.4;
 }
-.task-undone{
+
+.task-undone {
   text-decoration: none;
 }
-.task-edit-input{
+
+.task-edit-input {
   width: 80%;
   height: 20px;
   font-size: 18px;
@@ -53,6 +70,4 @@ mat-list-item:hover{
   opacity: 0.7;
   border: none;
   outline: none;
-
-
 }

@@ -1,8 +1,8 @@
-import { Component, Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ITask } from '../../interfaces/task';
-import { ApiService } from '../../api/api.service';
+import { TasksService } from '../../services/api/tasks.service';
 import * as taskActions from '../../state/tasks/tasks.actions';
 import { FormControl, Validators } from '@angular/forms';
 import { ToastService } from 'angular-toastify';
@@ -14,13 +14,16 @@ import { TaskValidationService } from '../../services/task-validation.service';
   styleUrls: ['./todo-item.component.scss'],
 })
 
-export class TodoItemComponent implements OnInit{
-  @Input() item: any;
+export class TodoItemComponent implements OnInit {
+  @Input() item!: ITask;
+
   @ViewChild('taskInput')
   set input(element: ElementRef<HTMLInputElement>) {
     if (element) {
       element.nativeElement.focus();
-      this.editTaskFormControl.setValue(this.item.text);
+      if (this.item) {
+        this.editTaskFormControl.setValue(this.item.text);
+      }
     }
   }
 
@@ -29,15 +32,17 @@ export class TodoItemComponent implements OnInit{
   editTaskFormControl = new FormControl('', [Validators.required, Validators.maxLength(60)]);
 
   constructor(
-    public apiService: ApiService,
+    private apiService: TasksService,
     private store: Store,
     private _toastService: ToastService,
     private validationService: TaskValidationService) {
   }
 
   ngOnInit() {
-    this.checked = this.item.done;
-    this.editTaskFormControl.setValue(this.item.text);
+    if (this.item) {
+      this.checked = this.item.done;
+      this.editTaskFormControl.setValue(this.item.text);
+    }
   }
 
   deleteTask(task: ITask): void {
@@ -56,7 +61,7 @@ export class TodoItemComponent implements OnInit{
     this.store.dispatch(taskActions.updateIsTaskCompleted({task, done}));
   }
 
-  onCancelEditMode(){
+  onCancelEditMode() {
     this.selectedItem = undefined;
   }
 

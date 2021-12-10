@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { ToastService } from 'angular-toastify';
+import { FormControl, Validators } from '@angular/forms';
 
 import * as taskActions from '../state/tasks/tasks.actions';
-import { ApiService } from '../api/api.service';
+import { TasksService } from '../services/api/tasks.service';
 import {
   getAllTasks,
   selectAllTasks,
@@ -11,8 +13,9 @@ import {
 } from '../state/tasks/tasks.selectors';
 import { IState } from '../state/state.model';
 import { selectIsLoading } from '../state/app/app.selectors';
-import { FormControl, Validators } from '@angular/forms';
 import { TaskValidationService } from '../services/task-validation.service';
+import { AuthService } from '../services/api/auth.service';
+import { ITask } from '../interfaces/task';
 
 export enum FilterType {
   all,
@@ -27,13 +30,14 @@ export enum FilterType {
 })
 export class MainComponent implements OnInit {
 
-  constructor(
-    public apiService: ApiService,
-    private store: Store<IState>,
-    private _toastService: ToastService,
-    private validationService: TaskValidationService) {
-  }
-  newTaskFormControl = new FormControl('', [Validators.required, Validators.maxLength(60)]
+  readonly filterType = FilterType;
+  public tasks$: Observable<ITask[]> = this.store.select(selectAllTasks);
+  public counter: Observable<number> = this.store.select(selectCompletedTasksCounter);
+  public isLoading$: Observable<boolean> = this.store.select(selectIsLoading);
+
+  newTaskFormControl = new FormControl('', [
+    Validators.required,
+    Validators.maxLength(60)]
   );
 
   readonly filterStates = [{
@@ -47,10 +51,13 @@ export class MainComponent implements OnInit {
     label: 'Completed'
   }];
 
-  filterType = FilterType;
-  tasks$ = this.store.select(selectAllTasks);
-  counter = this.store.select(selectCompletedTasksCounter);
-  isLoading$ = this.store.select(selectIsLoading);
+  constructor(
+    private apiService: TasksService,
+    private authService: AuthService,
+    private store: Store<IState>,
+    private _toastService: ToastService,
+    private validationService: TaskValidationService) {
+  }
 
   ngOnInit() {
     this.store.dispatch(taskActions.loadTasks());
@@ -60,16 +67,20 @@ export class MainComponent implements OnInit {
     this.store.dispatch(taskActions.updateAll({done: true}));
   }
 
-  clearAllCompleted(){
+  clearAllCompleted() {
     this.store.dispatch(taskActions.clearAllCompleted());
   }
 
-  addTask(){
-    if ( this.validationService.taskValidation(this.newTaskFormControl)){
+  addTask() {
+    if (this.validationService.taskValidation(this.newTaskFormControl)) {
       const text = this.newTaskFormControl.value;
       this.store.dispatch(taskActions.addTask({text}));
       this.newTaskFormControl.setValue('');
     }
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   updateFilterType(type: FilterType) {
