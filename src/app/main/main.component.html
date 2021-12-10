@@ -28,7 +28,7 @@
               <mat-button-toggle *ngFor="let filterState of filterStates"
                                  (click)="updateFilterType(filterState.type)">{{filterState.label}}</mat-button-toggle>
             </mat-button-toggle-group>
-            <a class="mark-all-undone" (click)="clearAllCompleted()">clear all</a>
+            <a  mat-button class="mark-all-undone" [disabled]="true" (click)="clearAllCompleted()">clear all</a>
           </ul>
 
         </div>
