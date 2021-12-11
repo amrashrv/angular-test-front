@@ -1,4 +1,4 @@
-name: CI Angular app through Github Actions
+name: CI Angular app through Github Actions 2
 on: push
 jobs:
   build:
