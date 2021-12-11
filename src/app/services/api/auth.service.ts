@@ -12,7 +12,7 @@ import { IToken } from '../../interfaces/token';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly baseUrl = 'http://158.101.201.163:5000/api';
+  private readonly baseUrl = 'https://todo-list-back-angular.herokuapp.com/api';
 
   constructor(private http: HttpClient,
               private _toastService: ToastService,

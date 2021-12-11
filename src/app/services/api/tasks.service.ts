@@ -13,7 +13,7 @@ export class TasksService {
   constructor(private http: HttpClient) {
   }
 
-  private readonly baseUrl = 'http://158.101.201.163:5000/api';
+  private readonly baseUrl = 'https://todo-list-back-angular.herokuapp.com/api';
   private readonly taskBaseUrl = `${this.baseUrl}/task`;
   private readonly tasksBaseUrl = `${this.baseUrl}/tasks`;
 

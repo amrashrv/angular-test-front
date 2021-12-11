@@ -52,7 +52,7 @@ describe('AuthService tests', () => {
     authService.register(mockUser).subscribe((user) => {
       expect(user).toEqual(mockUser);
     });
-    const req = httpMock.expectOne('http://localhost:5000/api/auth/register');
+    const req = httpMock.expectOne('https://todo-list-back-angular.herokuapp.com/api/auth/register');
     expect(req.request.method).toEqual('POST');
     req.flush(mockUser);
     httpMock.verify();
@@ -62,7 +62,7 @@ describe('AuthService tests', () => {
     authService.login(mockUser).subscribe((user) => {
       expect(user).toEqual(mockUser);
     });
-    const req = httpMock.expectOne('http://localhost:5000/api/auth/login');
+    const req = httpMock.expectOne('https://todo-list-back-angular.herokuapp.com/auth/login');
     expect(req.request.method).toEqual('POST');
     req.flush(mockUser);
     httpMock.verify();
@@ -72,7 +72,7 @@ describe('AuthService tests', () => {
     authService.refreshToken().subscribe((token) => {
       expect(mockToken).toEqual(token);
     });
-    const req = httpMock.expectOne('http://localhost:5000/api/auth/refreshToken');
+    const req = httpMock.expectOne('https://todo-list-back-angular.herokuapp.com/api/auth/refreshToken');
     expect(req.request.method).toEqual('POST');
     req.flush(mockToken);
     httpMock.verify();
