@@ -62,7 +62,7 @@ describe('AuthService tests', () => {
     authService.login(mockUser).subscribe((user) => {
       expect(user).toEqual(mockUser);
     });
-    const req = httpMock.expectOne('https://todo-list-back-angular.herokuapp.com/auth/login');
+    const req = httpMock.expectOne('https://todo-list-back-angular.herokuapp.com/api/auth/login');
     expect(req.request.method).toEqual('POST');
     req.flush(mockUser);
     httpMock.verify();

@@ -1,4 +1,4 @@
-name: CI Angular app through Github Actions 2
+name: Deploing Angular Todo list
 on: push
 jobs:
   build:
