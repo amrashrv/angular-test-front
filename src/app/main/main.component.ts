@@ -34,6 +34,9 @@ export class MainComponent implements OnInit {
   public tasks$: Observable<ITask[]> = this.store.select(selectAllTasks);
   public counter: Observable<number> = this.store.select(selectCompletedTasksCounter);
   public isLoading$: Observable<boolean> = this.store.select(selectIsLoading);
+  public selectedType: FilterType;
+  public markAll: boolean;
+
 
   newTaskFormControl = new FormControl('', [
     Validators.required,
@@ -56,7 +59,10 @@ export class MainComponent implements OnInit {
     private authService: AuthService,
     private store: Store<IState>,
     private _toastService: ToastService,
-    private validationService: TaskValidationService) {
+    private validationService: TaskValidationService,
+    ) {
+    this.selectedType = this.filterType.all;
+    this.markAll = false;
   }
 
   ngOnInit() {
@@ -64,7 +70,8 @@ export class MainComponent implements OnInit {
   }
 
   markAllTasksDone() {
-    this.store.dispatch(taskActions.updateAll({done: true}));
+    this.markAll = !this.markAll;
+    this.store.dispatch(taskActions.updateAll({done: this.markAll}));
   }
 
   clearAllCompleted() {
@@ -80,10 +87,12 @@ export class MainComponent implements OnInit {
   }
 
   logout() {
+    this.store.dispatch(taskActions.clearState());
     this.authService.logout();
   }
 
   updateFilterType(type: FilterType) {
+    this.selectedType = type;
     this.tasks$ = this.store.select(getAllTasks(type));
   }
 }

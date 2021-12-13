@@ -78,9 +78,6 @@ MIT
 @ngrx/store
 MIT
 
-@ngrx/store-devtools
-MIT
-
 angular-toastify
 MIT
 

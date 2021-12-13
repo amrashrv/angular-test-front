@@ -6,9 +6,9 @@
       </mat-card-title>
       <div class="content">
         <div class="header">
-          <div class="select-all-icon" matRipple>
-            <mat-icon class="mark-all-done" (click)="markAllTasksDone()">keyboard_arrow_down</mat-icon>
-          </div>
+          <mat-button-toggle appearance="legacy" class="select-all-icon" (click)="markAllTasksDone()">
+            <mat-icon  class="mark-all-done" >keyboard_arrow_down</mat-icon>
+          </mat-button-toggle>
           <div class="input-container">
             <input id="task" placeholder="What needs to be done?" [formControl]="newTaskFormControl"
                    (keydown.enter)="addTask()"/>
@@ -24,11 +24,13 @@
           <ul class="filters-group">
 
             <li class="items-left-counter">{{counter | async}} items left</li>
-            <mat-button-toggle-group appearance="legacy">
+            <mat-button-toggle-group appearance="legacy"
+                                     [value]="selectedType">
               <mat-button-toggle *ngFor="let filterState of filterStates"
+                                 [value]="filterState.type"
                                  (click)="updateFilterType(filterState.type)">{{filterState.label}}</mat-button-toggle>
             </mat-button-toggle-group>
-            <a  mat-button class="mark-all-undone" [disabled]="true" (click)="clearAllCompleted()">clear all</a>
+            <a mat-button class="mark-all-undone" [disabled]="true" (click)="clearAllCompleted()">clear all</a>
           </ul>
 
         </div>

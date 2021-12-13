@@ -30,6 +30,9 @@ export const tasksReducer = createReducer(
   }),
   on(TasksActions.clearAllCompletedSuccess, (state, {ids}): ITasksState => {
     return adapter.removeMany(ids, state);
+  }),
+  on(TasksActions.clearState, (state) => {
+    return adapter.removeAll(state);
   })
 );
 

@@ -16,4 +16,6 @@ export const updateSuccess = createAction('[TODO] Task updated successfully', pr
 export const updateAllSuccess = createAction('[TODO] All tasks updated successfully', props<{ tasks: ITask[] }>());
 export const clearAllCompletedSuccess = createAction('[TODO] Done tasks cleared successfully', props<{ids: string[]}>());
 
+export const clearState = createAction('[TODO] Clear state');
+
 

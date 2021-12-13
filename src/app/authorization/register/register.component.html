@@ -5,7 +5,7 @@
       <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>user name</mat-label>
-          <input matInput placeholder="userName" formControlName="userName">
+          <input matInput placeholder="user name" formControlName="userName">
           <mat-error *ngIf="registerForm.controls['userName'].hasError('required')">
             required
           </mat-error>

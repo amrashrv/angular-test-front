@@ -62,13 +62,9 @@
 }
 
 .list-container {
-  height: 170px;
+  height: 177px;
   overflow-y: scroll;
   border-bottom: solid rgba(12, 12, 12, 0.2);
-}
-
-.list-container::-webkit-scrollbar {
-  display: none;
 }
 
 .title {
@@ -129,11 +125,15 @@
 
   .select-all-icon {
     opacity: 0.3;
-    cursor: pointer;
+    box-shadow: none;
+    border: none;
+    width: 60px;
+    height: 52px;
+    border-radius: 0px;
 
     .mark-all-done {
-      margin-top: 5px;
-      margin-left: 5px;
+      margin-top: -25px;
+      margin-left: -10px;
       margin-right: 30px;
       font-size: 50px;
     }

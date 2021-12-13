@@ -38,7 +38,6 @@ export class TasksEffects {
   addTask$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.addTask),
     mergeMap((action) => this.apiService.addTask(action.text).pipe(
-      tap(() => this._toastService.success(this.createMessage(action.type))),
       map((task: ITask) => {
         return TasksActions.addTaskSuccess({task});
       }),
@@ -49,7 +48,6 @@ export class TasksEffects {
   updateIsTaskCompleted$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.updateIsTaskCompleted),
     mergeMap((action) => this.apiService.updateTaskIsCompleted(action.task, action.done).pipe(
-      tap(() => this._toastService.success(this.createMessage(action.type))),
       map(task => {
         return TasksActions.updateSuccess({task});
       }),
@@ -60,7 +58,6 @@ export class TasksEffects {
   updateTaskText$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.updateTaskText),
     mergeMap((action) => this.apiService.updateTaskText(action.task, action.text).pipe(
-      tap(() => this._toastService.success(this.createMessage(action.type))),
       map(task => {
         return TasksActions.updateSuccess({task});
       }),
@@ -71,7 +68,6 @@ export class TasksEffects {
   updateAllTasks$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.updateAll),
     mergeMap((action) => this.apiService.updateAll(action.done).pipe(
-      tap(() => this._toastService.success(this.createMessage(action.type))),
       map((action) => {
         const tasks: ITask[] = action;
         return TasksActions.updateAllSuccess({tasks});
@@ -83,7 +79,6 @@ export class TasksEffects {
   deleteTask$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.removeTask),
     mergeMap((action) => this.apiService.deleteTask(action.task).pipe(
-      tap(() => this._toastService.success(this.createMessage(action.type))),
       map(() => {
         const task = action.task;
         return TasksActions.removeTaskSuccess({task});
