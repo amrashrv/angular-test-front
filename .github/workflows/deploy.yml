@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: All things angular
-        uses: amrashrv/angular-test-front
+        uses: amrashrv/angular-test-front@ref
         with:
           build_configuration: staging # The build environment for the app. please look configurations in your angular.json
           base_href: /angular-test-front/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
