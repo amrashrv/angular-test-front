@@ -35,3 +35,14 @@
 mat-form-field {
   margin: 5px;
 }
+@media screen and (max-width: 500px) {
+  .register-container {
+    width: 320px;
+  }
+  .outer-container{
+    width: 320px;
+  }
+  .mat-card-title{
+    font-size: 50px;
+  }
+}

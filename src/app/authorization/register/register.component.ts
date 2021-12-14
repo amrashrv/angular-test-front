@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 
 import { AuthService } from '../../services/api/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register',
