@@ -8,8 +8,8 @@
         <mat-icon class="done">done</mat-icon>
       </div>
     </label>
-    <span *ngIf=" item && !selectedItem else input" [ngClass]="[item && item.done ? 'task-done' : 'task-undone']"
-    >{{ item.text }}</span>
+    <span  *ngIf="item && !selectedItem else input" [ngClass]="[item && item.done ? 'task-done' : 'task-undone']"
+    matTooltip={{item.text}} matTooltipClass="tooltip-class">{{ item.text.length < 45 ? item.text : item.text.slice(0, 44) + '...'}}</span>
     <mat-icon class='delete' (click)="deleteTask(item)">clear</mat-icon>
   </div>
   <ng-template #input>

@@ -19,6 +19,7 @@ import { MainComponent } from './main.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { TasksEffects } from '../state/tasks/tasks.effects';
 import { TaskValidationService } from '../services/task-validation.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { TaskValidationService } from '../services/task-validation.service';
     ReactiveFormsModule,
     MatButtonModule,
     MatButtonToggleModule,
-    MatRippleModule
+    MatRippleModule,
+    MatTooltipModule
   ],
   providers: [
     TasksService,

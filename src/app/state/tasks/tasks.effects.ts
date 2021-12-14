@@ -89,9 +89,8 @@ export class TasksEffects {
 
   clearAllCompleted$ = createEffect(() => this.actions$.pipe(
     ofType(TasksActions.clearAllCompleted),
-    mergeMap((action) => this.apiService.clearAll().pipe(
+    mergeMap(() => this.apiService.clearAll().pipe(
       map((ids: string[]) => {
-        this._toastService.success(this.createMessage(action.type));
         return TasksActions.clearAllCompletedSuccess({ids});
       }),
       catchError(error => this.handleError(error.error.message))

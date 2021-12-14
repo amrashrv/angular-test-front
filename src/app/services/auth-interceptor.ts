@@ -1,6 +1,6 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { AuthService } from './api/auth.service';
@@ -41,5 +41,6 @@ export class AuthInterceptor implements HttpInterceptor {
         return next.handle(cloned);
       })
     );
+
   }
 }
