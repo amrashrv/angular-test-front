@@ -19,4 +19,4 @@ jobs:
 
       - name: Build
         run: |
-          npm run build --baseHref="/angular-test-front/"
+          ng build --baseHref="/angular-test-front/"
