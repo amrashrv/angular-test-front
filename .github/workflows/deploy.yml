@@ -1,19 +1,31 @@
-name: Build and Deploy
-on:
-  push:
-    branches:
-      - main
+on: push
+name: Build Angular
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
 
     steps:
-      - uses: actions/checkout@v2
-      - name: All things angular
-        uses: amrashrv/angular-test-front@ref
+      - uses: actions/checkout@v1
+
+      - name: Cache node modules
+        uses: actions/cache@v1
         with:
-          build_configuration: staging # The build environment for the app. please look configurations in your angular.json
-          base_href: /angular-test-front/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
-          deploy_branch: main # The branch the action should deploy to.
-          angular_dist_build_folder: docs
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install and npm run build
+        run: |
+          npm i
+          npm run build:prod
+      - name: Push Build to Releases
+        uses: amrashrv/angular-test-front@v1
+        with:
+          artifacts: "docs/*"
