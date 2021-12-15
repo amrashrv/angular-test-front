@@ -13,7 +13,7 @@ import { IToken } from '../../interfaces/token';
 })
 export class AuthService {
   private readonly baseUrl = 'https://todo-list-back-angular.herokuapp.com/api';
-
+  existErrorMessage: any = '';
   constructor(private http: HttpClient,
               private _toastService: ToastService,
               private router: Router) {
@@ -28,8 +28,13 @@ export class AuthService {
         return result;
       }),
       catchError(err => {
-        this._toastService.error(this.createMessage(err.error.message));
-        return of(err);
+        if (err.status === 403){
+          this.existErrorMessage = err.error.message;
+          return of(err);
+        } else {
+          this._toastService.error(this.createMessage(err.error.message));
+          return of(err);
+        }
       }),
     );
   }

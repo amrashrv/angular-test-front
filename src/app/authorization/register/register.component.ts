@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {
-  AbstractControl,
+  AbstractControl, AsyncValidatorFn,
   FormControl,
   FormGroup,
   ValidationErrors,
@@ -18,13 +18,17 @@ import { Observable } from 'rxjs';
 })
 export class RegisterComponent {
 
+  existMessage = '';
+
   registerForm = new FormGroup({
     userName: new FormControl('', Validators.compose([
       Validators.required,
       Validators.minLength(4)])),
     email: new FormControl('', [
       Validators.required,
-      Validators.email]),
+      Validators.email,
+        ]
+      ),
     password: new FormControl('',
       Validators.compose([
         Validators.required,
@@ -48,8 +52,13 @@ export class RegisterComponent {
     };
   }
 
+  showMessage(){
+    setInterval(() => this.existMessage = this.authService.existErrorMessage, 3000);
+    return this.existMessage;
+  }
   onSubmit() {
     this.authService.register(this.registerForm.value).subscribe();
+    this.showMessage();
   }
 
 }

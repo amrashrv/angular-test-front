@@ -40,10 +40,12 @@
             required
           </mat-error>
           <mat-error
-            *ngIf="(registerForm.controls['repeatPassword'].dirty || registerForm.controls['repeatPassword'].touched ) && registerForm.controls['repeatPassword'].hasError('notEqual')">
+            *ngIf="(registerForm.controls['repeatPassword'].dirty || registerForm.controls['repeatPassword'].touched )
+            && registerForm.controls['repeatPassword'].hasError('notEqual')">
             passwords are not equal
           </mat-error>
         </mat-form-field>
+        <div class="existMessage">{{showMessage()}}</div>
         <button mat-button color="primary" type="submit" [disabled]="!registerForm.valid">submit</button>
         <a mat-button color="primary" routerLink="/auth/login">to login</a>
       </form>

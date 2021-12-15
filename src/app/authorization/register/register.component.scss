@@ -31,7 +31,10 @@
   display: flex;
   flex-direction: column;
 }
-
+.existMessage{
+  text-align: center;
+  color: red;
+}
 mat-form-field {
   margin: 5px;
 }

@@ -16,7 +16,3 @@ jobs:
       - name: Test
         run: |
           npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-
-      - name: Build
-        run: |
-          npm run build --baseHref="/angular-test-front/"
