@@ -35,7 +35,8 @@ export class TodoItemComponent implements OnInit {
     private apiService: TasksService,
     private store: Store,
     private _toastService: ToastService,
-    private validationService: TaskValidationService) {
+    private validationService: TaskValidationService
+  ) {
   }
 
   ngOnInit() {

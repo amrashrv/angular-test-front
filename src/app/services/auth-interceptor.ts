@@ -1,10 +1,11 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, switchMap } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, switchMap, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { AuthService } from './api/auth.service';
 import { Router } from '@angular/router';
+
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -22,8 +23,14 @@ export class AuthInterceptor implements HttpInterceptor {
           'Bearer ' + token)
       });
       return next.handle(cloned).pipe(
-        catchError(() => {
-          return this.handleAuthError(req, next);
+        catchError((err) => {
+          if (err.status === 401) {
+            return this.handleAuthError(req, next);
+          }
+          if (err.status === 403) {
+            this.router.navigateByUrl('auth/login');
+          }
+          return throwError(err);
         })
       );
     }

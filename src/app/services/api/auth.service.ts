@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { exhaustMap, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ToastService } from 'angular-toastify';
@@ -12,11 +12,14 @@ import { IToken } from '../../interfaces/token';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly baseUrl = 'https://todo-list-back-angular.herokuapp.com/api';
+  baseUrltest = 'https://todo-list-back-angular.herokuapp.com/api';
+  private readonly baseUrl = 'http://localhost:5000/api';
   existErrorMessage: any = '';
-  constructor(private http: HttpClient,
-              private _toastService: ToastService,
-              private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private _toastService: ToastService,
+    private router: Router
+  ) {
   }
 
   createMessage = (str: string) => str.substr(str.indexOf(':') + 1);
@@ -41,9 +44,9 @@ export class AuthService {
 
   login(body: IUser) {
     return this.http.post<IToken>(`${this.baseUrl}/auth/login`, body).pipe(
-      map(result => {
+      exhaustMap(result => {
         this.setSession(result);
-        return result;
+        return of(result);
       }),
       catchError(err => {
         this._toastService.error(this.createMessage(err.error.message));

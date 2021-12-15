@@ -12,8 +12,8 @@ import { ITask } from '../../interfaces/task';
 export class TasksService {
   constructor(private http: HttpClient) {
   }
-
-  private readonly baseUrl = 'https://todo-list-back-angular.herokuapp.com/api';
+  url = 'https://todo-list-back-angular.herokuapp.com/api';
+  private readonly baseUrl = 'http://localhost:5000/api';
   private readonly taskBaseUrl = `${this.baseUrl}/task`;
   private readonly tasksBaseUrl = `${this.baseUrl}/tasks`;
 

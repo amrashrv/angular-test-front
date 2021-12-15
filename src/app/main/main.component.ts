@@ -40,7 +40,8 @@ export class MainComponent implements OnInit {
 
   newTaskFormControl = new FormControl('', [
     Validators.required,
-    Validators.maxLength(60)]
+    Validators.maxLength(60)
+    ]
   );
 
   readonly filterStates = [{

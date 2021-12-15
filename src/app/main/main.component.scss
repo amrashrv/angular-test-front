@@ -50,15 +50,13 @@
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 25px 50px 0 rgb(0 0 0 / 10%);
 }
 
-.mat-card-title {
-  h1 {
-    font-size: 100px;
-    font-weight: 100;
-    color: indianred;
-    opacity: 0.5;
-    text-align: center;
-    margin-top: 20px;
-  }
+.mat-card-title h1 {
+  font-size: 100px;
+  font-weight: 100;
+  color: indianred;
+  opacity: 0.5;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .list-container {
