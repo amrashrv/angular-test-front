@@ -20,6 +20,7 @@ import { RegisterComponent } from './authorization/register/register.component';
 import { LoginComponent } from './authorization/login/login.component';
 import { AuthService } from './services/api/auth.service';
 import { AuthInterceptor } from './services/auth-interceptor';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { AuthInterceptor } from './services/auth-interceptor';
     MatButtonToggleModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
     ReactiveFormsModule,
     BrowserAnimationsModule

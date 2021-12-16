@@ -12,9 +12,10 @@ import { IToken } from '../../interfaces/token';
   providedIn: 'root'
 })
 export class AuthService {
+
   baseUrltest = 'https://todo-list-back-angular.herokuapp.com/api';
   private readonly baseUrl = 'http://localhost:5000/api';
-  existErrorMessage: any = '';
+
   constructor(
     private http: HttpClient,
     private _toastService: ToastService,
@@ -22,7 +23,7 @@ export class AuthService {
   ) {
   }
 
-  createMessage = (str: string) => str.substr(str.indexOf(':') + 1);
+  createMessage = (str: string): string => str.substr(str.indexOf(':') + 1);
 
   register(body: IUser): Observable<IUser> {
     return this.http.post<IToken>(`${this.baseUrl}/auth/register`, body).pipe(
@@ -50,7 +51,7 @@ export class AuthService {
     );
   }
 
-  logout() {
+  logout(): void {
     localStorage.clear();
     this.router.navigateByUrl('auth/login');
   }
@@ -60,7 +61,7 @@ export class AuthService {
     return this.http.post<IToken>(`${this.baseUrl}/auth/refreshToken`, {refToken});
   }
 
-  setSession(authResult: IToken) {
+  setSession(authResult: IToken): void {
     localStorage.setItem('token', authResult.token);
     localStorage.setItem('refToken', authResult.refToken);
     this.router.navigateByUrl('main');

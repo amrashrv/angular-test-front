@@ -23,14 +23,14 @@ export class AuthInterceptor implements HttpInterceptor {
           'Bearer ' + token)
       });
       return next.handle(cloned).pipe(
-        catchError((err) => {
-          if (err.status === 401) {
+        catchError((error) => {
+          if (error.status === 401) {
             return this.handleAuthError(req, next);
           }
-          if (err.status === 403) {
+          if (error.status === 403) {
             this.router.navigateByUrl('auth/login');
           }
-          return throwError(err);
+          return throwError(error);
         })
       );
     }

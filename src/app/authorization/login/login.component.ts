@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/api/auth.service';
 
 
-export enum fieldType {
+export enum FieldType {
   email = 'email',
   password = 'password'
 }
@@ -16,9 +16,11 @@ export enum fieldType {
 })
 export class LoginComponent {
 
+  public passwordVisibility = true;
+
   readonly fieldState = [
-    fieldType.email,
-    fieldType.password
+    FieldType.email,
+    FieldType.password
   ];
 
   loginForm = new FormGroup({

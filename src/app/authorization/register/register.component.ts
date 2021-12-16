@@ -10,11 +10,20 @@ import {
 
 import { AuthService } from '../../services/api/auth.service';
 
-export enum fieldType {
+export enum FieldName {
   userName = 'userName',
   email = 'email',
   password = 'password',
-  repeatPassword = 'repeatPassword'
+  repeatPassword = 'repeatPassword',
+
+}
+
+export enum ValidationType {
+  required = 'required',
+  minLenght = 'minlength',
+  validateEmail = 'invalidEmail',
+  pattern = 'pattern',
+  compare = 'notEqual'
 }
 
 @Component({
@@ -24,35 +33,42 @@ export enum fieldType {
 })
 export class RegisterComponent {
 
-  readonly fieldStates = [{
-    type: fieldType.userName,
+  public passwordVisibility = true;
+
+  readonly FieldStates = [{
+    name: FieldName.userName,
     label: 'user name',
+    validator: ValidationType,
+    type: 'text'
   }, {
-    type: fieldType.email,
+    name: FieldName.email,
     label: 'email',
-    validator: 'email'
+    validator: ValidationType,
+    type: 'email'
   }, {
-    type: fieldType.password,
+    name: FieldName.password,
     label: 'password',
-    validator: 'password'
+    validator: ValidationType,
+    type: 'password'
   }, {
-    type: fieldType.repeatPassword,
-    label: 'repeat password'
+    name: FieldName.repeatPassword,
+    label: 'repeat password',
+    validator: ValidationType,
+    type: 'password'
   }];
 
   registerForm = new FormGroup({
-    userName: new FormControl('', Validators.compose([
+    userName: new FormControl('', [
       Validators.required,
-      Validators.minLength(4)])),
+      Validators.minLength(4)]),
     email: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+        this.validateEmail(),
       ]
     ),
-    password: new FormControl('',
-      Validators.compose([
+    password: new FormControl('',[
         Validators.required,
-        Validators.pattern(/^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/)])),
+        Validators.pattern(/^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/)]),
     repeatPassword: new FormControl('', [
       Validators.required,
       this.passwordsCompare()])
@@ -71,6 +87,17 @@ export class RegisterComponent {
       }
       return value !== this.registerForm.controls['password'].value ? {notEqual: true} : null;
     };
+  }
+
+  validateEmail(): ValidatorFn {
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if(!value) {
+        return null;
+      }
+      return !value.match(emailRegex)? {invalidEmail: true} : null
+    }
   }
 
   onSubmit(): void {

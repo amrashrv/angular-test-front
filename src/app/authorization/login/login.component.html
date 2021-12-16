@@ -2,11 +2,15 @@
 <div class="outer-container">
   <div class="form-container">
     <mat-card-content>
-      <form class="inner-form"  [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field *ngFor="let field of fieldState" class="example-full-width" appearance="fill">
-          <mat-label>{{field.type}}</mat-label>
-          <input matInput placeholder="{{field.type}}" type="{{field.type}}" formControlName="{{field.type}}" id="{{field.type}}">
-          <mat-error *ngIf="loginForm.controls[field.type].hasError('required')">
+      <form class="inner-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field *ngFor="let fieldType of fieldState" class="example-full-width" appearance="fill">
+          <mat-label>{{fieldType}}</mat-label>
+          <input matInput placeholder="{{fieldType}}" type="{{fieldType}}" formControlName="{{fieldType}}"
+            id="{{fieldType}}"
+            [type]="fieldType === 'password' && passwordVisibility ? 'password' : 'text'">
+            <mat-icon *ngIf="fieldType === 'password'" matSuffix (click)="passwordVisibility = !passwordVisibility">{{passwordVisibility ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+          <mat-error *ngIf="loginForm.controls[fieldType].hasError('required')">
             required
           </mat-error>
         </mat-form-field>
@@ -16,5 +20,3 @@
     </mat-card-content>
   </div>
 </div>
-
-
