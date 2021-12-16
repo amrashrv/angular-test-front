@@ -7,7 +7,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TasksService } from '../../services/api/tasks.service';
 
 describe('TodosListComponent', () => {
   let component: TodoItemComponent;
