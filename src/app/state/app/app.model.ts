@@ -5,5 +5,5 @@ export interface IAppState {
 
 export const initialAppState: IAppState = {
   isLoading: false,
-  hasError: false
+  hasError: false,
 };

@@ -26,18 +26,13 @@ export class AuthService {
 
   register(body: IUser): Observable<IUser> {
     return this.http.post<IToken>(`${this.baseUrl}/auth/register`, body).pipe(
-      map(result => {
+      exhaustMap(result => {
         this.setSession(result);
-        return result;
+        return of(result);
       }),
       catchError(err => {
-        if (err.status === 403){
-          this.existErrorMessage = err.error.message;
-          return of(err);
-        } else {
-          this._toastService.error(this.createMessage(err.error.message));
-          return of(err);
-        }
+        this._toastService.error(this.createMessage(err.error.message));
+        return of(err);
       }),
     );
   }

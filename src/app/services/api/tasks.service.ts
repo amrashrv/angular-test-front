@@ -52,6 +52,7 @@ export class TasksService {
   }
 
   updateAll(done: boolean): Observable<ITask[]> {
+    console.log(done);
     return this.http.patch<ITask[]>(`${this.tasksBaseUrl}`, {done});
   }
 

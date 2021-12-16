@@ -1,10 +1,12 @@
 .mat-list-item {
   border-bottom: solid rgba(0, 0, 0, 0.16);
-  span{
+
+  span {
     overflow: hidden;
   }
 }
-::ng-deep .tooltip-class{
+
+::ng-deep .tooltip-class {
   font-size: 16px;
   background: #757070;
   word-break: break-word;
@@ -40,17 +42,15 @@
   font-size: 18px;
 }
 
-mat-list-item:hover {
-  .delete {
-    display: flex;
-    justify-self: center;
-    align-items: center;
-    justify-items: center;
-    justify-content: center;
-    align-content: center;
-    cursor: pointer;
-    border-radius: 50%;
-  }
+mat-list-item:hover .delete {
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  align-content: center;
+  cursor: pointer;
+  border-radius: 50%;
 }
 
 .delete {
@@ -78,5 +78,15 @@ mat-list-item:hover {
   opacity: 0.7;
   border: none;
   outline: none;
+}
+
+.blocker {
+  border-bottom: solid rgba(0, 0, 0, 0.16);
+  filter: blur(1px);
+  pointer-events: none;
+
+  span {
+    overflow: hidden;
+  }
 }
 

@@ -1,15 +1,14 @@
 <mat-card-title>Login</mat-card-title>
 <div class="outer-container">
-  <div class="login-container">
+  <div class="form-container">
     <mat-card-content>
-      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>email</mat-label>
-          <input matInput placeholder="email" formControlName="email" id="email">
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>password</mat-label>
-          <input matInput placeholder="password" type="password" formControlName="password" id="password">
+      <form class="inner-form"  [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field *ngFor="let field of fieldState" class="example-full-width" appearance="fill">
+          <mat-label>{{field.type}}</mat-label>
+          <input matInput placeholder="{{field.type}}" type="{{field.type}}" formControlName="{{field.type}}" id="{{field.type}}">
+          <mat-error *ngIf="loginForm.controls[field.type].hasError('required')">
+            required
+          </mat-error>
         </mat-form-field>
         <button mat-button color="primary" [disabled]="!loginForm.valid">submit</button>
         <a mat-button color="primary" routerLink="/auth/registration">to registration</a>

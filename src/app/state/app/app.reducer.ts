@@ -11,8 +11,11 @@ export const appReducer = createReducer(
   initialAppState,
   on(TasksActions.loadTasks,
     TasksActions.removeTask,
+    TasksActions.updateTaskText,
+    TasksActions.updateIsTaskCompleted,
     TasksActions.addTask,
     TasksActions.updateAll,
+    TasksActions.clearAllCompleted,
     (state) => {
       return {
         ...state,
@@ -25,6 +28,7 @@ export const appReducer = createReducer(
     TasksActions.updateAllSuccess,
     TasksActions.addTaskSuccess,
     AppActions.operationFailed,
+    TasksActions.clearAllCompletedSuccess,
     (state) => {
       return {
         ...state,

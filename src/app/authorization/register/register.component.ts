@@ -10,6 +10,13 @@ import {
 
 import { AuthService } from '../../services/api/auth.service';
 
+export enum fieldType {
+  userName = 'userName',
+  email = 'email',
+  password = 'password',
+  repeatPassword = 'repeatPassword'
+}
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -17,7 +24,21 @@ import { AuthService } from '../../services/api/auth.service';
 })
 export class RegisterComponent {
 
-  existMessage = '';
+  readonly fieldStates = [{
+    type: fieldType.userName,
+    label: 'user name',
+  }, {
+    type: fieldType.email,
+    label: 'email',
+    validator: 'email'
+  }, {
+    type: fieldType.password,
+    label: 'password',
+    validator: 'password'
+  }, {
+    type: fieldType.repeatPassword,
+    label: 'repeat password'
+  }];
 
   registerForm = new FormGroup({
     userName: new FormControl('', Validators.compose([
@@ -25,7 +46,7 @@ export class RegisterComponent {
       Validators.minLength(4)])),
     email: new FormControl('', [
         Validators.required,
-        Validators.email,
+        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
       ]
     ),
     password: new FormControl('',
@@ -52,14 +73,8 @@ export class RegisterComponent {
     };
   }
 
-  showMessage() {
-    setInterval(() => this.existMessage = this.authService.existErrorMessage, 3000);
-    return this.existMessage;
-  }
-
-  onSubmit() {
+  onSubmit(): void {
     this.authService.register(this.registerForm.value).subscribe();
-    this.showMessage();
   }
 
 }

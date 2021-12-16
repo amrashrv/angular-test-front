@@ -18,7 +18,6 @@
   align-content: center;
   width: 100%;
   height: 100%;
-
   background-color: #e5e4e4;
 
   h1 {
@@ -86,13 +85,9 @@
   margin-left: 20px;
 }
 
-.mat-checkbox {
-  label {
-    span {
-      width: 100px;
-      border-radius: 50%;
-    }
-  }
+.mat-checkbox label span {
+  width: 100px;
+  border-radius: 50%;
 }
 
 .input-container {
@@ -121,8 +116,8 @@
   align-items: center;
   border-bottom: solid rgba(128, 128, 128, 0.24);
 
-  .select-all-icon {
-    opacity: 0.3;
+  .select-all-icon, .select-all-disabled {
+    opacity: 0.4;
     box-shadow: none;
     border: none;
     width: 60px;
@@ -135,6 +130,12 @@
       margin-right: 30px;
       font-size: 50px;
     }
+  }
+
+  .select-all-disabled {
+    pointer-events: none;
+    opacity: 0.2;
+
   }
 }
 
@@ -191,7 +192,7 @@ mat-button-toggle-group {
 }
 
 @media screen and (max-width: 800px) {
-  .mat-card{
+  .mat-card {
     width: 100%;
   }
   .app-container {
@@ -199,26 +200,28 @@ mat-button-toggle-group {
     justify-content: flex-start;
   }
 }
+
 @media screen and (max-width: 600px) {
-  .content{
+  .content {
     width: 100%;
     height: 450px;
   }
-  .filters-group{
+  .filters-group {
     flex-direction: column;
     width: 100%;
     padding-top: 5px;
   }
-  .mat-card-title h1{
+  .mat-card-title h1 {
     font-size: 50px;
   }
-  .list-container{
+  .list-container {
     width: 100%;
     height: 250px;
   }
-  .header{
-    .select-all-icon{
+  .header {
+    .select-all-icon, .select-all-icon-disabled {
       width: 20px;
+
       .mark-all-done {
         margin-top: 0px;
         margin-left: -15px;
@@ -226,11 +229,16 @@ mat-button-toggle-group {
         font-size: 20px;
       }
     }
+
+    .select-all-icon-disabled {
+      opacity: 0.2;
+    }
+
   }
-  .content-wrapper{
+  .content-wrapper {
     width: 100%;
   }
-  .mark-all-undone{
+  .mark-all-undone {
     margin-left: 0px;
   }
   .items-left-counter {

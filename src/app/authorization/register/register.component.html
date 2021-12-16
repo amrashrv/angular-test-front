@@ -1,51 +1,58 @@
 <mat-card-title>Register</mat-card-title>
 <div class="outer-container">
-  <div class="register-container">
+  <div class="form-container">
     <mat-card-content>
-      <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>user name</mat-label>
-          <input matInput placeholder="user name" formControlName="userName">
-          <mat-error *ngIf="registerForm.controls['userName'].hasError('required')">
+      <form class="inner-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field *ngFor="let field of fieldStates" class="example-full-width" appearance="fill">
+          <mat-label>{{field.label}}</mat-label>
+          <input matInput placeholder="{{field.label}}" formControlName="{{field.type}}">
+          <mat-error *ngIf="registerForm.controls[field.type].hasError('required')">
             required
           </mat-error>
-          <mat-error *ngIf="registerForm.controls['userName'].hasError('minLength')">
+          <mat-error *ngIf="registerForm.controls[field.type].hasError('minLength')">
             user name must contain at least 4 symbols
           </mat-error>
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>email</mat-label>
-          <input matInput id=email type="email" formControlName="email" placeholder="email">
-          <mat-error *ngIf="registerForm.controls['email'].hasError('required')">
-            required
-          </mat-error>
-          <mat-error *ngIf="registerForm.controls['email'].hasError('email')">
+          <mat-error *ngIf="registerForm.controls[field.type].hasError('pattern')">
             invalid email
           </mat-error>
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>password</mat-label>
-          <input matInput type=password formControlName="password" placeholder="password">
-          <mat-error *ngIf="registerForm.controls['password'].hasError('required')">
-            required
-          </mat-error>
-          <mat-error *ngIf="registerForm.controls['password'].hasError('pattern')">
+          <mat-error *ngIf="registerForm.controls[field.type].hasError('pattern')">
             Password must contain at least 8 characters, one uppercase, one number and one special case character
           </mat-error>
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>repeat password</mat-label>
-          <input matInput type=password formControlName="repeatPassword" placeholder="password">
-          <mat-error *ngIf="registerForm.controls['repeatPassword'].hasError('required')">
-            required
-          </mat-error>
-          <mat-error
-            *ngIf="(registerForm.controls['repeatPassword'].dirty || registerForm.controls['repeatPassword'].touched )
-            && registerForm.controls['repeatPassword'].hasError('notEqual')">
+          <mat-error *ngIf="registerForm.controls[field.type].hasError('notEqual')">
             passwords are not equal
           </mat-error>
         </mat-form-field>
-        <div class="existMessage">{{showMessage()}}</div>
+<!--        <mat-form-field class="example-full-width" appearance="fill">-->
+<!--          <mat-label>email</mat-label>-->
+<!--          <input matInput id=email type="email" formControlName="email" placeholder="email">-->
+<!--          <mat-error *ngIf="registerForm.controls['email'].hasError('required')">-->
+<!--            required-->
+<!--          </mat-error>-->
+<!--          <mat-error *ngIf="registerForm.controls['email'].hasError('pattern')">-->
+<!--            invalid email-->
+<!--          </mat-error>-->
+<!--        </mat-form-field>-->
+<!--        <mat-form-field class="example-full-width" appearance="fill">-->
+<!--          <mat-label>password</mat-label>-->
+<!--          <input matInput type=password formControlName="password" placeholder="password">-->
+<!--          <mat-error *ngIf="registerForm.controls['password'].hasError('required')">-->
+<!--            required-->
+<!--          </mat-error>-->
+<!--          <mat-error *ngIf="registerForm.controls['password'].hasError('pattern')">-->
+<!--            Password must contain at least 8 characters, one uppercase, one number and one special case character-->
+<!--          </mat-error>-->
+<!--        </mat-form-field>-->
+<!--        <mat-form-field class="example-full-width" appearance="fill">-->
+<!--          <mat-label>repeat password</mat-label>-->
+<!--          <input matInput type=password formControlName="repeatPassword" placeholder="password">-->
+<!--          <mat-error *ngIf="registerForm.controls['repeatPassword'].hasError('required')">-->
+<!--            required-->
+<!--          </mat-error>-->
+<!--          <mat-error-->
+<!--            *ngIf="registerForm.controls['repeatPassword'].hasError('notEqual')">-->
+<!--            passwords are not equal-->
+<!--          </mat-error>-->
+<!--        </mat-form-field>-->
         <button mat-button color="primary" type="submit" [disabled]="!registerForm.valid">submit</button>
         <a mat-button color="primary" routerLink="/auth/login">to login</a>
       </form>

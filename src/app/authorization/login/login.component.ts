@@ -3,6 +3,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services/api/auth.service';
 
+
+export enum fieldType {
+  email = 'email',
+  password = 'password'
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,8 +16,13 @@ import { AuthService } from '../../services/api/auth.service';
 })
 export class LoginComponent {
 
+  readonly fieldState = [
+    fieldType.email,
+    fieldType.password
+  ];
+
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.email, Validators.required]),
+    email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required])
   });
 
@@ -20,7 +31,7 @@ export class LoginComponent {
   ) {
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.authService.login(this.loginForm.value).subscribe();
   }
 

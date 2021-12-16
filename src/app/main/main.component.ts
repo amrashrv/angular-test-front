@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 import { ToastService } from 'angular-toastify';
 import { FormControl, Validators } from '@angular/forms';
 
@@ -35,12 +35,12 @@ export class MainComponent implements OnInit {
   public counter: Observable<number> = this.store.select(selectCompletedTasksCounter);
   public isLoading$: Observable<boolean> = this.store.select(selectIsLoading);
   public selectedType: FilterType;
-  public markAll: boolean;
+  public allTasksCompletedStatus: boolean;
 
 
   newTaskFormControl = new FormControl('', [
-    Validators.required,
-    Validators.maxLength(60)
+      Validators.required,
+      Validators.maxLength(60)
     ]
   );
 
@@ -61,25 +61,43 @@ export class MainComponent implements OnInit {
     private store: Store<IState>,
     private _toastService: ToastService,
     private validationService: TaskValidationService,
-    ) {
+  ) {
     this.selectedType = this.filterType.all;
-    this.markAll = false;
+    this.allTasksCompletedStatus = false;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(taskActions.loadTasks());
   }
 
-  markAllTasksDone() {
-    this.markAll = !this.markAll;
-    this.store.dispatch(taskActions.updateAll({done: this.markAll}));
+  markAllTasksDone(): void {
+    let result = true;
+    this.tasks$.subscribe(tasks => {
+      if (tasks.length === 0) {
+        result = false;
+      }
+    });
+    this.allTasksCompletedStatus = !this.allTasksCompletedStatus;
+    if (result) {
+      this.store.dispatch(taskActions.updateAll({done: this.allTasksCompletedStatus}));
+    }
   }
 
-  clearAllCompleted() {
-    this.store.dispatch(taskActions.clearAllCompleted());
+  clearAllCompleted(): void {
+    let result = false;
+    this.tasks$.subscribe(tasks => {
+      const doneTasks = tasks.filter(item => item.done);
+      if (doneTasks.length !== 0) {
+        result = true;
+      }
+    });
+    if (result) {
+      this.store.dispatch(taskActions.clearAllCompleted());
+    }
+
   }
 
-  addTask() {
+  addTask(): void {
     if (this.validationService.taskValidation(this.newTaskFormControl)) {
       const text = this.newTaskFormControl.value;
       this.store.dispatch(taskActions.addTask({text}));
@@ -87,12 +105,12 @@ export class MainComponent implements OnInit {
     }
   }
 
-  logout() {
+  logout(): void {
     this.store.dispatch(taskActions.clearState());
     this.authService.logout();
   }
 
-  updateFilterType(type: FilterType) {
+  updateFilterType(type: FilterType): void {
     this.selectedType = type;
     this.tasks$ = this.store.select(getAllTasks(type));
   }

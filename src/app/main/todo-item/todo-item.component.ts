@@ -7,6 +7,8 @@ import * as taskActions from '../../state/tasks/tasks.actions';
 import { FormControl, Validators } from '@angular/forms';
 import { ToastService } from 'angular-toastify';
 import { TaskValidationService } from '../../services/task-validation.service';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-todo-item',
@@ -16,6 +18,7 @@ import { TaskValidationService } from '../../services/task-validation.service';
 
 export class TodoItemComponent implements OnInit {
   @Input() item!: ITask;
+  @Input() isLoading$!: Observable<boolean>;
 
   @ViewChild('taskInput')
   set input(element: ElementRef<HTMLInputElement>) {
@@ -39,7 +42,7 @@ export class TodoItemComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.item) {
       this.checked = this.item.done;
       this.editTaskFormControl.setValue(this.item.text);
@@ -50,7 +53,7 @@ export class TodoItemComponent implements OnInit {
     this.store.dispatch(taskActions.removeTask({task}));
   }
 
-  updateTaskText(task: ITask) {
+  updateTaskText(task: ITask): void {
     const formControl = this.editTaskFormControl;
     if (this.validationService.taskValidation(formControl)) {
       const text = formControl.value;
@@ -58,15 +61,15 @@ export class TodoItemComponent implements OnInit {
     }
   }
 
-  updateIsTaskCompleted(task: ITask, done: boolean) {
+  updateIsTaskCompleted(task: ITask, done: boolean): void {
     this.store.dispatch(taskActions.updateIsTaskCompleted({task, done}));
   }
 
-  onCancelEditMode() {
+  onCancelEditMode(): void {
     this.selectedItem = undefined;
   }
 
-  onStartEditMode(item: ITask) {
+  onStartEditMode(item: ITask): void {
     this.selectedItem = item;
   }
 }
