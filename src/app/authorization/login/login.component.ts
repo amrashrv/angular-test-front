@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services/api/auth.service';
+import { LOGIN_FIELD_NAME } from '../../consts/consts';
 
 
-export enum FieldType {
-  email = 'email',
-  password = 'password'
-}
+
 
 @Component({
   selector: 'app-login',
@@ -19,8 +17,8 @@ export class LoginComponent {
   public passwordVisibility = true;
 
   readonly fieldState = [
-    FieldType.email,
-    FieldType.password
+    LOGIN_FIELD_NAME.email,
+    LOGIN_FIELD_NAME.password
   ];
 
   loginForm = new FormGroup({

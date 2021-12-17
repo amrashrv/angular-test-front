@@ -42,11 +42,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatButtonToggleModule,
     MatRippleModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   providers: [
     TasksService,
-    TaskValidationService
+    TaskValidationService,
   ],
   exports: [MainComponent]
 })

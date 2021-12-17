@@ -9,22 +9,8 @@ import {
 } from '@angular/forms';
 
 import { AuthService } from '../../services/api/auth.service';
+import { emailValidationRegex, REGISTER_FIELD_NAME, VALIDATION } from '../../consts/consts';
 
-export enum FieldName {
-  userName = 'userName',
-  email = 'email',
-  password = 'password',
-  repeatPassword = 'repeatPassword',
-
-}
-
-export enum ValidationType {
-  required = 'required',
-  minLenght = 'minlength',
-  validateEmail = 'invalidEmail',
-  pattern = 'pattern',
-  compare = 'notEqual'
-}
 
 @Component({
   selector: 'app-register',
@@ -36,24 +22,24 @@ export class RegisterComponent {
   public passwordVisibility = true;
 
   readonly FieldStates = [{
-    name: FieldName.userName,
+    name: REGISTER_FIELD_NAME.userName,
     label: 'user name',
-    validator: ValidationType,
+    validator: VALIDATION,
     type: 'text'
   }, {
-    name: FieldName.email,
+    name: REGISTER_FIELD_NAME.email,
     label: 'email',
-    validator: ValidationType,
+    validator: VALIDATION,
     type: 'email'
   }, {
-    name: FieldName.password,
+    name: REGISTER_FIELD_NAME.password,
     label: 'password',
-    validator: ValidationType,
+    validator: VALIDATION,
     type: 'password'
   }, {
-    name: FieldName.repeatPassword,
+    name: REGISTER_FIELD_NAME.repeatPassword,
     label: 'repeat password',
-    validator: ValidationType,
+    validator: VALIDATION,
     type: 'password'
   }];
 
@@ -66,7 +52,7 @@ export class RegisterComponent {
         this.validateEmail(),
       ]
     ),
-    password: new FormControl('',[
+    password: new FormControl('', [
         Validators.required,
         Validators.pattern(/^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/)]),
     repeatPassword: new FormControl('', [
@@ -81,23 +67,22 @@ export class RegisterComponent {
 
   passwordsCompare(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
-      if (!value) {
+      const passwordValueFromInput = control.value;
+      if (!passwordValueFromInput) {
         return null;
       }
-      return value !== this.registerForm.controls['password'].value ? {notEqual: true} : null;
+      return passwordValueFromInput !== this.registerForm.controls['password'].value ? {unequal: true} : null;
     };
   }
 
   validateEmail(): ValidatorFn {
-    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
-      if(!value) {
+   return (control: AbstractControl): ValidationErrors | null => {
+      const emailValueFromInput = control.value;
+      if (!emailValueFromInput) {
         return null;
       }
-      return !value.match(emailRegex)? {invalidEmail: true} : null
-    }
+      return !emailValueFromInput.match(emailValidationRegex) ? {invalidEmail: true} : null;
+    };
   }
 
   onSubmit(): void {

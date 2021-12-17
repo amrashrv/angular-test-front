@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ToastService } from 'angular-toastify';
 import { FormControl, Validators } from '@angular/forms';
 
 import * as taskActions from '../state/tasks/tasks.actions';
@@ -16,12 +15,8 @@ import { selectIsLoading } from '../state/app/app.selectors';
 import { TaskValidationService } from '../services/task-validation.service';
 import { AuthService } from '../services/api/auth.service';
 import { ITask } from '../interfaces/task';
+import { TASKS_FILTER } from '../consts/consts';
 
-export enum FilterType {
-  all,
-  active,
-  completed
-}
 
 @Component({
   selector: 'app-main',
@@ -29,14 +24,13 @@ export enum FilterType {
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-
-  readonly filterType = FilterType;
+  readonly filterType = TASKS_FILTER;
   public tasks$: Observable<ITask[]> = this.store.select(selectAllTasks);
-  public counter: Observable<number> = this.store.select(selectCompletedTasksCounter);
+  public activeTasksCounter$: Observable<number> = this.store.select(selectCompletedTasksCounter);
   public isLoading$: Observable<boolean> = this.store.select(selectIsLoading);
-  public selectedType: FilterType;
+  public selectedType: TASKS_FILTER;
   public allTasksCompletedStatus: boolean;
-
+  private tasks: ITask[] = [];
 
   newTaskFormControl = new FormControl('', [
       Validators.required,
@@ -45,13 +39,13 @@ export class MainComponent implements OnInit {
   );
 
   readonly filterStates = [{
-    type: FilterType.all,
+    type: TASKS_FILTER.all,
     label: 'All'
   }, {
-    type: FilterType.active,
+    type: TASKS_FILTER.active,
     label: 'Active'
   }, {
-    type: FilterType.completed,
+    type: TASKS_FILTER.completed,
     label: 'Completed'
   }];
 
@@ -59,7 +53,6 @@ export class MainComponent implements OnInit {
     private apiService: TasksService,
     private authService: AuthService,
     private store: Store<IState>,
-    private _toastService: ToastService,
     private validationService: TaskValidationService,
   ) {
     this.selectedType = this.filterType.all;
@@ -68,33 +61,21 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(taskActions.loadTasks());
+    this.tasks$.subscribe(result => this.tasks = result);
   }
 
-  markAllTasksDone(): void {
-    let result = true;
-    this.tasks$.subscribe(tasks => {
-      if (tasks.length === 0) {
-        result = false;
-      }
-    });
+  setAllTasksCompleted(): void {
     this.allTasksCompletedStatus = !this.allTasksCompletedStatus;
-    if (result) {
+    if (this.tasks.length > 0) {
       this.store.dispatch(taskActions.updateAll({done: this.allTasksCompletedStatus}));
     }
   }
 
-  clearAllCompleted(): void {
-    let result = false;
-    this.tasks$.subscribe(tasks => {
-      const doneTasks = tasks.filter(item => item.done);
-      if (doneTasks.length !== 0) {
-        result = true;
-      }
-    });
-    if (result) {
+  clearAllCompletedTasks(): void {
+    const completedTasks = this.tasks.filter(task => task.done);
+    if (completedTasks.length > 0) {
       this.store.dispatch(taskActions.clearAllCompleted());
     }
-
   }
 
   addTask(): void {
@@ -110,7 +91,7 @@ export class MainComponent implements OnInit {
     this.authService.logout();
   }
 
-  updateFilterType(type: FilterType): void {
+  updateFilterType(type: TASKS_FILTER): void {
     this.selectedType = type;
     this.tasks$ = this.store.select(getAllTasks(type));
   }

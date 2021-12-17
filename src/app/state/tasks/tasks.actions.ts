@@ -5,7 +5,7 @@ export const addTask = createAction('[TODO] Task added', props<{text: string}>()
 export const removeTask = createAction('[TODO] Task removed', props<{task: ITask}>());
 export const loadTasks = createAction('[TODO] Tasks loaded');
 export const updateTaskText = createAction('[TODO] Task text updated', props<{task: ITask; text: string}>());
-export const updateIsTaskCompleted = createAction('[TODO] Task is completed', props<{task: ITask; done: boolean}>());
+export const updateTaskStatus = createAction('[TODO] Task is completed', props<{task: ITask; done: boolean}>());
 export const updateAll = createAction('[TODO] All tasks updated', props<{done: boolean}>());
 export const clearAllCompleted = createAction('[TODO] Done tasks cleared');
 

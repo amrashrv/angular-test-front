@@ -25,7 +25,8 @@ export class TasksEffects {
     return of(AppActions.operationFailed());
   };
 
-  loadTasks$ = createEffect(() => this.actions$.pipe(
+  loadTasks$ = createEffect(() => {
+ return this.actions$.pipe(
     ofType(TasksActions.loadTasks),
     mergeMap(() => this.apiService.getTasks().pipe(
       map(tasks => TasksActions.loadTasksSuccess({tasks})),
@@ -33,9 +34,11 @@ export class TasksEffects {
         return this.handleError(error.error.message);
       })
     ))
-  ));
+  );
+});
 
-  addTask$ = createEffect(() => this.actions$.pipe(
+  addTask$ = createEffect(() => {
+ return this.actions$.pipe(
     ofType(TasksActions.addTask),
     mergeMap((action) => this.apiService.addTask(action.text).pipe(
       map((task: ITask) => {
@@ -43,19 +46,23 @@ export class TasksEffects {
       }),
       catchError(error => this.handleError(error.error.message))
     ))
-  ));
+  );
+});
 
-  updateIsTaskCompleted$ = createEffect(() => this.actions$.pipe(
-    ofType(TasksActions.updateIsTaskCompleted),
+  updateIsTaskCompleted$ = createEffect(() => {
+ return this.actions$.pipe(
+    ofType(TasksActions.updateTaskStatus),
     mergeMap((action) => this.apiService.updateTaskIsCompleted(action.task, action.done).pipe(
       map(task => {
         return TasksActions.updateSuccess({task});
       }),
       catchError(error => this.handleError(error.error.message))
     ))
-  ));
+  );
+});
 
-  updateTaskText$ = createEffect(() => this.actions$.pipe(
+  updateTaskText$ = createEffect(() => {
+ return this.actions$.pipe(
     ofType(TasksActions.updateTaskText),
     mergeMap((action) => this.apiService.updateTaskText(action.task, action.text).pipe(
       map(task => {
@@ -63,9 +70,11 @@ export class TasksEffects {
       }),
       catchError(error => this.handleError(error.error.message))
     ))
-  ));
+  );
+});
 
-  updateAllTasks$ = createEffect(() => this.actions$.pipe(
+  updateAllTasks$ = createEffect(() => {
+ return this.actions$.pipe(
     ofType(TasksActions.updateAll),
     mergeMap((action) => this.apiService.updateAll(action.done).pipe(
       map((action) => {
@@ -74,9 +83,11 @@ export class TasksEffects {
       }),
       catchError(error => this.handleError(error.error.message))
     ))
-  ));
+  );
+});
 
-  deleteTask$ = createEffect(() => this.actions$.pipe(
+  deleteTask$ = createEffect(() => {
+ return this.actions$.pipe(
     ofType(TasksActions.removeTask),
     mergeMap((action) => this.apiService.deleteTask(action.task).pipe(
       map(() => {
@@ -85,9 +96,11 @@ export class TasksEffects {
       }),
       catchError(error => this.handleError(error.error.message))
     ))
-  ));
+  );
+});
 
-  clearAllCompleted$ = createEffect(() => this.actions$.pipe(
+  clearAllCompleted$ = createEffect(() => {
+ return this.actions$.pipe(
     ofType(TasksActions.clearAllCompleted),
     mergeMap(() => this.apiService.clearAll().pipe(
       map((ids: string[]) => {
@@ -95,5 +108,6 @@ export class TasksEffects {
       }),
       catchError(error => this.handleError(error.error.message))
     ))
-  ));
+  );
+});
 }

@@ -2,9 +2,9 @@ import { createSelector } from '@ngrx/store';
 
 import { IState } from '../state.model';
 import { taskReducerKey } from './tasks.reducer';
-import { FilterType } from '../../main/main.component';
 import * as fromTasks from './tasks.reducer';
 import { ITask } from '../../interfaces/task';
+import { TASKS_FILTER } from '../../consts/consts';
 
 export const tasksStateSelector = (state: IState) => state[taskReducerKey];
 
@@ -28,12 +28,12 @@ const selectActiveTasks = createSelector(
   (tasks: ITask[]) => tasks.filter(task => !task.done)
 );
 
-export const getAllTasks = (type: FilterType) => {
+export const getAllTasks = (type: TASKS_FILTER) => {
   switch (type) {
-    case FilterType.active:
+    case TASKS_FILTER.active:
       return selectActiveTasks;
 
-    case FilterType.completed:
+    case TASKS_FILTER.completed:
       return selectCompletedTasks;
   }
   return selectAllTasks;

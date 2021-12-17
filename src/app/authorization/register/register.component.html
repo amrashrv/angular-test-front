@@ -12,7 +12,7 @@
           <mat-error *ngIf="registerForm.controls[field.name].hasError(field.validator.required)">
             required
           </mat-error>
-          <mat-error *ngIf="registerForm.controls[field.name].hasError(field.validator.minLenght)">
+          <mat-error *ngIf="registerForm.controls[field.name].hasError(field.validator.minLength)">
             user name must contain at least 4 symbols
           </mat-error>
           <mat-error *ngIf="registerForm.controls[field.name].hasError(field.validator.validateEmail)">

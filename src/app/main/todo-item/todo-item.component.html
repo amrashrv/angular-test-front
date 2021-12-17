@@ -1,9 +1,9 @@
-<mat-list-item [ngClass]="!(isLoading$ | async)? 'default' : 'blocker'" (dblclick)="onStartEditMode(item)">
+<mat-list-item [ngClass]="!(isLoading$ | async)? 'default' : 'blocker'" (dblclick)="openEditMode(item)">
   <div class="task-undone">
     <label>
       <input class="default-checkbox" type="checkbox"
              [ngModel]="checked"
-             (ngModelChange)="updateIsTaskCompleted(item, $event)">
+             (ngModelChange)="updateTaskStatus(item, $event)">
       <div matRipple class="checkbox-icon">
         <mat-icon class="done">done</mat-icon>
       </div>
@@ -15,7 +15,7 @@
   </div>
   <ng-template #input>
     <input (keydown.enter)="updateTaskText(item)"
-           (blur)="onCancelEditMode()"
+           (blur)="closeEditMode()"
            class="task-edit-input"
            [formControl]="editTaskFormControl"
            autofocus

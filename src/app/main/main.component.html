@@ -6,7 +6,7 @@
       </mat-card-title>
       <div class="content">
         <div class="header">
-          <mat-button-toggle [ngClass]="(isLoading$ | async)? 'select-all-disabled': 'select-all-icon'" (click)="markAllTasksDone()">
+          <mat-button-toggle [ngClass]="(isLoading$ | async)? 'select-all-disabled': 'select-all-icon'" (click)="setAllTasksCompleted()">
             <mat-icon  class="mark-all-done" >keyboard_arrow_down</mat-icon>
           </mat-button-toggle>
           <div class="input-container">
@@ -23,14 +23,14 @@
         <div class="filters-container">
           <ul class="filters-group">
 
-            <li class="items-left-counter">{{counter | async}} items left</li>
+            <li class="items-left-counter">{{activeTasksCounter$ | async}} items left</li>
             <mat-button-toggle-group appearance="legacy"
                                      [value]="selectedType">
               <mat-button-toggle *ngFor="let filterState of filterStates"
                                  [value]="filterState.type"
                                  (click)="updateFilterType(filterState.type)">{{filterState.label}}</mat-button-toggle>
             </mat-button-toggle-group>
-            <a mat-button class="mark-all-undone" *ngIf="!(isLoading$ | async)" (click)="clearAllCompleted()">clear all</a>
+            <a mat-button class="mark-all-undone" *ngIf="!(isLoading$ | async)" (click)="clearAllCompletedTasks()">clear all</a>
             <a mat-button class="mark-all-undone" *ngIf="isLoading$ | async" [disabled]="true">clear all</a>
           </ul>
 

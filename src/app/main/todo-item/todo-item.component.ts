@@ -5,7 +5,6 @@ import { ITask } from '../../interfaces/task';
 import { TasksService } from '../../services/api/tasks.service';
 import * as taskActions from '../../state/tasks/tasks.actions';
 import { FormControl, Validators } from '@angular/forms';
-import { ToastService } from 'angular-toastify';
 import { TaskValidationService } from '../../services/task-validation.service';
 import { Observable } from 'rxjs';
 
@@ -37,8 +36,7 @@ export class TodoItemComponent implements OnInit {
   constructor(
     private apiService: TasksService,
     private store: Store,
-    private _toastService: ToastService,
-    private validationService: TaskValidationService
+    private taskValidationService: TaskValidationService
   ) {
   }
 
@@ -55,21 +53,21 @@ export class TodoItemComponent implements OnInit {
 
   updateTaskText(task: ITask): void {
     const formControl = this.editTaskFormControl;
-    if (this.validationService.taskValidation(formControl)) {
+    if (this.taskValidationService.taskValidation(formControl)) {
       const text = formControl.value;
       this.store.dispatch(taskActions.updateTaskText({task, text}));
     }
   }
 
-  updateIsTaskCompleted(task: ITask, done: boolean): void {
-    this.store.dispatch(taskActions.updateIsTaskCompleted({task, done}));
+  updateTaskStatus(task: ITask, done: boolean): void {
+    this.store.dispatch(taskActions.updateTaskStatus({task, done}));
   }
 
-  onCancelEditMode(): void {
+  closeEditMode(): void {
     this.selectedItem = undefined;
   }
 
-  onStartEditMode(item: ITask): void {
+  openEditMode(item: ITask): void {
     this.selectedItem = item;
   }
 }

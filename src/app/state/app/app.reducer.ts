@@ -12,7 +12,7 @@ export const appReducer = createReducer(
   on(TasksActions.loadTasks,
     TasksActions.removeTask,
     TasksActions.updateTaskText,
-    TasksActions.updateIsTaskCompleted,
+    TasksActions.updateTaskStatus,
     TasksActions.addTask,
     TasksActions.updateAll,
     TasksActions.clearAllCompleted,
