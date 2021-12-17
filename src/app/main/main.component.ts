@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ToastService } from 'angular-toastify';
 import { FormControl, Validators } from '@angular/forms';
 
