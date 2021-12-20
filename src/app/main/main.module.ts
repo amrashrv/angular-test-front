@@ -18,7 +18,6 @@ import { TasksService } from '../services/api/tasks-service/tasks.service';
 import { MainComponent } from './main.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { TasksEffects } from '../state/tasks/tasks.effects';
-import { TaskValidationService } from '../services/api/tasks-service/task-validation.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
@@ -46,7 +45,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   ],
   providers: [
     TasksService,
-    TaskValidationService,
   ],
   exports: [MainComponent]
 })

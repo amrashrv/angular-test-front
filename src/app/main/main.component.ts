@@ -11,10 +11,10 @@ import {
 } from '../state/tasks/tasks.selectors';
 import { IState } from '../state/state.model';
 import { selectIsLoading } from '../state/app/app.selectors';
-import { TaskValidationService } from '../services/api/tasks-service/task-validation.service';
 import { AuthService } from '../services/api/authorization/auth.service';
 import { ITask } from '../interfaces/task';
 import { TASKS_FILTER } from './main.component.model';
+import { ToastService } from 'angular-toastify';
 
 
 @Component({
@@ -51,7 +51,7 @@ export class MainComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private store: Store<IState>,
-    private validationService: TaskValidationService,
+    private toastService: ToastService
   ) {
     this.selectedType = this.filterType.all;
     this.allTasksCompletedStatus = false;
@@ -79,11 +79,17 @@ export class MainComponent implements OnInit {
   }
 
   addTask(): void {
-    if (this.validationService.taskValidation(this.newTaskFormControl)) {
+      if (this.newTaskFormControl.errors) {
+        if (this.newTaskFormControl.errors['required']){
+          this.toastService.error('should not be empty');
+        } else {
+          this.toastService.error('shouldn not be more than 60 symbols');
+        }
+        return;
+      }
       const text = this.newTaskFormControl.value;
       this.store.dispatch(taskActions.addTask({text}));
       this.newTaskFormControl.setValue('');
-    }
   }
 
   logout(): void {

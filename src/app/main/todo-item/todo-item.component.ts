@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { ITask } from '../../interfaces/task';
 import * as taskActions from '../../state/tasks/tasks.actions';
 import { FormControl, Validators } from '@angular/forms';
-import { TaskValidationService } from '../../services/api/tasks-service/task-validation.service';
 import { Observable } from 'rxjs';
+import { ToastService } from 'angular-toastify';
 
 
 @Component({
@@ -34,7 +34,7 @@ export class TodoItemComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private taskValidationService: TaskValidationService
+    private toastService: ToastService
   ) {
   }
 
@@ -51,10 +51,16 @@ export class TodoItemComponent implements OnInit {
 
   updateTaskText(task: ITask): void {
     const formControl = this.editTaskFormControl;
-    if (this.taskValidationService.taskValidation(formControl)) {
-      const text = formControl.value;
-      this.store.dispatch(taskActions.updateTaskText({task, text}));
+    if (formControl.errors) {
+      if (formControl.errors['required']) {
+        this.toastService.error('should not be empty');
+      } else {
+        this.toastService.error('shouldn not be more than 60 symbols');
+      }
+      return;
     }
+    const text = formControl.value;
+    this.store.dispatch(taskActions.updateTaskText({task, text}));
   }
 
   updateTaskStatus(task: ITask, done: boolean): void {
