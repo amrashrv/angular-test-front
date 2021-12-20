@@ -8,26 +8,22 @@ const mockTask: ITask = {
   _id: '1',
   text: 'test',
   done: false,
-  userId: '1'
 };
 const mockTasks: ITask[] = [
   {
     _id: '1',
     text: 'test',
     done: false,
-    userId: '1'
   },
   {
     _id: '2',
     text: 'test2',
     done: false,
-    userId: '2'
   },
   {
     _id: '3',
     text: 'test3',
     done: true,
-    userId: '3'
   }
 ];
 

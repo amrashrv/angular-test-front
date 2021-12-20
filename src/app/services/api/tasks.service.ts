@@ -13,7 +13,6 @@ export class TasksService {
 
   constructor(private http: HttpClient) {
   }
-  // http://localhost:5000/api
   // https://todo-list-back-angular.herokuapp.com/api
   private readonly baseUrl = 'http://localhost:5000/api';
   private readonly taskBaseUrl = `${this.baseUrl}/task`;
@@ -54,7 +53,6 @@ export class TasksService {
   }
 
   updateAll(done: boolean): Observable<ITask[]> {
-    console.log(done);
     return this.http.patch<ITask[]>(`${this.tasksBaseUrl}`, {done});
   }
 

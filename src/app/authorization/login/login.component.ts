@@ -4,9 +4,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/api/auth.service';
 import { LOGIN_FIELD_NAME } from '../../consts/consts';
 
-
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

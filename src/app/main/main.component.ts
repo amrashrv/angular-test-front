@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { FormControl, Validators } from '@angular/forms';
 
 import * as taskActions from '../state/tasks/tasks.actions';
-import { TasksService } from '../services/api/tasks.service';
 import {
   getAllTasks,
   selectAllTasks,
@@ -50,7 +49,6 @@ export class MainComponent implements OnInit {
   }];
 
   constructor(
-    private apiService: TasksService,
     private authService: AuthService,
     private store: Store<IState>,
     private validationService: TaskValidationService,
@@ -74,7 +72,9 @@ export class MainComponent implements OnInit {
   clearAllCompletedTasks(): void {
     const completedTasks = this.tasks.filter(task => task.done);
     if (completedTasks.length > 0) {
-      this.store.dispatch(taskActions.clearAllCompleted());
+      const ids = completedTasks.map(task => task._id);
+      console.log(ids);
+      this.store.dispatch(taskActions.clearAllCompleted({ids}));
     }
   }
 

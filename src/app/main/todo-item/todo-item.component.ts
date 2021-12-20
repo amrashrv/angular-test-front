@@ -2,7 +2,6 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ITask } from '../../interfaces/task';
-import { TasksService } from '../../services/api/tasks.service';
 import * as taskActions from '../../state/tasks/tasks.actions';
 import { FormControl, Validators } from '@angular/forms';
 import { TaskValidationService } from '../../services/task-validation.service';
@@ -34,7 +33,6 @@ export class TodoItemComponent implements OnInit {
   editTaskFormControl = new FormControl('', [Validators.required, Validators.maxLength(60)]);
 
   constructor(
-    private apiService: TasksService,
     private store: Store,
     private taskValidationService: TaskValidationService
   ) {

@@ -14,14 +14,17 @@ export class TasksEffects {
   constructor(
     private apiService: TasksService,
     private actions$: Actions,
-    private _toastService: ToastService,
+    private toastService: ToastService,
   ) {
   }
 
-  createMessage = (str: string) => str.substr(str.indexOf(']') + 2);
+  createMessage = (errorMessage: string) => {
+    console.log(errorMessage);
+    return errorMessage ? errorMessage.substr(errorMessage.indexOf(']') + 2) : 'NO CONNECTION';
+  };
 
   handleError = (error: string) => {
-    this._toastService.error(error);
+    this.toastService.error(error);
     return of(AppActions.operationFailed());
   };
 
@@ -102,9 +105,9 @@ export class TasksEffects {
   clearAllCompleted$ = createEffect(() => {
  return this.actions$.pipe(
     ofType(TasksActions.clearAllCompleted),
-    mergeMap(() => this.apiService.clearAll().pipe(
-      map((ids: string[]) => {
-        return TasksActions.clearAllCompletedSuccess({ids});
+    mergeMap((ids) => this.apiService.clearAll().pipe(
+      map(() => {
+        return TasksActions.clearAllCompletedSuccess(ids);
       }),
       catchError(error => this.handleError(error.error.message))
     ))

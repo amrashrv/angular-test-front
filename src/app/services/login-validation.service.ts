@@ -6,16 +6,16 @@ import { FormControl } from '@angular/forms';
   providedIn: 'root'
 })
 export class TaskValidationService {
-  constructor(private _toastService: ToastService) {
+  constructor(private toastService: ToastService) {
   }
 
   taskValidation(formControl: FormControl) {
     if (formControl.errors) {
       if (formControl.errors['required']) {
-        return this._toastService.error('required');
+        return this.toastService.error('required');
       }
       if (formControl.errors['maxlength']) {
-        return this._toastService.error('max length should be less than 60 symbols');
+        return this.toastService.error('max length should be less than 60 symbols');
       }
     } else {
       return formControl;

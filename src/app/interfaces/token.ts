@@ -1,4 +1,4 @@
 export interface IToken {
-  refToken: string;
+  refreshToken: string;
   token: string;
 }

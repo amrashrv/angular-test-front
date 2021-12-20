@@ -18,12 +18,12 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private _toastService: ToastService,
+    private toastService: ToastService,
     private router: Router
   ) {
   }
 
-  createMessage = (str: string): string => str.substr(str.indexOf(':') + 1);
+  createMessage = (errorMessage: string): string => errorMessage ? errorMessage.substr(errorMessage.indexOf(':') + 1) : 'NO CONNECTION';
 
   register(body: IUser): Observable<IUser> {
     return this.http.post<IToken>(`${this.baseUrl}/auth/register`, body).pipe(
@@ -32,7 +32,7 @@ export class AuthService {
         return of(result);
       }),
       catchError(err => {
-        this._toastService.error(this.createMessage(err.error.message));
+        this.toastService.error(this.createMessage(err.error.message));
         return of(err);
       }),
     );
@@ -45,7 +45,7 @@ export class AuthService {
         return of(result);
       }),
       catchError(err => {
-        this._toastService.error(this.createMessage(err.error.message));
+        this.toastService.error(this.createMessage(err.error.message));
         return of(err);
       }),
     );
@@ -57,13 +57,13 @@ export class AuthService {
   }
 
   refreshToken(): Observable<IToken> {
-    const refToken = localStorage.getItem('refToken');
-    return this.http.post<IToken>(`${this.baseUrl}/auth/refreshToken`, {refToken});
+    const refreshToken = localStorage.getItem('refreshToken');
+    return this.http.post<IToken>(`${this.baseUrl}/auth/refreshToken`, {refreshToken});
   }
 
   setSession(authResult: IToken): void {
     localStorage.setItem('token', authResult.token);
-    localStorage.setItem('refToken', authResult.refToken);
+    localStorage.setItem('refreshToken', authResult.refreshToken);
     this.router.navigateByUrl('main');
   }
 

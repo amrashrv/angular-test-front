@@ -1,4 +1,4 @@
-import { createReducer, on } from '@ngrx/store';
+import { createReducer, on, State } from '@ngrx/store';
 
 import { initialAppState } from './app.model';
 import * as TasksActions from '../tasks/tasks.actions';
