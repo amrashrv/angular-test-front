@@ -12,7 +12,6 @@ import { IToken } from './token';
   providedIn: 'root'
 })
 export class AuthService {
-  // http://localhost:5000/api
   // https://todo-list-back-angular.herokuapp.com/api
   private readonly baseUrl = 'http://localhost:5000/api';
 
