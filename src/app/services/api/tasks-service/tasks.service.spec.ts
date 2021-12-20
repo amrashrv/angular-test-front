@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 import { TasksService } from './tasks.service';
-import { ITask } from '../../interfaces/task';
+import { ITask } from '../../../interfaces/task';
 import { HttpClient } from '@angular/common/http';
 
 

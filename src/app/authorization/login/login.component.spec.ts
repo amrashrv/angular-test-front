@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from '../../services/api/auth.service';
+import { AuthService } from '../../services/api/authorization/auth.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -71,7 +71,7 @@ describe('LoginComponent', () => {
     expect(passwordFormControl.errors).not.toBeNull();
   });
 
-  it('check form validators', () => {
+  it('check form validators', async () => {
     const emailInputElement = fixture.nativeElement.querySelectorAll('input')[0];
     const passwordInputElement = fixture.nativeElement.querySelectorAll('input')[1];
     emailInputElement.value = 'lkasdfjl@mail.com';

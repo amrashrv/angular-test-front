@@ -14,11 +14,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-import { TasksService } from '../services/api/tasks.service';
+import { TasksService } from '../services/api/tasks-service/tasks.service';
 import { MainComponent } from './main.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { TasksEffects } from '../state/tasks/tasks.effects';
-import { TaskValidationService } from '../services/task-validation.service';
+import { TaskValidationService } from '../services/api/tasks-service/task-validation.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({

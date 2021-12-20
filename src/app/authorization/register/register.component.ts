@@ -8,8 +8,8 @@ import {
   Validators
 } from '@angular/forms';
 
-import { AuthService } from '../../services/api/auth.service';
-import { emailValidationRegex, REGISTER_FIELD_NAME, VALIDATION } from '../../consts/consts';
+import { AuthService } from '../../services/api/authorization/auth.service';
+import { emailValidationRegex, passwordValidationRegex, REGISTER_FIELD_NAME, VALIDATION } from '../authorization.model';
 
 
 @Component({
@@ -54,14 +54,14 @@ export class RegisterComponent {
     ),
     password: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/)]),
+        Validators.pattern(passwordValidationRegex)]),
     repeatPassword: new FormControl('', [
       Validators.required,
       this.passwordsCompare()])
   });
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
   ) {
   }
 

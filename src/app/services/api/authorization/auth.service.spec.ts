@@ -3,12 +3,12 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AuthService } from './auth.service';
-import { IUser } from '../../interfaces/user';
+import { IUser } from '../../../interfaces/user';
 import { HttpClient } from '@angular/common/http';
-import { RegisterComponent } from '../../authorization/register/register.component';
-import { LoginComponent } from '../../authorization/login/login.component';
-import { MainComponent } from '../../main/main.component';
-import { IToken } from '../../interfaces/token';
+import { RegisterComponent } from '../../../authorization/register/register.component';
+import { LoginComponent } from '../../../authorization/login/login.component';
+import { MainComponent } from '../../../main/main.component';
+import { IToken } from '../../../interfaces/token';
 
 const mockUser: IUser = {
   _id: '1',
@@ -19,7 +19,7 @@ const mockUser: IUser = {
 
 const mockToken: IToken = {
   token: '123123',
-  refToken: '123123'
+  refreshToken: '123123'
 };
 
 describe('AuthService tests', () => {

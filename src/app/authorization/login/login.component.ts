@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { AuthService } from '../../services/api/auth.service';
-import { LOGIN_FIELD_NAME } from '../../consts/consts';
+import { AuthService } from '../../services/api/authorization/auth.service';
+import { LOGIN_FIELD_NAME } from '../authorization.model';
 
 @Component({
   selector: 'app-login',

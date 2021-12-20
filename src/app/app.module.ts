@@ -18,7 +18,7 @@ import { StateModule } from './state/state.module';
 import { AuthorizationComponent } from './authorization/authorization.component';
 import { RegisterComponent } from './authorization/register/register.component';
 import { LoginComponent } from './authorization/login/login.component';
-import { AuthService } from './services/api/auth.service';
+import { AuthService } from './services/api/authorization/auth.service';
 import { AuthInterceptor } from './services/auth-interceptor';
 import { MatIconModule } from '@angular/material/icon';
 

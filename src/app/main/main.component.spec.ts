@@ -11,7 +11,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ITask } from '../interfaces/task';
 import { Observable, of } from 'rxjs';
-import { TasksService } from '../services/api/tasks.service';
+import { TasksService } from '../services/api/tasks-service/tasks.service';
 import { By } from '@angular/platform-browser';
 
 describe('MainComponent', () => {

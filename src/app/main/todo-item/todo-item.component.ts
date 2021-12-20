@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { ITask } from '../../interfaces/task';
 import * as taskActions from '../../state/tasks/tasks.actions';
 import { FormControl, Validators } from '@angular/forms';
-import { TaskValidationService } from '../../services/task-validation.service';
+import { TaskValidationService } from '../../services/api/tasks-service/task-validation.service';
 import { Observable } from 'rxjs';
 
 

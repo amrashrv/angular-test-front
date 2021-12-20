@@ -4,7 +4,7 @@ import { IState } from '../state.model';
 import { taskReducerKey } from './tasks.reducer';
 import * as fromTasks from './tasks.reducer';
 import { ITask } from '../../interfaces/task';
-import { TASKS_FILTER } from '../../consts/consts';
+import { TASKS_FILTER } from '../../main/main.component.model';
 
 export const tasksStateSelector = (state: IState) => state[taskReducerKey];
 

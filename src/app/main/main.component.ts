@@ -11,10 +11,10 @@ import {
 } from '../state/tasks/tasks.selectors';
 import { IState } from '../state/state.model';
 import { selectIsLoading } from '../state/app/app.selectors';
-import { TaskValidationService } from '../services/task-validation.service';
-import { AuthService } from '../services/api/auth.service';
+import { TaskValidationService } from '../services/api/tasks-service/task-validation.service';
+import { AuthService } from '../services/api/authorization/auth.service';
 import { ITask } from '../interfaces/task';
-import { TASKS_FILTER } from '../consts/consts';
+import { TASKS_FILTER } from './main.component.model';
 
 
 @Component({
