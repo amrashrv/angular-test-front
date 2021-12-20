@@ -5,8 +5,8 @@ import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ToastService } from 'angular-toastify';
 
-import { IUser } from '../../../interfaces/user';
-import { IToken } from '../../../interfaces/token';
+import { IUser } from './user';
+import { IToken } from './token';
 
 @Injectable({
   providedIn: 'root'

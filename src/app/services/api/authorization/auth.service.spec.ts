@@ -3,12 +3,12 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AuthService } from './auth.service';
-import { IUser } from '../../../interfaces/user';
+import { IUser } from './user';
 import { HttpClient } from '@angular/common/http';
 import { RegisterComponent } from '../../../authorization/register/register.component';
 import { LoginComponent } from '../../../authorization/login/login.component';
 import { MainComponent } from '../../../main/main.component';
-import { IToken } from '../../../interfaces/token';
+import { IToken } from './token';
 
 const mockUser: IUser = {
   _id: '1',
